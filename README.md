@@ -1,2 +1,2 @@
 # feup-cal-parking
-Graph theory project for Algortithm Design and Analysis, FEUP.
+Graph theory project for Algorithm Design and Analysis, FEUP.
