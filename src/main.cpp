@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "model/Graph/Graph.h"
+#include "ui/menu/menu.h"
 
 template <class T>
 void describeGraph(Graph<T>& g){
@@ -16,7 +17,7 @@ void describeGraph(Graph<T>& g){
 }
 
 int main() {
-    Graph<int> g;
+    /*Graph<int> g;
     g.addNode(2);
     g.addNode(4);
     g.addEdge(4,2,3);
@@ -25,5 +26,9 @@ int main() {
     describeGraph(g);
     describeGraph(g);
     g.removeNode(4);
-    describeGraph(g);
+    describeGraph(g);*/
+
+    IntroMenu introMenu;
+
+    introMenu.show();
 }
