@@ -19,9 +19,11 @@ int main() {
     Graph<int> g;
     g.addNode(2);
     g.addNode(4);
-    g.addEdge(2,4,3);
+    g.addEdge(4,2,3);
     describeGraph(g);
-    g.removeEdge(2, 4);
+    g.removeEdge(4, 2);
     describeGraph(g);
+    describeGraph(g);
+    g.removeNode(4);
     describeGraph(g);
 }
