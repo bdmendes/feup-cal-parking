@@ -1,0 +1,10 @@
+#ifndef FEUP_CAL_PARKING_MAPPOINT_H
+#define FEUP_CAL_PARKING_MAPPOINT_H
+
+
+class MapPoint {
+
+};
+
+
+#endif //FEUP_CAL_PARKING_MAPPOINT_H
