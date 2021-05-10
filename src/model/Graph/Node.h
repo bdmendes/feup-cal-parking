@@ -70,6 +70,7 @@ bool Node<T>::isVisited() {
 
 template<class T>
 void Node<T>::setVisited() {
+    std::cout << "visiting " << _element << "\n";
     _helpers |= VISITED;
 }
 

@@ -29,13 +29,11 @@ int main() {
 
     std::vector<Node<int> *> targets{};
 
-    auto *n1 = new Node<int>(3);
-    auto *n2 = new Node<int>(1);
 
-    targets.push_back(n1);
-    targets.push_back(n2);
+    targets.push_back(g.getNodes().at(2));
+    targets.push_back(g.getNodes().at(1));
 
-    std::vector<Node<int> *> res = dfs(targets, g);
+    std::vector<Node<int> *> res = bfs(g.getNodes().at(0), targets, g);
 
     describeGraph(g);
 }
