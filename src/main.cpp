@@ -29,8 +29,8 @@ int main() {
 
     std::vector<Node<int> *> targets{};
 
-    auto *n1 = new Node<int>(1);
-    auto *n2 = new Node<int>(2);
+    auto *n1 = new Node<int>(3);
+    auto *n2 = new Node<int>(1);
 
     targets.push_back(n1);
     targets.push_back(n2);
