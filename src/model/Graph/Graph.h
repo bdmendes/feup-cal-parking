@@ -14,7 +14,7 @@ public:
     void removeNode(const T& element);
     void addEdge(const T& source, const T& target, double weight);
     void removeEdge(const T& source, const T& target);
-    int getNumberOfNodes() const;
+    size_t getNumberOfNodes() const;
     std::vector<Node<T>*> getNodes() const;
 private:
     std::vector<Node<T>*> _nodes;
@@ -81,7 +81,7 @@ void Graph<T>::removeEdge(const T &source, const T &target) {
 }
 
 template<class T>
-int Graph<T>::getNumberOfNodes() const {
+size_t Graph<T>::getNumberOfNodes() const {
     return _nodes.size();
 }
 
