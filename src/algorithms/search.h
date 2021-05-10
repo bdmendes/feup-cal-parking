@@ -25,7 +25,7 @@ std::vector<Node<T> *> dfs(const std::vector<Node<T> *> &targets, const Graph<T>
 
 template<class T>
 void
-dfsVisit(Node<T> *node, const Graph<T> &graph, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
+dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
     node->setVisited();
     bool isTarget = std::find_if(targets.begin(), targets.end(), [&](Node<T> *n1) {
         return n1->getElement() == node->getElement();
@@ -33,10 +33,9 @@ dfsVisit(Node<T> *node, const Graph<T> &graph, const std::vector<Node<T> *> &tar
     if (isTarget) {
         found.push_back(node);
     }
-    std::cout << "visiting " << node->getElement() << "\n";
     for (Edge<T> *adjacent : node->getAdjacent()) {
         if (!adjacent->getTarget()->isVisited()) {
-            dfsVisit(adjacent->getTarget(), graph, targets, found);
+            dfsVisit(adjacent->getTarget(), targets, found);
         }
     }
 }
