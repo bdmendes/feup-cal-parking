@@ -1,4 +1,12 @@
-//
-// Created by adelaide on 07/05/21.
-//
+#include <gtest/gtest.h>
+
+TEST(test, ola){
+    EXPECT_EQ(1, 1);
+}
+
+
+
+
+
+
 
