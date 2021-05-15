@@ -11,7 +11,7 @@
 template<class T>
 class Node {
 public:
-    explicit Node(T element);
+    Node(size_t id, T element);
 
     void addEdge(Node<T> *target, double weight);
 
@@ -27,14 +27,17 @@ public:
 
     void setUnvisited();
 
+    size_t getId() const;
+
 private:
     T _element;
     char _helpers;
     std::vector<Edge<T> *> _adjacentEdges;
+    size_t _id;
 };
 
 template<class T>
-Node<T>::Node(T element) : _element(element) {
+Node<T>::Node(size_t id, T element) : _id(id), _element(element) {
 
 }
 
@@ -70,13 +73,17 @@ bool Node<T>::isVisited() {
 
 template<class T>
 void Node<T>::setVisited() {
-    std::cout << "visiting " << _element << "\n";
     _helpers |= VISITED;
 }
 
 template<class T>
 void Node<T>::setUnvisited() {
     _helpers &= ~VISITED;
+}
+
+template<class T>
+size_t Node<T>::getId() const {
+    return _id;
 }
 
 

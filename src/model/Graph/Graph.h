@@ -10,17 +10,21 @@
 template<class T>
 class Graph {
 public:
-    void addNode(const T &element);
+    void addNode(size_t id, const T &element);
 
     void removeNode(const T &element);
 
     void addEdge(const T &source, const T &target, double weight);
+
+    void addEdge(Node<T> *source, Node<T> *target, double weight);
 
     void removeEdge(const T &source, const T &target);
 
     size_t getNumberOfNodes() const;
 
     std::vector<Node<T> *> getNodes() const;
+
+    Node<T> *findNodeById(size_t id);
 
 private:
     std::vector<Node<T> *> _nodes;
@@ -29,11 +33,11 @@ private:
 };
 
 template<class T>
-void Graph<T>::addNode(const T &element) {
-    if (findNode(element) != nullptr) {
+void Graph<T>::addNode(size_t id, const T &element) {
+    if (findNodeById(id) != nullptr) {
         throw std::logic_error("Node already exists");
     }
-    _nodes.push_back(new Node<T>(element));
+    _nodes.push_back(new Node<T>(id, element));
 }
 
 template<class T>
@@ -95,6 +99,26 @@ size_t Graph<T>::getNumberOfNodes() const {
 template<class T>
 std::vector<Node<T> *> Graph<T>::getNodes() const {
     return _nodes;
+}
+
+template<class T>
+Node<T> *Graph<T>::findNodeById(size_t id) {
+    for (auto it = _nodes.begin(); it != _nodes.end(); it++) {
+        if ((*it)->getId() == id) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+template<class T>
+void Graph<T>::addEdge(Node<T> *source, Node<T> *target, double weight) {
+    if (source == nullptr) {
+        throw std::logic_error("Source node does not exist");
+    } else if (target == nullptr) {
+        throw std::logic_error("Target node does not exist");
+    }
+    source->addEdge(target, weight);
 }
 
 
