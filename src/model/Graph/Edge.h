@@ -1,23 +1,28 @@
 #ifndef FEUP_CAL_PARKING_EDGE_H
 #define FEUP_CAL_PARKING_EDGE_H
 
-template <class T> class Node;
+template<class T>
+class Node;
 
-template <class T>
+template<class T>
 class Edge {
 public:
-    Edge(Node<T>* target, double weight);
-    Node<T>* getTarget();
+    Edge(Node<T> *target, double weight);
+
+    Node<T> *getTarget();
+
     double getWeight();
+
     void setWeight(double weight);
+
 private:
     double _weight;
-    Node<T>* _target;
+    Node<T> *_target;
 };
 
 template<class T>
 Edge<T>::Edge(Node<T> *target, double weight)
-        : _target(target), _weight(weight){
+        : _target(target), _weight(weight) {
 
 }
 

@@ -11,7 +11,7 @@ public:
 
     std::pair<double, double> getMinCoords() const;
 
-    std::pair<double, double>getMaxCoords() const;
+    std::pair<double, double> getMaxCoords() const;
 
 private:
     std::pair<double, double> _minCoords;

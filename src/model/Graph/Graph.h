@@ -14,7 +14,7 @@ public:
 
     void reserveNumberNodes(size_t numberNodes);
 
-    void addNode(size_t id, const T &element);
+    void addNode(id_t id, const T &element);
 
     void removeNode(const T &element);
 
@@ -28,18 +28,18 @@ public:
 
     std::vector<Node<T> *> getNodes() const;
 
-    Node<T> *findNodeById(size_t id);
+    Node<T> *findNodeById(id_t id);
 
 private:
     std::vector<Node<T> *> _nodes;
-    std::unordered_map<id_t, Node<T>*> _ids;
+    std::unordered_map<id_t, Node<T> *> _ids;
 
     Node<T> *findNode(const T &element);
 
 };
 
 template<class T>
-void Graph<T>::addNode(size_t id, const T &element) {
+void Graph<T>::addNode(id_t id, const T &element) {
     if (findNodeById(id) != nullptr) {
         throw std::logic_error("Node already exists");
     }
@@ -110,11 +110,7 @@ std::vector<Node<T> *> Graph<T>::getNodes() const {
 }
 
 template<class T>
-Node<T> *Graph<T>::findNodeById(size_t id) {
-/*    auto node = std::find_if(_nodes.begin(), _nodes.end(), [id](Node<T>* node){
-        return node->getId() == id;
-    });
-    return node != _nodes.end() ? *node : nullptr;*/
+Node<T> *Graph<T>::findNodeById(id_t id) {
     return _ids.find(id) != _ids.end() ? _ids.at(id) : nullptr;
 }
 
@@ -130,7 +126,7 @@ void Graph<T>::addEdge(Node<T> *source, Node<T> *target, double weight) {
 
 template<class T>
 void Graph<T>::reserveNumberNodes(size_t numberNodes) {
-    if (_nodes.size() > numberNodes){
+    if (_nodes.size() > numberNodes) {
         throw std::logic_error("Nodes vector is too big");
     }
     _nodes.reserve(numberNodes);
