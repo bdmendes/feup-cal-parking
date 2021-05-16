@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <stdexcept>
-
 #include "Node.h"
 #include "Edge.h"
 
@@ -30,6 +29,9 @@ private:
     std::vector<Node<T> *> _nodes;
 
     Node<T> *findNode(const T &element);
+
+    std::pair<double, double> minCoords;
+    std::pair<double, double> maxCoords;
 };
 
 template<class T>

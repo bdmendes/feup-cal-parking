@@ -2,8 +2,8 @@
 #include <fstream>
 
 #include "model/Graph/Graph.h"
-#include "algorithms/search.h"
 #include "model/StreetMap/StreetMap.h"
+#include "view/GraphviewerGUI.h"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
@@ -22,6 +22,12 @@ int main() {
     std::ifstream nodesXY("maps/porto/porto_full_nodes_xy.txt");
     std::ifstream nodesLL("maps/porto/porto_full_nodes_latlng.txt");
     std::ifstream edges("maps/porto/porto_full_edges.txt");
-    StreetMap map(nodesXY, nodesLL, edges);
-    std::cout << map.getNumberOfNodes() << "\n";
+    if (nodesXY && nodesLL && edges) {
+        StreetMap map(nodesXY, nodesLL, edges);
+    } else {
+        std::cout << "aaaa\n";
+    }
+    /*GraphviewerGUI gui(map, 200, 200);
+    gui.createGraphviewer();
+    gui.closeGraphViewer();*/
 }
