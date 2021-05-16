@@ -12,6 +12,8 @@ template<class T>
 class Graph {
 public:
 
+    void reserveNumberNodes(size_t numberNodes);
+
     void addNode(size_t id, const T &element);
 
     void removeNode(const T &element);
@@ -43,6 +45,7 @@ void Graph<T>::addNode(size_t id, const T &element) {
     }
     auto node = new Node<T>(id, element);
     _ids[id] = node;
+    _nodes.push_back(node);
 }
 
 template<class T>
@@ -123,6 +126,14 @@ void Graph<T>::addEdge(Node<T> *source, Node<T> *target, double weight) {
         throw std::logic_error("Target node does not exist");
     }
     source->addEdge(target, weight);
+}
+
+template<class T>
+void Graph<T>::reserveNumberNodes(size_t numberNodes) {
+    if (_nodes.size() > numberNodes){
+        throw std::logic_error("Nodes vector is too big");
+    }
+    _nodes.reserve(numberNodes);
 }
 
 

@@ -1,7 +1,9 @@
 #include <iostream>
+#include <climits>
 #include "StreetMap.h"
 
-StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges) {
+StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges):
+    _maxCoords(std::make_pair(LONG_MIN, LONG_MIN)), _minCoords(std::make_pair(LONG_MAX, LONG_MAX)){
     size_t numberOfNodes{};
     nodesXY >> numberOfNodes;
     nodesLatLng >> numberOfNodes;
@@ -10,30 +12,24 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
     double x{}, y{}, lat{}, lon{};
     char sep{};
 
+    reserveNumberNodes(getNumberOfNodes());
     for (size_t i = 0; i < numberOfNodes; ++i) {
         std::cout << "node " << i << "\n";
         nodesXY >> sep >> id >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> id >> sep >> lat >> sep >> lon >> sep;
-        bool parking = std::rand() % 20 == 0;
-        MapPoint point(x, y, lat, lon, parking);
-        if (getNodes().empty()) {
-            _minCoords = std::make_pair(point.getX(), point.getY());
-            _maxCoords = std::make_pair(point.getX(), point.getY());
-        } else {
-            if (point.getX() > _maxCoords.first) {
-                _maxCoords.first = point.getX();
-            }
-            if (point.getX() < _minCoords.first) {
-                _minCoords.first = point.getX();
-            }
-            if (point.getY() > _maxCoords.second) {
-                _maxCoords.second = point.getY();
-            }
-            if (point.getY() < _minCoords.second) {
-                _minCoords.second = point.getY();
-            }
+        MapPoint point(x, y, lat, lon, std::rand() % 20 == 0);
+        if (point.getX() > _maxCoords.first) {
+            _maxCoords.first = point.getX();
         }
-
+        if (point.getX() < _minCoords.first) {
+            _minCoords.first = point.getX();
+        }
+        if (point.getY() > _maxCoords.second) {
+            _maxCoords.second = point.getY();
+        }
+        if (point.getY() < _minCoords.second) {
+            _minCoords.second = point.getY();
+        }
         addNode(id, point);
     }
 
@@ -50,10 +46,10 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
     }
 }
 
-const std::pair<double, double> &StreetMap::getMinCoords() const {
+std::pair<double, double> StreetMap::getMinCoords() const {
     return _minCoords;
 }
 
-const std::pair<double, double> &StreetMap::getMaxCoords() const {
+std::pair<double, double> StreetMap::getMaxCoords() const {
     return _maxCoords;
 }

@@ -9,9 +9,9 @@ class StreetMap : public Graph<MapPoint> {
 public:
     StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges);
 
-    const std::pair<double, double> &getMinCoords() const;
+    std::pair<double, double> getMinCoords() const;
 
-    const std::pair<double, double> &getMaxCoords() const;
+    std::pair<double, double>getMaxCoords() const;
 
 private:
     std::pair<double, double> _minCoords;
