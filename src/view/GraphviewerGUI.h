@@ -9,12 +9,6 @@ class GraphviewerGUI {
 public:
     GraphviewerGUI(const StreetMap &map, double width, double height);
 
-    void createGV();
-
-    void deleteGV();
-
-    void show();
-
 private:
     GraphViewer *_gv;
     StreetMap _map;

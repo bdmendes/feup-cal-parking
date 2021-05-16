@@ -22,11 +22,11 @@ int main() {
     std::ifstream nodesXY("maps/porto/porto_full_nodes_xy.txt");
     std::ifstream nodesLL("maps/porto/porto_full_nodes_latlng.txt");
     std::ifstream edges("maps/porto/porto_full_edges.txt");
-    if (nodesXY && nodesLL && edges) {
-        StreetMap map(nodesXY, nodesLL, edges);
-    } else {
-        std::cout << "aaaa\n";
-    }
+    StreetMap map(nodesXY, nodesLL, edges);
+    std::cout << "min coords " << map.getMinCoords().first << ", " << map.getMinCoords().second
+              << "\n";
+    std::cout << "max coords " << map.getMaxCoords().first << ", " << map.getMaxCoords().second
+              << "\n";
     /*GraphviewerGUI gui(map, 200, 200);
     gui.createGraphviewer();
     gui.closeGraphViewer();*/

@@ -30,8 +30,6 @@ private:
 
     Node<T> *findNode(const T &element);
 
-    std::pair<double, double> minCoords;
-    std::pair<double, double> maxCoords;
 };
 
 template<class T>

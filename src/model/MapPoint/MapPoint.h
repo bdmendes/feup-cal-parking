@@ -5,6 +5,10 @@ class MapPoint {
 public:
     MapPoint(double x, double y, double latitude, double longitude);
 
+    double getX() const;
+
+    double getY() const;
+
 private:
     double _x;
     double _y;

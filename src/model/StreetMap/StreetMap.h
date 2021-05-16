@@ -7,35 +7,15 @@
 
 class StreetMap : public Graph<MapPoint> {
 public:
-    StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges) {
-        size_t numberOfNodes{};
-        nodesXY >> numberOfNodes;
-        nodesLatLng >> numberOfNodes;
+    StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges);
 
-        size_t id{};
-        double x{}, y{}, lat{}, lon{};
-        char sep{};
+    const std::pair<double, double> &getMinCoords() const;
 
-        for (size_t i = 0; i < numberOfNodes; ++i) {
-            nodesXY >> sep >> id >> sep >> x >> sep >> y >> sep;
-            nodesLatLng >> sep >> id >> sep >> lat >> sep >> lon >> sep;
-            MapPoint point(x, y, lat, lon);
-            addNode(id, point);
-        }
-
-        size_t numberOfEdges{};
-        edges >> numberOfEdges;
-        size_t originId{}, destinationId{};
-
-        for (size_t i = 0; i < numberOfEdges; ++i) {
-            edges >> sep >> originId >> sep >> destinationId >> sep;
-            Node<MapPoint> *o = findNodeById(originId);
-            Node<MapPoint> *d = findNodeById(destinationId);
-            addEdge(o, d, 0.0);
-        }
-    }
+    const std::pair<double, double> &getMaxCoords() const;
 
 private:
+    std::pair<double, double> _minCoords;
+    std::pair<double, double> _maxCoords;
 };
 
 
