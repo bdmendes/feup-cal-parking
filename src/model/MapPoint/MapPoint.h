@@ -3,18 +3,20 @@
 
 class MapPoint {
 public:
-    MapPoint(double x, double y, double latitude, double longitude);
+    MapPoint(double x, double y, double latitude, double longitude, bool parking);
 
     double getX() const;
 
     double getY() const;
+
+    bool isParking() const;
 
 private:
     double _x;
     double _y;
     double _latitude;
     double _longitude;
-    bool _isParking;
+    bool _parking;
 };
 
 

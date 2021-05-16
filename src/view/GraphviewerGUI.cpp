@@ -16,8 +16,10 @@ void GraphviewerGUI::showGraph() {
                              (_map.getMaxCoords().first - _map.getMinCoords().first) * 0.9);
         double y = _height * ((node->getElement().getY() - _map.getMinCoords().second) /
                               (_map.getMaxCoords().second - _map.getMinCoords().second) * 0.9);
-        _gv->addNode(node->getId(), sf::Vector2f(x, y));
-
+        auto n = _gv->addNode(node->getId(), sf::Vector2f(x, y));
+        if (node->getElement().isParking()) {
+            n.setColor(GraphViewer::CYAN);
+        }
     }
     size_t id = 1;
     for (auto node : _map.getNodes()) {

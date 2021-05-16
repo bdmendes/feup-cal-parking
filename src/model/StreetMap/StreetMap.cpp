@@ -12,7 +12,9 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
     for (size_t i = 0; i < numberOfNodes; ++i) {
         nodesXY >> sep >> id >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> id >> sep >> lat >> sep >> lon >> sep;
-        MapPoint point(x, y, lat, lon);
+        int random = 1 + std::rand() / ((RAND_MAX + 1u) / 20);
+        bool parking = random == 15;
+        MapPoint point(x, y, lat, lon, parking);
         if (getNodes().empty()) {
             _minCoords = std::make_pair(point.getX(), point.getY());
             _maxCoords = std::make_pair(point.getX(), point.getY());

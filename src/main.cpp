@@ -19,6 +19,7 @@ void describeGraph(Graph<T> &g) {
 }
 
 int main() {
+    std::srand(std::time(nullptr));
     std::ifstream nodesXY("maps/porto/porto_full_nodes_xy.txt");
     std::ifstream nodesLL("maps/porto/porto_full_nodes_latlng.txt");
     std::ifstream edges("maps/porto/porto_full_edges.txt");
