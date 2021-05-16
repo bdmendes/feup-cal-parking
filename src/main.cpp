@@ -27,7 +27,6 @@ int main() {
               << "\n";
     std::cout << "max coords " << map.getMaxCoords().first << ", " << map.getMaxCoords().second
               << "\n";
-    /*GraphviewerGUI gui(map, 200, 200);
-    gui.createGraphviewer();
-    gui.closeGraphViewer();*/
+    GraphviewerGUI gui(map, 1900, 1000);
+    gui.showGraph();
 }

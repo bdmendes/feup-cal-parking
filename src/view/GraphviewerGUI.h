@@ -7,7 +7,9 @@
 
 class GraphviewerGUI {
 public:
-    GraphviewerGUI(const StreetMap &map, double width, double height);
+    GraphviewerGUI(StreetMap map, double width, double height);
+
+    void showGraph();
 
 private:
     GraphViewer *_gv;
