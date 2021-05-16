@@ -16,4 +16,4 @@ target_link_libraries(TESTS gtest_main gmock_main)
 add_test(NAME TESTS COMMAND TESTS)
 
 # Main executable
-add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h)
+add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h src/algorithms/search.h)
