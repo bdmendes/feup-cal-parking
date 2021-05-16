@@ -1,5 +1,4 @@
 #include <iostream>
-#include "gtest/gtest.h"
 
 #include "model/Graph/Graph.h"
 #include "algorithms/search.h"

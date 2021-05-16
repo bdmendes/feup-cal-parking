@@ -1,5 +1,5 @@
 #include <iostream>
-#include "gtest/gtest.h"
+#include "../lib/googletest-master/googletest/include/gtest/gtest.h"
 
 int main(){
     std::cout << "Running all tests..." << std::endl;
