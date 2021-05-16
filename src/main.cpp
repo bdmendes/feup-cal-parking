@@ -1,7 +1,7 @@
 #include <iostream>
-#include "lib/googletest-master/googletest/include/gtest/gtest.h"
+#include "gtest/gtest.h"
 
-#include "src/model/Graph/Graph.h"
+#include "model/Graph/Graph.h"
 
 template <class T>
 void describeGraph(Graph<T>& g){
@@ -17,7 +17,7 @@ void describeGraph(Graph<T>& g){
 }
 
 int main() {
-    /*Graph<int> g;
+    Graph<int> g;
     g.addNode(2);
     g.addNode(4);
     g.addEdge(4,2,3);
@@ -26,9 +26,5 @@ int main() {
     describeGraph(g);
     describeGraph(g);
     g.removeNode(4);
-    describeGraph(g);*/
-
-    std::cout << "Running all tests..." << std::endl;
-    ::testing::InitGoogleTest();
-    return RUN_ALL_TESTS();
+    describeGraph(g);
 }

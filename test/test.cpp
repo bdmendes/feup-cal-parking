@@ -1,12 +1,8 @@
-#include <gtest/gtest.h>
+#include <iostream>
+#include "gtest/gtest.h"
 
-TEST(test, ola){
-    EXPECT_EQ(1, 1);
+int main(){
+    std::cout << "Running all tests..." << std::endl;
+    ::testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
 }
-
-
-
-
-
-
-
