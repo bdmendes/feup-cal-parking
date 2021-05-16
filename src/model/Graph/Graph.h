@@ -103,12 +103,10 @@ std::vector<Node<T> *> Graph<T>::getNodes() const {
 
 template<class T>
 Node<T> *Graph<T>::findNodeById(size_t id) {
-    for (auto it = _nodes.begin(); it != _nodes.end(); it++) {
-        if ((*it)->getId() == id) {
-            return *it;
-        }
-    }
-    return nullptr;
+    auto node = std::find_if(_nodes.begin(), _nodes.end(), [id](Node<T>* node){
+        return node->getId() == id;
+    });
+    return node != _nodes.end() ? *node : nullptr;
 }
 
 template<class T>

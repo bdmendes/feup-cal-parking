@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StreetMap.h"
 
 StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges) {
@@ -10,10 +11,10 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
     char sep{};
 
     for (size_t i = 0; i < numberOfNodes; ++i) {
+        std::cout << "node " << i << "\n";
         nodesXY >> sep >> id >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> id >> sep >> lat >> sep >> lon >> sep;
-        int random = 1 + std::rand() / ((RAND_MAX + 1u) / 20);
-        bool parking = random == 15;
+        bool parking = std::rand() % 20 == 0;
         MapPoint point(x, y, lat, lon, parking);
         if (getNodes().empty()) {
             _minCoords = std::make_pair(point.getX(), point.getY());
@@ -41,6 +42,7 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
     size_t originId{}, destinationId{};
 
     for (size_t i = 0; i < numberOfEdges; ++i) {
+        std::cout << "edge " << i << "\n";
         edges >> sep >> originId >> sep >> destinationId >> sep;
         Node<MapPoint> *o = findNodeById(originId);
         Node<MapPoint> *d = findNodeById(destinationId);
