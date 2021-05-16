@@ -3,12 +3,15 @@
 
 #include <vector>
 #include <stdexcept>
+#include <unordered_map>
+#include <iostream>
 #include "Node.h"
 #include "Edge.h"
 
 template<class T>
 class Graph {
 public:
+
     void addNode(size_t id, const T &element);
 
     void removeNode(const T &element);
@@ -27,6 +30,7 @@ public:
 
 private:
     std::vector<Node<T> *> _nodes;
+    std::unordered_map<id_t, Node<T>*> _ids;
 
     Node<T> *findNode(const T &element);
 
@@ -37,7 +41,8 @@ void Graph<T>::addNode(size_t id, const T &element) {
     if (findNodeById(id) != nullptr) {
         throw std::logic_error("Node already exists");
     }
-    _nodes.push_back(new Node<T>(id, element));
+    auto node = new Node<T>(id, element);
+    _ids[id] = node;
 }
 
 template<class T>
@@ -103,10 +108,11 @@ std::vector<Node<T> *> Graph<T>::getNodes() const {
 
 template<class T>
 Node<T> *Graph<T>::findNodeById(size_t id) {
-    auto node = std::find_if(_nodes.begin(), _nodes.end(), [id](Node<T>* node){
+/*    auto node = std::find_if(_nodes.begin(), _nodes.end(), [id](Node<T>* node){
         return node->getId() == id;
     });
-    return node != _nodes.end() ? *node : nullptr;
+    return node != _nodes.end() ? *node : nullptr;*/
+    return _ids.find(id) != _ids.end() ? _ids.at(id) : nullptr;
 }
 
 template<class T>
