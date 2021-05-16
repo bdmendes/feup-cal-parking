@@ -16,7 +16,7 @@ std::vector<Node<T> *> dfs(const std::vector<Node<T> *> &targets, const Graph<T>
             break;
         }
         if (!node->isVisited()) {
-            dfsVisit(node, graph, targets, res);
+            dfsVisit(node, targets, res);
         }
     }
     return res;
