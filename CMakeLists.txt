@@ -7,7 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_CXX_STANDARD 14)
 
 # Build GraphViewerCpp
-set(GRAPHVIEWERCPP_PATH lib/GraphViewerCpp)
+set(GRAPHVIEWERCPP_PATH lib/GraphViewerCpp-1.1.0)
 add_subdirectory(${GRAPHVIEWERCPP_PATH})
 include_directories(${GRAPHVIEWERCPP_PATH}/include)
 
