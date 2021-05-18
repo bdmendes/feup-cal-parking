@@ -3,7 +3,6 @@
 
 #include "model/Graph/Graph.h"
 #include "model/StreetMap/StreetMap.h"
-#include "view/GraphviewerGUI.h"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
