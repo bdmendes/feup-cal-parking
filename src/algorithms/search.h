@@ -6,7 +6,7 @@
 #include "algorithm"
 
 template<class T>
-std::vector<Node<T> *> dfs(const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+std::vector<Node<T> *> dfsAll(const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
     std::vector<Node<T> *> res{};
     for (Node<T> *node : graph.getNodes()) {
         node->setUnvisited();
@@ -19,6 +19,16 @@ std::vector<Node<T> *> dfs(const std::vector<Node<T> *> &targets, const Graph<T>
             dfsVisit(node, targets, res);
         }
     }
+    return res;
+}
+
+template<class T>
+std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+    std::vector<Node<T> *> res{};
+    for (Node<T> *node : graph.getNodes()) {
+        node->setUnvisited();
+    }
+    dfsVisit(node, targets, res);
     return res;
 }
 
@@ -68,6 +78,25 @@ std::vector<Node<T> *> bfs(Node<T> *source, const std::vector<Node<T> *> &target
         }
     }
     return res;
+}
+
+template<class T>
+bool kosaraju(const Graph<T> &graph) {
+    for (Node<T> *node : graph.getNodes()) {
+        node->setUnvisited();
+    }
+    Node<T> *startingNode = graph.getNodes().front();
+    std::vector<Node<T> *> visited = dfsFromNode(startingNode, graph.getNodes(), graph);
+    if (visited.size() != graph.getNodes().size()) {
+        return false;
+    }
+
+    return false;
+}
+
+template<class T>
+Graph<T> getTransposed(const Graph<T> &graph) {
+    Graph<T> transposed{};
 }
 
 #endif //FEUP_CAL_PARKING_SEARCH_H
