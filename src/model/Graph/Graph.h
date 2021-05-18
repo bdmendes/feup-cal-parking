@@ -14,13 +14,11 @@ public:
 
     void reserveNumberNodes(size_t numberNodes);
 
-    void addNode(id_t id, const T &element);
+    Node<T>* addNode(id_t id, const T &element);
 
     void removeNode(const T &element);
 
-    void addEdge(const T &source, const T &target, double weight);
-
-    void addEdge(Node<T> *source, Node<T> *target, double weight);
+    Edge<T>* addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
 
     void removeEdge(const T &source, const T &target);
 
@@ -39,23 +37,22 @@ private:
 };
 
 template<class T>
-void Graph<T>::addNode(id_t id, const T &element) {
+Node<T>* Graph<T>::addNode(id_t id, const T &element) {
     if (findNodeById(id) != nullptr) {
         throw std::logic_error("Node already exists");
     }
     auto node = new Node<T>(id, element);
     _ids[id] = node;
     _nodes.push_back(node);
+    return node;
 }
 
 template<class T>
 Node<T> *Graph<T>::findNode(const T &element) {
-    for (auto it = _nodes.begin(); it != _nodes.end(); it++) {
-        if ((*it)->getElement() == element) {
-            return *it;
-        }
-    }
-    return nullptr;
+    auto node = std::find_if(_nodes.begin(), _nodes.end(), [element](Node<T>* node){
+        return node->getElement() == element;
+    });
+    return node != _nodes.end() ? *node : nullptr;
 }
 
 template<class T>
@@ -67,21 +64,9 @@ void Graph<T>::removeNode(const T &element) {
     for (auto it = _nodes.begin(); it != _nodes.end(); it++) {
         if (*it == node) {
             _nodes.erase(it);
-            break;
+            return;
         }
     }
-}
-
-template<class T>
-void Graph<T>::addEdge(const T &source, const T &target, double weight) {
-    auto sourceNode = findNode(source);
-    auto targetNode = findNode(target);
-    if (sourceNode == nullptr) {
-        throw std::logic_error("Source node does not exist");
-    } else if (targetNode == nullptr) {
-        throw std::logic_error("Target node does not exist");
-    }
-    sourceNode->addEdge(targetNode, weight);
 }
 
 template<class T>
@@ -115,21 +100,23 @@ Node<T> *Graph<T>::findNodeById(id_t id) {
 }
 
 template<class T>
-void Graph<T>::addEdge(Node<T> *source, Node<T> *target, double weight) {
+Edge<T>* Graph<T>::addEdge(id_t id, Node<T> *source, Node<T> *target, double weight) {
     if (source == nullptr) {
         throw std::logic_error("Source node does not exist");
-    } else if (target == nullptr) {
+    }
+    if (target == nullptr) {
         throw std::logic_error("Target node does not exist");
     }
-    source->addEdge(target, weight);
+    return source->addEdge(id, target, weight);
 }
 
 template<class T>
 void Graph<T>::reserveNumberNodes(size_t numberNodes) {
-    if (_nodes.size() > numberNodes) {
-        throw std::logic_error("Nodes vector is too big");
+    if (!_nodes.empty() || !_ids.empty()) {
+        throw std::logic_error("Cannot reserve space on non empty graph");
     }
     _nodes.reserve(numberNodes);
+    _ids.reserve(numberNodes);
 }
 
 

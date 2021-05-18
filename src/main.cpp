@@ -3,7 +3,6 @@
 
 #include "model/Graph/Graph.h"
 #include "model/StreetMap/StreetMap.h"
-#include "view/GraphviewerGUI.h"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
@@ -23,7 +22,6 @@ int main() {
     std::ifstream nodesXY("maps/porto/porto_full_nodes_xy.txt");
     std::ifstream nodesLL("maps/porto/porto_full_nodes_latlng.txt");
     std::ifstream edges("maps/porto/porto_full_edges.txt");
-    StreetMap map(nodesXY, nodesLL, edges);
-    GraphviewerGUI gui(map, 1900, 1000);
-    gui.showGraph();
+    StreetMap map(nodesXY, nodesLL, edges, 1900, 1000);
+    map.showGraph();
 }
