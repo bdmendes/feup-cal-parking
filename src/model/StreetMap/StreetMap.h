@@ -3,19 +3,20 @@
 
 #include "../Graph/Graph.h"
 #include "../MapPoint/MapPoint.h"
+#include "graphviewer.h"
 #include <fstream>
 
 class StreetMap : public Graph<MapPoint> {
 public:
-    StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges);
+    StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges, unsigned int width,
+              unsigned int height);
 
-    std::pair<double, double> getMinCoords() const;
-
-    std::pair<double, double> getMaxCoords() const;
+    void showGraph();
 
 private:
-    std::pair<double, double> _minCoords;
-    std::pair<double, double> _maxCoords;
+    GraphViewer _gv;
+    unsigned _width;
+    unsigned _height;
 };
 
 

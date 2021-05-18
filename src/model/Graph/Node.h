@@ -13,7 +13,7 @@ class Node {
 public:
     Node(id_t id, T element);
 
-    void addEdge(Node<T> *target, double weight);
+    void addEdge(id_t id, Node<T> *target, double weight);
 
     void removeEdge(Node<T> *target);
 
@@ -42,8 +42,8 @@ Node<T>::Node(id_t id, T element) : _id(id), _element(element) {
 }
 
 template<class T>
-void Node<T>::addEdge(Node<T> *target, double weight) {
-    _adjacentEdges.push_back(new Edge<T>(target, weight));
+void Node<T>::addEdge(id_t id, Node<T> *target, double weight) {
+    _adjacentEdges.push_back(new Edge<T>(id, target, weight));
 }
 
 template<class T>

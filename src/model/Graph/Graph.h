@@ -20,7 +20,7 @@ public:
 
     void addEdge(const T &source, const T &target, double weight);
 
-    void addEdge(Node<T> *source, Node<T> *target, double weight);
+    void addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
 
     void removeEdge(const T &source, const T &target);
 
@@ -115,13 +115,13 @@ Node<T> *Graph<T>::findNodeById(id_t id) {
 }
 
 template<class T>
-void Graph<T>::addEdge(Node<T> *source, Node<T> *target, double weight) {
+void Graph<T>::addEdge(id_t id, Node<T> *source, Node<T> *target, double weight) {
     if (source == nullptr) {
         throw std::logic_error("Source node does not exist");
     } else if (target == nullptr) {
         throw std::logic_error("Target node does not exist");
     }
-    source->addEdge(target, weight);
+    source->addEdge(id, target, weight);
 }
 
 template<class T>
