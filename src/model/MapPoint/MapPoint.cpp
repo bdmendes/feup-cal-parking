@@ -14,3 +14,12 @@ double MapPoint::getY() const {
 bool MapPoint::isParking() const {
     return _parking;
 }
+
+bool MapPoint::operator==(const MapPoint &rhs) const {
+    return _x == rhs._x &&
+           _y == rhs._y;
+}
+
+bool MapPoint::operator!=(const MapPoint &rhs) const {
+    return !(rhs == *this);
+}

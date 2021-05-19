@@ -28,7 +28,7 @@ std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *>
     for (Node<T> *node : graph.getNodes()) {
         node->setUnvisited();
     }
-    dfsVisit(node, targets, res);
+    dfsVisit(source, targets, res);
     return res;
 }
 
@@ -90,8 +90,17 @@ bool kosaraju(const Graph<T> &graph) {
     if (visited.size() != graph.getNodes().size()) {
         return false;
     }
+    Graph<T> transposed = graph.getTransposed();
+    for (Node<T> *node : transposed.getNodes()) {
+        node->setUnvisited();
+    }
+    startingNode = transposed.getNodes().front();
+    visited = dfsFromNode(startingNode, transposed.getNodes(), transposed);
+    if (visited.size() != transposed.getNodes().size()) {
+        return false;
+    }
 
-    return false;
+    return true;
 }
 
 

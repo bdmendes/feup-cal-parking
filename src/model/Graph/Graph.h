@@ -28,7 +28,7 @@ public:
 
     Node<T> *findNodeById(id_t id);
 
-    Graph<T> getTransposed();
+    Graph<T> getTransposed() const;
 
 private:
     std::vector<Node<T> *> _nodes;
@@ -122,7 +122,7 @@ void Graph<T>::reserveNumberNodes(size_t numberNodes) {
 }
 
 template<class T>
-Graph<T> Graph<T>::getTransposed() {
+Graph<T> Graph<T>::getTransposed() const {
     Graph<T> transposed{};
     for (Node<T> *node : _nodes) {
         transposed.addNode(node->getId(), node->getElement());
