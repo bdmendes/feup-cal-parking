@@ -94,9 +94,5 @@ bool kosaraju(const Graph<T> &graph) {
     return false;
 }
 
-template<class T>
-Graph<T> getTransposed(const Graph<T> &graph) {
-    Graph<T> transposed{};
-}
 
 #endif //FEUP_CAL_PARKING_SEARCH_H
