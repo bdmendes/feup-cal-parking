@@ -125,9 +125,9 @@ template<class T>
 Graph<T> Graph<T>::getTransposed() const {
     Graph<T> transposed{};
     for (Node<T> *node : _nodes) {
-        transposed.addNode(node->getId(), node->getElement());
+        auto newNode = transposed.addNode(node->getId(), node->getElement());
         for (Edge<T> *edge : node->getAdjacent()) {
-            transposed.addEdge(edge->getId(), edge->getTarget(), node, edge->getWeight());
+            transposed.addEdge(edge->getId(), edge->getTarget(), newNode, edge->getWeight());
         }
     }
     return transposed;

@@ -24,6 +24,5 @@ int main() {
     std::ifstream nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::ifstream edges("maps/porto/porto_strong_edges.txt");
     StreetMap map(nodesXY, nodesLL, edges, 1900, 1000);
-    std::cout << kosaraju(map) << std::endl;
     map.showGraph();
 }
