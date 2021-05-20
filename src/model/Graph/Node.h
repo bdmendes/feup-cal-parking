@@ -33,6 +33,8 @@ private:
     T _element;
     char _helpers;
     std::vector<Edge<T> *> _adjacentEdges;
+    double dist = 0;
+    Node<T> *path = NULL;
     id_t _id;
 };
 

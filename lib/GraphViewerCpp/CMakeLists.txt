@@ -24,7 +24,7 @@ add_library(graphviewer STATIC
         src/edge.cpp
         src/lines.cpp
         src/fpsmonitor.cpp
-)
+        ../../src/algorithms/dijkstra.h ../../src/algorithms/aStar.h)
 
 target_compile_options(graphviewer PRIVATE ${CMAKE_CXX_LIB})
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
