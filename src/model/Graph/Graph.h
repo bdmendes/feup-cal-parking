@@ -14,11 +14,11 @@ public:
 
     void reserveNumberNodes(size_t numberNodes);
 
-    Node<T>* addNode(id_t id, const T &element);
+    Node<T> *addNode(id_t id, const T &element);
 
     void removeNode(const T &element);
 
-    Edge<T>* addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
+    Edge<T> *addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
 
     void removeEdge(const T &source, const T &target);
 
@@ -27,6 +27,8 @@ public:
     std::vector<Node<T> *> getNodes() const;
 
     Node<T> *findNodeById(id_t id);
+
+    Graph<T> getTransposed() const;
 
 private:
     std::vector<Node<T> *> _nodes;
@@ -37,7 +39,7 @@ private:
 };
 
 template<class T>
-Node<T>* Graph<T>::addNode(id_t id, const T &element) {
+Node<T> *Graph<T>::addNode(id_t id, const T &element) {
     if (findNodeById(id) != nullptr) {
         throw std::logic_error("Node already exists");
     }
@@ -49,7 +51,7 @@ Node<T>* Graph<T>::addNode(id_t id, const T &element) {
 
 template<class T>
 Node<T> *Graph<T>::findNode(const T &element) {
-    auto node = std::find_if(_nodes.begin(), _nodes.end(), [element](Node<T>* node){
+    auto node = std::find_if(_nodes.begin(), _nodes.end(), [element](Node<T> *node) {
         return node->getElement() == element;
     });
     return node != _nodes.end() ? *node : nullptr;
@@ -100,7 +102,7 @@ Node<T> *Graph<T>::findNodeById(id_t id) {
 }
 
 template<class T>
-Edge<T>* Graph<T>::addEdge(id_t id, Node<T> *source, Node<T> *target, double weight) {
+Edge<T> *Graph<T>::addEdge(id_t id, Node<T> *source, Node<T> *target, double weight) {
     if (source == nullptr) {
         throw std::logic_error("Source node does not exist");
     }
@@ -117,6 +119,18 @@ void Graph<T>::reserveNumberNodes(size_t numberNodes) {
     }
     _nodes.reserve(numberNodes);
     _ids.reserve(numberNodes);
+}
+
+template<class T>
+Graph<T> Graph<T>::getTransposed() const {
+    Graph<T> transposed{};
+    for (Node<T> *node : _nodes) {
+        auto newNode = transposed.addNode(node->getId(), node->getElement());
+        for (Edge<T> *edge : node->getAdjacent()) {
+            transposed.addEdge(edge->getId(), edge->getTarget(), newNode, edge->getWeight());
+        }
+    }
+    return transposed;
 }
 
 
