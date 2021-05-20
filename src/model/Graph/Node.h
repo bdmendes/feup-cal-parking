@@ -19,11 +19,19 @@ public:
 
     std::vector<Edge<T> *> getAdjacent();
 
+    double getDist();
+
+    Node<T>* getPath();
+
     T getElement();
 
     bool isVisited();
 
     void setVisited();
+
+    void setDist(double newDist);
+
+    void setPath(Node<T> *path);
 
     void setUnvisited();
 
@@ -86,6 +94,26 @@ void Node<T>::setUnvisited() {
 template<class T>
 id_t Node<T>::getId() const {
     return _id;
+}
+
+template<class T>
+double Node<T>::getDist() {
+    return 0;
+}
+
+template<class T>
+Node<T> *Node<T>::getPath() {
+    return nullptr;
+}
+
+template<class T>
+void Node<T>::setDist(double newDist) {
+    dist = newDist;
+}
+
+template<class T>
+void Node<T>::setPath(Node<T>* newPath) {
+    path = newPath;
 }
 
 

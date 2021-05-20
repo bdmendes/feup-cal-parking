@@ -19,29 +19,29 @@ double calculateEuclideanDistance(Node<MapPoint> &current, Node<MapPoint> &desti
 
 void aStarWithEuclideanDistance(const MapPoint &origin, StreetMap &graph, const MapPoint &destiny) {
     for (auto& node : graph.getNodes()){
-        node->dist = INF;
-        node->path = nullptr;
+        node->setDist(INF);
+        node->setPath(nullptr);
     }
 
-    auto startNode = findNode(origin);
+    auto startNode = graph.findNode(origin);
     if (startNode == NULL) return;
 
-    MutablePriorityQueue<Node<MapPoint>> q;
-    startNode->dist = 0;
+    MutablePriorityQueue<Node<T>> q;
+    startNode->setDist(0);
     q.insert(startNode);
 
     while (!q.empty()){
         auto currNode = q.extractMin();
         for (auto& e: currNode->getAdjacent()){
-            auto destNode = e->getTarget();
-            if (destNode->dist > currNode->dist + e->getWeight()){
-                bool alreadyQueued = destNode->dist != INF;
-                destNode->dist = currNode->dist + e.weight + calculateEuclideanDistance(destNode, destiny);
-                destNode->path = currNode;
+            auto nextNode = e->getTarget();
+            if (nextNode->getDist() > currNode->getDist() + e->getWeight()){
+                bool alreadyQueued = nextNode->getDist() != INF;
+                nextNode->setDist(currNode->getDist() + e->getWeight()) + calculateEuclideanDistance(nextNode, destiny);
+                nextNode->setPath(currNode);
                 if (alreadyQueued){
-                    q.decreaseKey(destNode);
+                    q.decreaseKey(nextNode);
                 } else {
-                    q.insert(destNode);
+                    q.insert(nextNode);
                 }
             }
         }

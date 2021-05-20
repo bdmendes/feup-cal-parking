@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../../src/model/Graph/Graph.h"
+#include "../../src/model/Graph/Node.h"
 #include "../../src/algorithms/dijkstra.h"
 
 Graph<int> createTestGraph() {
@@ -32,7 +33,7 @@ void checkAllPaths(Graph<T> &g, std::string expected) {
     for(unsigned int i = 0; i < vs.size(); i++) {
         ss << vs[i]->getElement() << "<-";
         if ( vs[i]->getPath() != NULL )
-            ss << vs[i]->getPath()->getInfo();
+            ss << vs[i]->getPath()->getElement();
         ss << "|";
     }
     EXPECT_EQ(expected, ss.str());

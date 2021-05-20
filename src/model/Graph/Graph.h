@@ -30,11 +30,11 @@ public:
 
     Node<T> *findNodeById(id_t id);
 
+    Node<T> *findNode(const T &element);
+
 private:
     std::vector<Node<T> *> _nodes;
     std::unordered_map<id_t, Node<T> *> _ids;
-
-    Node<T> *findNode(const T &element);
 
 };
 
