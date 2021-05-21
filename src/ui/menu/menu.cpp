@@ -5,36 +5,41 @@
 
 using namespace util;
 
-void IntroMenu::show() {
+void IntroMenu::show(){
     std::cout << SEPARATOR
               << "Welcome\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
             "import map - import map from files",
             "edit map - remove or add nodes and vertices",
-            "calculate trip - set starting, stop and arrival points"
+            "calculate trip - set starting, stop and arrival points",
+            "export map - export map data to a file"
     };
     printOptions(content);
 
-    /*for (;;) {
+    for (;;) {
         std::string input = readCommand();
         if (input == EXIT) return;
-        else if (validInput1Cmd1Arg(input, "manage","store")) {
-            LoginMenu(_store).show();
+        else if (validInput1Cmd1Arg(input, "import","map")) {
+            importMap();
             break;
         }
-        else if (validInput1Cmd1Arg(input,"import","data")){
-            importData();
+        else if (validInput1Cmd1Arg(input,"edit","map")){
+            //TODO
             break;
         }
-        else if (validInput1Cmd1Arg(input,"export","data")){
-            exportData();
+        else if (validInput1Cmd1Arg(input,"calculate","trip")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"export","map")){
+            exportMap();
             break;
         }
         else printError();
-    }*/
+    }
 
-    //show();
+    show();
 }
 
 
