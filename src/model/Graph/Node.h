@@ -17,9 +17,9 @@ public:
 
     void removeEdge(Node<T> *target);
 
-    std::vector<Edge<T> *> getAdjacent();
+    std::vector<Edge<T> *> getAdjacent() const;
 
-    T getElement();
+    T getElement() const;
 
     bool isVisited();
 
@@ -29,6 +29,8 @@ public:
 
     id_t getId() const;
 
+    bool operator==(const Node<T>& node) const;
+
 private:
     T _element;
     char _helpers;
@@ -37,7 +39,7 @@ private:
 };
 
 template<class T>
-Node<T>::Node(id_t id, T element) : _id(id), _element(element) {
+Node<T>::Node(id_t id, T element) : _id(id), _element(element), _helpers(0x0) {
 
 }
 
@@ -59,12 +61,12 @@ void Node<T>::removeEdge(Node<T> *target) {
 }
 
 template<class T>
-std::vector<Edge<T> *> Node<T>::getAdjacent() {
+std::vector<Edge<T> *> Node<T>::getAdjacent() const{
     return _adjacentEdges;
 }
 
 template<class T>
-T Node<T>::getElement() {
+T Node<T>::getElement() const{
     return _element;
 }
 
@@ -86,6 +88,11 @@ void Node<T>::setUnvisited() {
 template<class T>
 id_t Node<T>::getId() const {
     return _id;
+}
+
+template<class T>
+bool Node<T>::operator==(const Node<T>& node) const {
+    return this->getElement() == node.getElement();
 }
 
 
