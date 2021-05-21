@@ -13,17 +13,17 @@ class Node {
 public:
     Node(id_t id, T element);
 
-    void addEdge(Node<T> *target, double weight);
+    Edge<T>* addEdge(id_t id, Node<T> *target, double weight);
 
     void removeEdge(Node<T> *target);
 
-    std::vector<Edge<T> *> getAdjacent();
+    std::vector<Edge<T> *> getAdjacent() const;
 
-    double getDist();
+    double getDist() const;
 
-    Node<T>* getPath();
+    Node<T>* getPath() const;
 
-    T getElement();
+    T getElement() const;
 
     bool isVisited();
 
@@ -37,6 +37,14 @@ public:
 
     id_t getId() const;
 
+    bool operator==(const Node<T>& node) const;
+
+    bool operator<(const Node<T>& node) const;
+
+    void sortAdjacentEdges();
+
+    unsigned int queueIndex = 0;
+
 private:
     T _element;
     char _helpers;
@@ -44,16 +52,19 @@ private:
     double dist = 0;
     Node<T> *path = NULL;
     id_t _id;
+
 };
 
 template<class T>
-Node<T>::Node(id_t id, T element) : _id(id), _element(element) {
+Node<T>::Node(id_t id, T element) : _id(id), _element(element), _helpers(0x0) {
 
 }
 
 template<class T>
-void Node<T>::addEdge(Node<T> *target, double weight) {
-    _adjacentEdges.push_back(new Edge<T>(target, weight));
+Edge<T>* Node<T>::addEdge(id_t id, Node<T> *target, double weight) {
+    auto edge = new Edge<T>(id, target, weight);
+    _adjacentEdges.push_back(edge);
+    return edge;
 }
 
 template<class T>
@@ -67,12 +78,12 @@ void Node<T>::removeEdge(Node<T> *target) {
 }
 
 template<class T>
-std::vector<Edge<T> *> Node<T>::getAdjacent() {
+std::vector<Edge<T> *> Node<T>::getAdjacent() const{
     return _adjacentEdges;
 }
 
 template<class T>
-T Node<T>::getElement() {
+T Node<T>::getElement() const{
     return _element;
 }
 
@@ -97,13 +108,14 @@ id_t Node<T>::getId() const {
 }
 
 template<class T>
-double Node<T>::getDist() {
-    return 0;
+
+double Node<T>::getDist() const{
+    return dist;
 }
 
 template<class T>
-Node<T> *Node<T>::getPath() {
-    return nullptr;
+Node<T> *Node<T>::getPath() const{
+    return path;
 }
 
 template<class T>
@@ -114,6 +126,23 @@ void Node<T>::setDist(double newDist) {
 template<class T>
 void Node<T>::setPath(Node<T>* newPath) {
     path = newPath;
+}
+
+template<class T>
+bool Node<T>::operator==(const Node<T>& node) const {
+    return this->getElement() == node.getElement();
+}
+
+template<class T>
+void Node<T>::sortAdjacentEdges(){
+    std::sort(_adjacentEdges.begin(), _adjacentEdges.end(), [](const Edge<T>* e1, const Edge<T>* e2) {
+        return e1->getWeight() < e2->getWeight();
+    });
+}
+
+template<class T>
+bool Node<T>::operator<(const Node<T> &node) const {
+    return this->dist < node.dist;
 }
 
 

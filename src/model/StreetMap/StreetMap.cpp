@@ -2,35 +2,39 @@
 #include <climits>
 #include "StreetMap.h"
 
-StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges) :
-        _maxCoords(std::make_pair(LONG_MIN, LONG_MIN)), _minCoords(std::make_pair(LONG_MAX, LONG_MAX)) {
+#define COORDS_MAX_X 9500
+#define COORDS_MIN_X -3300
+#define COORDS_MAX_Y 3100
+#define COORDS_MIN_Y -3000
+
+StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges, unsigned int width,
+                     unsigned int height) : _gv(), _width(width), _height(height) {
+
     size_t numberOfNodes{};
     nodesXY >> numberOfNodes;
     nodesLatLng >> numberOfNodes;
 
-    id_t id{};
+    id_t nodeId{};
     double x{}, y{}, lat{}, lon{};
     char sep{};
 
     reserveNumberNodes(getNumberOfNodes());
     for (size_t i = 0; i < numberOfNodes; ++i) {
-        nodesXY >> sep >> id >> sep >> x >> sep >> y >> sep;
-        nodesLatLng >> sep >> id >> sep >> lat >> sep >> lon >> sep;
+        nodesXY >> sep >> nodeId >> sep >> x >> sep >> y >> sep;
+        nodesLatLng >> sep >> nodeId >> sep >> lat >> sep >> lon >> sep;
         MapPoint point(x, y, lat, lon, std::rand() % 20 == 0);
-        if (point.getX() > _maxCoords.first) {
-            _maxCoords.first = point.getX();
+        double x = (double) _width * ((point.getX() - COORDS_MIN_X) /
+                                      (COORDS_MAX_X - COORDS_MIN_X) * 0.9);
+        double y = (double) _height * ((point.getY() - COORDS_MIN_Y) /
+                                       (COORDS_MAX_Y - COORDS_MIN_Y) * 0.9);
+        auto n = _gv.addNode(nodeId, sf::Vector2f(x, y));
+        if (point.isParking()) {
+            n.setColor(GraphViewer::CYAN);
         }
-        if (point.getX() < _minCoords.first) {
-            _minCoords.first = point.getX();
-        }
-        if (point.getY() > _maxCoords.second) {
-            _maxCoords.second = point.getY();
-        }
-        if (point.getY() < _minCoords.second) {
-            _minCoords.second = point.getY();
-        }
-        addNode(id, point);
+        addNode(nodeId, point);
     }
+
+    id_t edgeId{};
 
     size_t numberOfEdges{};
     edges >> numberOfEdges;
@@ -40,14 +44,14 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
         edges >> sep >> originId >> sep >> destinationId >> sep;
         Node<MapPoint> *o = findNodeById(originId);
         Node<MapPoint> *d = findNodeById(destinationId);
-        addEdge(o, d, 0.0);
+        addEdge(edgeId, o, d, 0.0);
+        _gv.addEdge(edgeId++, _gv.getNode(originId), _gv.getNode(destinationId));
     }
 }
 
-std::pair<double, double> StreetMap::getMinCoords() const {
-    return _minCoords;
+void StreetMap::showGraph() {
+    _gv.createWindow(_width, _height);
+    _gv.setEnabledNodes(false);
+    _gv.join();
 }
 
-std::pair<double, double> StreetMap::getMaxCoords() const {
-    return _maxCoords;
-}
