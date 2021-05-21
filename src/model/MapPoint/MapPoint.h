@@ -17,6 +17,10 @@ private:
     double _latitude;
     double _longitude;
     bool _parking;
+public:
+    bool operator==(const MapPoint &rhs) const;
+
+    bool operator!=(const MapPoint &rhs) const;
 };
 
 
