@@ -16,12 +16,12 @@ set(GOOGLETEST_PATH lib/googletest-master)
 add_subdirectory(${GOOGLETEST_PATH})
 
 # Tests executables
-add_executable(TESTS test/test.cpp test/algorithm/mtest.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h test/algorithm/kosajaru.cpp)
+add_executable(TESTS test/test.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h test/algorithm/kosajaru.cpp test/algorithm/tsp.cpp)
 target_link_libraries(TESTS gtest_main gmock_main)
 add_test(NAME TESTS COMMAND TESTS)
 
 # Main executable
-add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h src/algorithms/search.h src/model/StreetMap/StreetMap.h src/model/StreetMap/StreetMap.cpp)
+add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.h src/model/Graph/Node.h src/model/MapPoint/MapPoint.cpp src/model/MapPoint/MapPoint.h src/model/Graph/Edge.h src/algorithms/search.h src/model/StreetMap/StreetMap.h src/model/StreetMap/StreetMap.cpp src/algorithms/tsp.h)
 
 target_link_libraries(feup_cal_parking graphviewer)
 

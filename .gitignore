@@ -43,6 +43,7 @@
 *.app
 
 .idea/**
+Testing/**
 
 # CMake
 cmake-build-*/

@@ -26,16 +26,15 @@ public:
 
     std::vector<Node<T> *> getNodes() const;
 
-    Node<T> *findNodeById(id_t id);
+    Node<T> *findNodeById(id_t id) const;
+
+    Node<T> *findNode(const T &element) const;
 
     Graph<T> getTransposed() const;
 
 private:
     std::vector<Node<T> *> _nodes;
     std::unordered_map<id_t, Node<T> *> _ids;
-
-    Node<T> *findNode(const T &element);
-
 };
 
 template<class T>
@@ -50,7 +49,7 @@ Node<T> *Graph<T>::addNode(id_t id, const T &element) {
 }
 
 template<class T>
-Node<T> *Graph<T>::findNode(const T &element) {
+Node<T> *Graph<T>::findNode(const T &element) const {
     auto node = std::find_if(_nodes.begin(), _nodes.end(), [element](Node<T> *node) {
         return node->getElement() == element;
     });
@@ -97,7 +96,7 @@ std::vector<Node<T> *> Graph<T>::getNodes() const {
 }
 
 template<class T>
-Node<T> *Graph<T>::findNodeById(id_t id) {
+Node<T> *Graph<T>::findNodeById(id_t id) const {
     return _ids.find(id) != _ids.end() ? _ids.at(id) : nullptr;
 }
 

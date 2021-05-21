@@ -9,9 +9,9 @@ class Edge {
 public:
     Edge(id_t id, Node<T> *target, double weight);
 
-    Node<T> *getTarget();
+    Node<T> *getTarget() const;
 
-    double getWeight();
+    double getWeight() const;
 
     void setWeight(double weight);
 
@@ -30,12 +30,12 @@ Edge<T>::Edge(id_t id, Node<T> *target, double weight)
 }
 
 template<class T>
-Node<T> *Edge<T>::getTarget() {
+Node<T> *Edge<T>::getTarget() const {
     return _target;
 }
 
 template<class T>
-double Edge<T>::getWeight() {
+double Edge<T>::getWeight() const {
     return _weight;
 }
 
