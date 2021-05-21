@@ -32,7 +32,10 @@ public:
 
     Graph<T> getTransposed() const;
 
+    std::vector<std::vector<double>> getAdjacencyMatrix() const;
+
 private:
+    id_t getMaxId() const;
     std::vector<Node<T> *> _nodes;
     std::unordered_map<id_t, Node<T> *> _ids;
 };
@@ -130,6 +133,35 @@ Graph<T> Graph<T>::getTransposed() const {
         }
     }
     return transposed;
+}
+
+template<class T>
+std::vector<std::vector<double>> Graph<T>::getAdjacencyMatrix() const {
+    int size = getMaxId() + 1;
+    std::vector<std::vector<double>> matrix(size, std::vector<double>());
+    for (auto& l : matrix) {
+        l.resize(size, UINT32_MAX);
+    }
+    for (auto& node : _nodes){
+        id_t srcID = node->getId();
+        auto adj = node->getAdjacent();
+        for (auto& edge : adj){
+            id_t targetID = edge->getTarget()->getId();
+            matrix.at(srcID).at(targetID) = edge->getWeight();
+        }
+    }
+    return matrix;
+}
+
+template<class T>
+id_t Graph<T>::getMaxId() const {
+    id_t maxId = 0;
+    for (const auto& node : _nodes){
+        if (node->getId() > maxId){
+            maxId = node->getId();
+        }
+    }
+    return maxId;
 }
 
 
