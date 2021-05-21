@@ -31,6 +31,8 @@ public:
 
     bool operator==(const Node<T>& node) const;
 
+    void sortAdjacentEdges();
+
 private:
     T _element;
     char _helpers;
@@ -93,6 +95,13 @@ id_t Node<T>::getId() const {
 template<class T>
 bool Node<T>::operator==(const Node<T>& node) const {
     return this->getElement() == node.getElement();
+}
+
+template<class T>
+void Node<T>::sortAdjacentEdges(){
+    std::sort(_adjacentEdges.begin(), _adjacentEdges.end(), [](const Edge<T>* e1, const Edge<T>* e2) {
+        return e1->getWeight() < e2->getWeight();
+    });
 }
 
 
