@@ -113,4 +113,29 @@ double tspBruteForce(Node<T>* source, const std::vector<Node<T>*>& intermediate,
     }
 }
 
+template <class T>
+static std::vector<std::vector<T>> makeComb(const std::vector<T>& vec,
+                                            std::vector<std::vector<T>>& tmp, unsigned curr) {
+    for (unsigned i = tmp.size()/2; i < tmp.size(); ++i){ // insert the element in half of the vector
+        tmp.at(i).push_back(vec.at(curr));
+    }
+    if (curr >= vec.size() - 1) return tmp;
+    unsigned currTmpSize = tmp.size();
+    for (unsigned i = 0; i < currTmpSize; ++i) tmp.push_back(tmp.at(i)); // repeat the elements
+    return makeComb(vec, tmp, curr + 1);
+}
+
+template <class T>
+static std::vector<std::vector<T>> combinations(const std::vector<T>& vec){
+    std::vector<std::vector<T>> tmp = {{},{}};
+    return !vec.empty() ? makeComb(vec, tmp, 0) : std::vector<std::vector<T>>();
+}
+
+template <class T>
+double tspHeldKarp(Graph<T>& graph, Node<T>* source, const std::vector<Node<T>*>& intermediate,
+                   Node<T>* target, std::vector<Node<T>*>& foundIntermediate){
+    auto comb = combinations(intermediate);
+    return 0; // to do
+}
+
 #endif //FEUP_CAL_PARKING_TSP_H
