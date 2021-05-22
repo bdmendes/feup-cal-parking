@@ -13,11 +13,11 @@
 #define INF std::numeric_limits<double>::max()
 
 
-double calculateEuclideanDistance(Node<MapPoint> &current, Node<MapPoint> &destiny){
-    return sqrt(pow(current.getElement().getX() - destiny.getElement().getX(), 2) + pow(current.getElement().getY() - destiny.getElement().getY(), 2));
+double calculateEuclideanDistance(Node<MapPoint> &current, Node<MapPoint> &target){
+    return sqrt(pow(current.getElement().getX() - target.getElement().getX(), 2) + pow(current.getElement().getY() - target.getElement().getY(), 2));
 }
 
-void aStarWithEuclideanDistance(const MapPoint &origin, StreetMap &graph, const MapPoint &destiny) {
+void aStarWithEuclideanDistance(const MapPoint &origin, StreetMap &graph, const MapPoint &target) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -32,11 +32,12 @@ void aStarWithEuclideanDistance(const MapPoint &origin, StreetMap &graph, const 
 
     while (!q.empty()){
         auto currNode = q.extractMin();
+        if (currNode == target) break;
         for (auto& e: currNode->getAdjacent()){
             auto nextNode = e->getTarget();
             if (nextNode->getDist() > currNode->getDist() + e->getWeight()){
                 bool alreadyQueued = nextNode->getDist() != INF;
-                nextNode->setDist(currNode->getDist() + e->getWeight()) + calculateEuclideanDistance(nextNode, destiny);
+                nextNode->setDist(currNode->getDist() + e->getWeight() + calculateEuclideanDistance(nextNode, target));
                 nextNode->setPath(currNode);
                 if (alreadyQueued){
                     q.decreaseKey(nextNode);

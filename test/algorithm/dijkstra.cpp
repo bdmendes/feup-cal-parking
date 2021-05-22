@@ -20,7 +20,7 @@ Graph<int> createTestGraph() {
     myGraph.addEdge(8, myGraph.getNodes().at(3), myGraph.getNodes().at(5), 6);
     myGraph.addEdge(9, myGraph.getNodes().at(3), myGraph.getNodes().at(6), 4);
     myGraph.addEdge(10, myGraph.getNodes().at(4), myGraph.getNodes().at(6), 2);
-    myGraph.addEdge(11, myGraph.getNodes().at(5), myGraph.getNodes().at(3), 3);
+    myGraph.addEdge(11, myGraph.getNodes().at(5), myGraph.getNodes().at(3 ), 3);
     myGraph.addEdge(12, myGraph.getNodes().at(6), myGraph.getNodes().at(5), 4);
 
     return myGraph;
