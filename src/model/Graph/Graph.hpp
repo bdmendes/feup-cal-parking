@@ -33,7 +33,7 @@ public:
 
     Graph<T> getTransposed() const;
 
-private:
+protected:
     std::vector<Node<T> *> _nodes;
     std::unordered_map<id_t, Node<T> *> _ids;
 };
@@ -69,6 +69,7 @@ void Graph<T>::removeNode(const T &element) {
             return;
         }
     }
+    throw std::logic_error("Node does not exist");
 }
 
 template<class T>
@@ -76,9 +77,9 @@ void Graph<T>::removeEdge(const T &source, const T &target) {
     for (auto &n : _nodes) {
         if (n->getElement() != source) continue;
         auto adj = n->getAdjacent();
-        for (auto it = adj.begin(); it != adj.end(); it++) {
-            if ((*it)->getTarget()->getElement() == target) {
-                n->removeEdge((*it)->getTarget());
+        for (auto& it : adj) {
+            if (it->getTarget()->getElement() == target) {
+                n->removeEdge(it->getTarget());
                 return;
             }
         }
