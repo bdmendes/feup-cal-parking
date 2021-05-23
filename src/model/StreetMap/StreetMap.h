@@ -10,9 +10,7 @@ class StreetMap : public Graph<MapPoint> {
 public:
     StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges, unsigned int width,
               unsigned int height);
-
     void showGraph();
-
 private:
     GraphViewer _gv;
     unsigned _width;

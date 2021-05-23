@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "../../src/model/Graph/Graph.h"
-#include "../../src/model/Graph/Node.h"
-#include "../../src/algorithms/dijkstra.h"
+#include "../../src/algorithms/shortestdistance.h"
 
 Graph<int> createTestGraph() {
     Graph<int> myGraph;
@@ -20,23 +19,10 @@ Graph<int> createTestGraph() {
     myGraph.addEdge(8, myGraph.getNodes().at(3), myGraph.getNodes().at(5), 6);
     myGraph.addEdge(9, myGraph.getNodes().at(3), myGraph.getNodes().at(6), 4);
     myGraph.addEdge(10, myGraph.getNodes().at(4), myGraph.getNodes().at(6), 2);
-    myGraph.addEdge(11, myGraph.getNodes().at(5), myGraph.getNodes().at(3 ), 3);
+    myGraph.addEdge(11, myGraph.getNodes().at(5), myGraph.getNodes().at(3), 3);
     myGraph.addEdge(12, myGraph.getNodes().at(6), myGraph.getNodes().at(5), 4);
 
     return myGraph;
-}
-
-template<class T>
-std::vector<T> getPath(const Graph<T>& graph, const T &origin, const T &dest) {
-    std::vector<T> res;
-    auto currNode = graph.findNode(dest);
-    if (currNode == nullptr) return {};
-    while (currNode != nullptr){
-        res.push_back(currNode->getElement());
-        currNode = currNode->getPath();
-    }
-    std::reverse(res.begin(), res.end());
-    return res;
 }
 
 template <class T>

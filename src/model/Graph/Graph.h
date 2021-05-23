@@ -11,16 +11,17 @@
 template<class T>
 class Graph {
 public:
+    Graph();
+
+    virtual Node<T> *addNode(id_t id, const T &element);
+
+    virtual void removeNode(const T &element);
+
+    virtual Edge<T> *addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
+
+    virtual void removeEdge(const T &source, const T &target);
 
     void reserveNumberNodes(size_t numberNodes);
-
-    Node<T> *addNode(id_t id, const T &element);
-
-    void removeNode(const T &element);
-
-    Edge<T> *addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
-
-    void removeEdge(const T &source, const T &target);
 
     size_t getNumberOfNodes() const;
 
@@ -130,6 +131,11 @@ Graph<T> Graph<T>::getTransposed() const {
         }
     }
     return transposed;
+}
+
+template<class T>
+Graph<T>::Graph() : _nodes{}, _ids{}{
+
 }
 
 
