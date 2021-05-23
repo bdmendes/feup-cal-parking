@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../../src/model/Graph/Graph.h"
-#include "../../src/algorithms/search.h"
+#include "../../src/model/Graph/Graph.hpp"
+#include "../../src/algorithms/search.hpp"
 
 TEST(kosajaru, strong) {
     Graph<int> g1;
