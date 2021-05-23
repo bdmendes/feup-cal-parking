@@ -2,7 +2,7 @@
 #define MENU_H
 
 #include "../ui.h"
-#include "../../model/Graph/Graph.h"
+#include "../../model/Graph/Graph.hpp"
 
 class IntroMenu : public UI {
 public:

@@ -1,5 +1,5 @@
-#ifndef FEUP_CAL_PARKING_EDGE_H
-#define FEUP_CAL_PARKING_EDGE_H
+#ifndef FEUP_CAL_PARKING_EDGE_HPP
+#define FEUP_CAL_PARKING_EDGE_HPP
 
 template<class T>
 class Node;
@@ -50,4 +50,4 @@ id_t Edge<T>::getId() const {
 }
 
 
-#endif //FEUP_CAL_PARKING_EDGE_H
+#endif //FEUP_CAL_PARKING_EDGE_HPP

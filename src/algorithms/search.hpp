@@ -1,8 +1,8 @@
-#ifndef FEUP_CAL_PARKING_SEARCH_H
-#define FEUP_CAL_PARKING_SEARCH_H
+#ifndef FEUP_CAL_PARKING_SEARCH_HPP
+#define FEUP_CAL_PARKING_SEARCH_HPP
 
 #include <queue>
-#include "../model/Graph/Graph.h"
+#include "../model/Graph/Graph.hpp"
 #include "algorithm"
 
 template<class T>
@@ -104,4 +104,4 @@ bool kosaraju(const Graph<T> &graph) {
 }
 
 
-#endif //FEUP_CAL_PARKING_SEARCH_H
+#endif //FEUP_CAL_PARKING_SEARCH_HPP

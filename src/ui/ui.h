@@ -1,7 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
-#include "../model/Graph/Graph.h"
+#include "../model/Graph/Graph.hpp"
 
 class UI {
 public:

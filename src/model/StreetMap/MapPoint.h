@@ -5,11 +5,17 @@ class MapPoint {
 public:
     MapPoint(double x, double y, double latitude, double longitude, bool parking);
 
+    MapPoint(double x, double y, bool parking = false);
+
     double getX() const;
 
     double getY() const;
 
     bool isParking() const;
+
+    bool operator==(const MapPoint &rhs) const;
+
+    bool operator!=(const MapPoint &rhs) const;
 
 private:
     double _x;
@@ -17,10 +23,6 @@ private:
     double _latitude;
     double _longitude;
     bool _parking;
-public:
-    bool operator==(const MapPoint &rhs) const;
-
-    bool operator!=(const MapPoint &rhs) const;
 };
 
 

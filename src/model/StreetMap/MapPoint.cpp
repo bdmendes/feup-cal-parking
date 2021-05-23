@@ -23,3 +23,8 @@ bool MapPoint::operator==(const MapPoint &rhs) const {
 bool MapPoint::operator!=(const MapPoint &rhs) const {
     return !(rhs == *this);
 }
+
+MapPoint::MapPoint(double x, double y, bool parking) :
+    _x(x), _y(y), _parking(parking){
+
+}

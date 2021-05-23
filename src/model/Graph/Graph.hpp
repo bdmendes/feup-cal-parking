@@ -1,26 +1,27 @@
-#ifndef FEUP_CAL_PARKING_GRAPH_H
-#define FEUP_CAL_PARKING_GRAPH_H
+#ifndef FEUP_CAL_PARKING_GRAPH_HPP
+#define FEUP_CAL_PARKING_GRAPH_HPP
 
 #include <vector>
 #include <stdexcept>
 #include <unordered_map>
 #include <iostream>
-#include "Node.h"
-#include "Edge.h"
+#include "Node.hpp"
+#include "Edge.hpp"
 
 template<class T>
 class Graph {
 public:
+    Graph();
+
+    virtual Node<T> *addNode(id_t id, const T &element);
+
+    virtual void removeNode(const T &element);
+
+    virtual Edge<T> *addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
+
+    virtual void removeEdge(const T &source, const T &target);
 
     void reserveNumberNodes(size_t numberNodes);
-
-    Node<T> *addNode(id_t id, const T &element);
-
-    void removeNode(const T &element);
-
-    Edge<T> *addEdge(id_t id, Node<T> *source, Node<T> *target, double weight);
-
-    void removeEdge(const T &source, const T &target);
 
     size_t getNumberOfNodes() const;
 
@@ -32,7 +33,7 @@ public:
 
     Graph<T> getTransposed() const;
 
-private:
+protected:
     std::vector<Node<T> *> _nodes;
     std::unordered_map<id_t, Node<T> *> _ids;
 };
@@ -68,6 +69,7 @@ void Graph<T>::removeNode(const T &element) {
             return;
         }
     }
+    throw std::logic_error("Node does not exist");
 }
 
 template<class T>
@@ -75,9 +77,9 @@ void Graph<T>::removeEdge(const T &source, const T &target) {
     for (auto &n : _nodes) {
         if (n->getElement() != source) continue;
         auto adj = n->getAdjacent();
-        for (auto it = adj.begin(); it != adj.end(); it++) {
-            if ((*it)->getTarget()->getElement() == target) {
-                n->removeEdge((*it)->getTarget());
+        for (auto& it : adj) {
+            if (it->getTarget()->getElement() == target) {
+                n->removeEdge(it->getTarget());
                 return;
             }
         }
@@ -132,5 +134,10 @@ Graph<T> Graph<T>::getTransposed() const {
     return transposed;
 }
 
+template<class T>
+Graph<T>::Graph() : _nodes{}, _ids{}{
 
-#endif //FEUP_CAL_PARKING_GRAPH_H
+}
+
+
+#endif //FEUP_CAL_PARKING_GRAPH_HPP

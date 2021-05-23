@@ -1,9 +1,9 @@
-#ifndef FEUP_CAL_PARKING_NODE_H
-#define FEUP_CAL_PARKING_NODE_H
+#ifndef FEUP_CAL_PARKING_NODE_HPP
+#define FEUP_CAL_PARKING_NODE_HPP
 
 #include <vector>
 #include <algorithm>
-#include "Edge.h"
+#include "Edge.hpp"
 
 #define BIT(n) (1 << (n))
 #define VISITED BIT(0)
@@ -19,11 +19,19 @@ public:
 
     std::vector<Edge<T> *> getAdjacent() const;
 
+    double getDist() const;
+
+    Node<T>* getPath() const;
+
     T getElement() const;
 
     bool isVisited();
 
     void setVisited();
+
+    void setDist(double newDist);
+
+    void setPath(Node<T> *path);
 
     void setUnvisited();
 
@@ -31,13 +39,20 @@ public:
 
     bool operator==(const Node<T>& node) const;
 
+    bool operator<(const Node<T>& node) const;
+
     void sortAdjacentEdges();
+
+    unsigned int queueIndex = 0;
 
 private:
     T _element;
     char _helpers;
     std::vector<Edge<T> *> _adjacentEdges;
+    double dist = 0;
+    Node<T> *path = NULL;
     id_t _id;
+
 };
 
 template<class T>
@@ -93,8 +108,29 @@ id_t Node<T>::getId() const {
 }
 
 template<class T>
+
+double Node<T>::getDist() const{
+    return dist;
+}
+
+template<class T>
+Node<T> *Node<T>::getPath() const{
+    return path;
+}
+
+template<class T>
+void Node<T>::setDist(double newDist) {
+    dist = newDist;
+}
+
+template<class T>
+void Node<T>::setPath(Node<T>* newPath) {
+    path = newPath;
+}
+
+template<class T>
 bool Node<T>::operator==(const Node<T>& node) const {
-    return this->getElement() == node.getElement();
+    return this->getElement() == node.getElement() && this->getId() == node.getId();
 }
 
 template<class T>
@@ -104,5 +140,10 @@ void Node<T>::sortAdjacentEdges(){
     });
 }
 
+template<class T>
+bool Node<T>::operator<(const Node<T> &node) const {
+    return this->dist < node.dist;
+}
 
-#endif //FEUP_CAL_PARKING_NODE_H
+
+#endif //FEUP_CAL_PARKING_NODE_HPP

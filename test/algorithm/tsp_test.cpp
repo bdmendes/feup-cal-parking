@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../../src/model/Graph/Graph.h"
-#include "../../src/algorithms/tsp.h"
+#include "../../src/model/Graph/Graph.hpp"
+#include "../../src/algorithms/tsp.hpp"
 
 TEST(nearestNeighbour, simpleGraph){
     Graph<int> g1;

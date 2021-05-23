@@ -19,12 +19,12 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 include_directories(include)
 
 add_library(graphviewer STATIC
-    src/graphviewer.cpp
-    src/node.cpp
-    src/edge.cpp
-    src/lines.cpp
-    src/fpsmonitor.cpp
-)
+        src/graphviewer.cpp
+        src/node.cpp
+        src/edge.cpp
+        src/lines.cpp
+        src/fpsmonitor.cpp
+        )
 
 target_compile_options(graphviewer PRIVATE ${CMAKE_CXX_LIB})
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
