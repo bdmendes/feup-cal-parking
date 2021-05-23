@@ -3,11 +3,12 @@
 
 #include "../ui.h"
 #include "../../model/Graph/Graph.hpp"
+#include "../../model/StreetMap/StreetMap.h"
 
 class IntroMenu : public UI {
 public:
 
-    IntroMenu() = default;
+    explicit IntroMenu(StreetMap& map);
 
     void show() override;
 

@@ -21,16 +21,13 @@ void describeGraph(Graph<T> &g) {
 }
 
 int main() {
-    IntroMenu introMenu;
-
-    introMenu.show();
 
     std::srand(std::time(nullptr));
-    std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
-    std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
-    std::string edges("maps/porto/porto_strong_edges.txt");
-    StreetMap map(1900, 1000);
-    map.readFromFile(nodesXY, nodesLL, edges);
-    map.showGraph();
 
+    StreetMap map(1900, 1000);
+
+    IntroMenu introMenu(map);
+    introMenu.show();
+
+    map.showGraph();
 }

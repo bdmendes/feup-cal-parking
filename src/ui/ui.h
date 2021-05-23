@@ -2,11 +2,12 @@
 #define UI_H
 
 #include "../model/Graph/Graph.hpp"
+#include "../model/StreetMap/StreetMap.h"
 
 class UI {
 public:
 
-    explicit UI() = default;
+    explicit UI(StreetMap& map);
 
     virtual void show() = 0;
 
@@ -75,6 +76,8 @@ protected:
      * UI reserved keyword to exit in the first page
      */
     static const char* EXIT;
+
+    StreetMap& _map;
 };
 
 #endif

@@ -8,6 +8,8 @@ using namespace util;
 const char* UI::BACK = "back";
 const char* UI::EXIT = "exit";
 
+UI::UI(StreetMap& map) : _map(map) {}
+
 std::string UI::readCommand(bool lowCase) {
     std::string input;
     while (input.empty()) std::getline(std::cin, input);

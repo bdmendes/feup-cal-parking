@@ -5,6 +5,8 @@
 
 using namespace util;
 
+IntroMenu::IntroMenu(StreetMap& map) : UI(map){}
+
 void IntroMenu::show(){
     std::cout << SEPARATOR
               << "Welcome\n"
@@ -44,13 +46,10 @@ void IntroMenu::show(){
 
 
 void IntroMenu::importMap() {
-    std::cout << "\nIMPORT MAP\n"
-    << SEPARATOR << "'data' folder path: ";
-    std::string input = readCommand();
-    if (input == BACK) return;
-    std::cout << "\n" // << graph.read() TODO
-    << "\nPress enter to go back. ";
-    std::getline(std::cin,input);
+    std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
+    std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
+    std::string edges("maps/porto/porto_strong_edges.txt");
+    _map.readFromFile(nodesXY, nodesLL, edges);
 }
 
 void IntroMenu::exportMap() {
