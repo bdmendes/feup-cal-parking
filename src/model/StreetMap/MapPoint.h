@@ -5,6 +5,8 @@ class MapPoint {
 public:
     MapPoint(double x, double y, double latitude, double longitude, bool parking);
 
+    MapPoint(double x, double y, bool parking = false);
+
     double getX() const;
 
     double getY() const;

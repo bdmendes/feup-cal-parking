@@ -1,5 +1,4 @@
 #include <iostream>
-#include <climits>
 #include "StreetMap.h"
 
 #define COORDS_MAX_X 9500
@@ -7,16 +6,37 @@
 #define COORDS_MAX_Y 3100
 #define COORDS_MIN_Y -3000
 
-StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::ifstream &edges, unsigned int width,
-                     unsigned int height) : _gv(), _width(width), _height(height) {
+StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
+        _gv(), _width(windowWidth), _height(windowHeight) {
+}
 
+void StreetMap::showGraph() {
+    _gv.createWindow(_width, _height);
+    _gv.setEnabledNodes(false);
+    _gv.join();
+}
+
+void StreetMap::readFromFile(const std::string& nodesXYPath,
+                             const std::string& nodesLatLongPath, const std::string& edgesPath){
+    std::ifstream nodesXY(nodesXYPath);
+    std::ifstream nodesLatLng(nodesLatLongPath);
+    std::ifstream edges(edgesPath);
+    if (!nodesXY || !nodesLatLng || !edges){
+        throw std::invalid_argument("Invalid paths, check your working directory");
+    }
+
+    readNodes(nodesXY, nodesLatLng);
+    readEdges(edges);
+}
+
+void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
     size_t numberOfNodes{};
     nodesXY >> numberOfNodes;
     nodesLatLng >> numberOfNodes;
 
-    id_t nodeId{};
-    double x{}, y{}, lat{}, lon{};
-    char sep{};
+    id_t nodeId;
+    double x, y, lat, lon;
+    char sep;
 
     reserveNumberNodes(getNumberOfNodes());
     for (size_t i = 0; i < numberOfNodes; ++i) {
@@ -33,12 +53,13 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
         }
         addNode(nodeId, point);
     }
+}
 
-    id_t edgeId{};
-
-    size_t numberOfEdges{};
+void StreetMap::readEdges(std::ifstream &edges) {
+    id_t edgeId = 1, originId, destinationId;
+    char sep;
+    size_t numberOfEdges;
     edges >> numberOfEdges;
-    id_t originId{}, destinationId{};
 
     for (size_t i = 0; i < numberOfEdges; ++i) {
         edges >> sep >> originId >> sep >> destinationId >> sep;
@@ -47,11 +68,5 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
         addEdge(edgeId, o, d, 1.0);
         _gv.addEdge(edgeId++, _gv.getNode(originId), _gv.getNode(destinationId));
     }
-}
-
-void StreetMap::showGraph() {
-    _gv.createWindow(_width, _height);
-    _gv.setEnabledNodes(false);
-    _gv.join();
 }
 

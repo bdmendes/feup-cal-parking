@@ -20,9 +20,10 @@ void describeGraph(Graph<T> &g) {
 
 int main() {
     std::srand(std::time(nullptr));
-    std::ifstream nodesXY("maps/porto/porto_strong_nodes_xy.txt");
-    std::ifstream nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
-    std::ifstream edges("maps/porto/porto_strong_edges.txt");
-    StreetMap map(nodesXY, nodesLL, edges, 1900, 1000);
+    std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
+    std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
+    std::string edges("maps/porto/porto_strong_edges.txt");
+    StreetMap map(1900, 1000);
+    map.readFromFile(nodesXY, nodesLL, edges);
     map.showGraph();
 }
