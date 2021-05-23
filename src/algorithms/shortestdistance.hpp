@@ -136,17 +136,17 @@ void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint 
 template <class T>
 std::vector<std::vector<std::vector<Node<T>*>>> floydWarshall(const Graph<T>& graph) {
     auto distMatrix = graph.getAdjacencyMatrix();
-    auto vertexSet = graph.getNodes();
     std::vector<std::vector<std::vector<Node<T>*>>>
             pathMatrix(distMatrix.size(), std::vector<std::vector<Node<T>*>>());
     for (auto& l : pathMatrix) {
         l.resize(distMatrix.size(), std::vector<Node<T>*>());
     }
 
-    for (int k = 0; k < vertexSet.size(); k++){
-        auto middleMan = vertexSet.at(k);
-        for (int i = 0; i < vertexSet.size(); i++){
-            for (int j = 0; j < vertexSet.size(); j++){
+    for (int k = 0; k < distMatrix.size(); k++){
+        auto middleMan = graph.findNodeById(k);
+        if (middleMan == nullptr) continue;
+        for (int i = 0; i < distMatrix.size(); i++){
+            for (int j = 0; j < distMatrix.size(); j++){
                 if (distMatrix.at(i).at(k) + distMatrix.at(k).at(j) < distMatrix.at(i).at(j)){
                     distMatrix.at(i).at(j) = distMatrix.at(i).at(k) + distMatrix.at(k).at(j);
                     auto& fullPath = pathMatrix.at(i).at(j);
