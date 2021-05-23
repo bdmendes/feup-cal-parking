@@ -1,4 +1,5 @@
 #include "MapPoint.h"
+#include <math.h>
 
 MapPoint::MapPoint(double x, double y, double latitude, double longitude, bool parking)
         : _x(x), _y(y), _latitude(latitude), _longitude(longitude), _parking(parking) {}
@@ -27,4 +28,8 @@ bool MapPoint::operator!=(const MapPoint &rhs) const {
 MapPoint::MapPoint(double x, double y, bool parking) :
     _x(x), _y(y), _parking(parking){
 
+}
+
+double MapPoint::euclideanDistance(const MapPoint &rhs) const {
+    return sqrt(pow(getX() - rhs.getX(), 2) + pow(getY() - rhs.getY(), 2));
 }

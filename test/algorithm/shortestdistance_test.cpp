@@ -23,7 +23,7 @@ TEST(dijkstra, simpleGraph){
     std::vector<Node<int>*> expectedPath = {n1,n2,n4,n6};
     double expectedDistance = 6;
     dijkstra(n1->getElement(), g1);
-    auto path = getPath(g1, n1->getElement(), n6->getElement());
+    auto path = getDijkstraPath(g1, n1->getElement(), n6->getElement());
     EXPECT_EQ(path, expectedPath);
     EXPECT_EQ(distance(path), expectedDistance);
 }
@@ -45,7 +45,7 @@ TEST(dijkstra, impossibleTravel){
     g1.addEdge(7, n4, n5, 1);
     g1.addEdge(8, n6, n5, 3);
     dijkstra(n1->getElement(), g1);
-    EXPECT_THROW(getPath(g1, n1->getElement(), n6->getElement()), std::exception);
+    EXPECT_THROW(getDijkstraPath(g1, n1->getElement(), n6->getElement()), std::exception);
 }
 
 TEST(AStar, noHeuristic){
@@ -70,7 +70,7 @@ TEST(AStar, noHeuristic){
     std::vector<Node<MapPoint>*> expectedPath = {n1,n2,n4,n5,n6};
     double expectedDistance = 7;
     AStar(n1->getElement(), g1, n6->getElement());
-    auto path = getPath(g1, n1->getElement(), n6->getElement());
+    auto path = getDijkstraPath(g1, n1->getElement(), n6->getElement());
     EXPECT_EQ(path, expectedPath);
     EXPECT_EQ(distance(path), expectedDistance);
 }

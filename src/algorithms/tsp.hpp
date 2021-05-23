@@ -113,4 +113,4 @@ double tspBruteForce(Node<T>* source, const std::vector<Node<T>*>& intermediate,
     }
 }
 
-#endif //FEUP_CAL_PARKING_TSP_HPP
+#endif //FEUP_CAL_PARKING_TSP_H
