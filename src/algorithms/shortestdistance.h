@@ -44,20 +44,22 @@ void dijkstra(const T &origin, Graph<T> &graph) {
 }
 
 template<class T>
-std::vector<Node<T>*> getPath(const T &origin, const T &dest){
+std::vector<Node<T>*> getPath(Graph<T>& graph, const T &origin, const T &dest){
     std::vector<Node<T>*> res;
-    auto sourceNode = findNode(origin);
+    auto sourceNode = graph.findNode(origin);
     if (sourceNode == nullptr){
         throw std::logic_error("Source node not found");
     }
-    auto currNode = findNode(dest);
+    auto currNode = graph.findNode(dest);
     if (currNode == nullptr){
         throw std::logic_error("Target node not found");
     }
-    do {
+    for(;;){
         res.push_back(currNode);
+        if (currNode->getElement() == sourceNode->getElement()) break;
         currNode = currNode->getPath();
-    } while (currNode != nullptr && currNode->getElement() != sourceNode->getElement());
+        if (currNode == nullptr) break;
+    }
     std::reverse(res.begin(), res.end());
     if (res.at(0)->getElement() != sourceNode->getElement()){
         throw std::logic_error("Invalid path");
@@ -66,7 +68,7 @@ std::vector<Node<T>*> getPath(const T &origin, const T &dest){
 }
 
 template<class T>
-std::vector<Node<T>*> distance(std::vector<Node<T>*> path){
+double distance(std::vector<Node<T>*> path){
     double total = 0;
     for (int i = 0; i < path.size() - 1; i++){
         bool foundNext = false;
@@ -115,7 +117,8 @@ void AStar(const MapPoint &origin, StreetMap &graph, const MapPoint &target) {
             auto nextNode = e->getTarget();
             if (nextNode->getDist() > currNode->getDist() + e->getWeight()){
                 bool alreadyQueued = nextNode->getDist() != INF;
-                nextNode->setDist(currNode->getDist() + e->getWeight() + euclideanDistance(nextNode, endNode));
+                nextNode->setDist(currNode->getDist() + e->getWeight()
+                    + euclideanDistance(*nextNode, *endNode));
                 nextNode->setPath(currNode);
                 if (alreadyQueued){
                     q.decreaseKey(nextNode);
