@@ -1,5 +1,5 @@
-#ifndef FEUP_CAL_PARKING_SHORTESTDISTANCE_H
-#define FEUP_CAL_PARKING_SHORTESTDISTANCE_H
+#ifndef FEUP_CAL_PARKING_SHORTESTDISTANCE_HPP
+#define FEUP_CAL_PARKING_SHORTESTDISTANCE_HPP
 
 #include <limits>
 #include <algorithm>
@@ -7,7 +7,7 @@
 
 #include "../model/StreetMap/StreetMap.h"
 #include "../../../lib/MutablePriorityQueue.h"
-#include "../model/Graph/Graph.h"
+#include "../model/Graph/Graph.hpp"
 
 #define INF std::numeric_limits<double>::max()
 
@@ -130,4 +130,4 @@ void AStar(const MapPoint &origin, StreetMap &graph, const MapPoint &target) {
     }
 }
 
-#endif //FEUP_CAL_PARKING_SHORTESTDISTANCE_H
+#endif //FEUP_CAL_PARKING_SHORTESTDISTANCE_HPP

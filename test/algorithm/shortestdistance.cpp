@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../../src/model/Graph/Graph.h"
-#include "../../src/algorithms/shortestdistance.h"
+#include "../../src/model/Graph/Graph.hpp"
+#include "../../src/algorithms/shortestdistance.hpp"
 
 TEST(dijkstra, simpleGraph){
     Graph<int> g1;

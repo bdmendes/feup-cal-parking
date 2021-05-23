@@ -1,9 +1,9 @@
-#ifndef FEUP_CAL_PARKING_NODE_H
-#define FEUP_CAL_PARKING_NODE_H
+#ifndef FEUP_CAL_PARKING_NODE_HPP
+#define FEUP_CAL_PARKING_NODE_HPP
 
 #include <vector>
 #include <algorithm>
-#include "Edge.h"
+#include "Edge.hpp"
 
 #define BIT(n) (1 << (n))
 #define VISITED BIT(0)
@@ -146,4 +146,4 @@ bool Node<T>::operator<(const Node<T> &node) const {
 }
 
 
-#endif //FEUP_CAL_PARKING_NODE_H
+#endif //FEUP_CAL_PARKING_NODE_HPP

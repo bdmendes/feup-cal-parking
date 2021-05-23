@@ -1,7 +1,7 @@
-#ifndef FEUP_CAL_PARKING_TSP_H
-#define FEUP_CAL_PARKING_TSP_H
+#ifndef FEUP_CAL_PARKING_TSP_HPP
+#define FEUP_CAL_PARKING_TSP_HPP
 
-#include "../model/Graph/Graph.h"
+#include "../model/Graph/Graph.hpp"
 #include <algorithm>
 #include <limits.h>
 
@@ -113,4 +113,4 @@ double tspBruteForce(Node<T>* source, const std::vector<Node<T>*>& intermediate,
     }
 }
 
-#endif //FEUP_CAL_PARKING_TSP_H
+#endif //FEUP_CAL_PARKING_TSP_HPP

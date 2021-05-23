@@ -44,7 +44,7 @@ StreetMap::StreetMap(std::ifstream &nodesXY, std::ifstream &nodesLatLng, std::if
         edges >> sep >> originId >> sep >> destinationId >> sep;
         Node<MapPoint> *o = findNodeById(originId);
         Node<MapPoint> *d = findNodeById(destinationId);
-        addEdge(edgeId, o, d, 0.0);
+        addEdge(edgeId, o, d, 1.0);
         _gv.addEdge(edgeId++, _gv.getNode(originId), _gv.getNode(destinationId));
     }
 }

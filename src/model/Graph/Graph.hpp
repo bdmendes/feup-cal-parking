@@ -1,12 +1,12 @@
-#ifndef FEUP_CAL_PARKING_GRAPH_H
-#define FEUP_CAL_PARKING_GRAPH_H
+#ifndef FEUP_CAL_PARKING_GRAPH_HPP
+#define FEUP_CAL_PARKING_GRAPH_HPP
 
 #include <vector>
 #include <stdexcept>
 #include <unordered_map>
 #include <iostream>
-#include "Node.h"
-#include "Edge.h"
+#include "Node.hpp"
+#include "Edge.hpp"
 
 template<class T>
 class Graph {
@@ -139,4 +139,4 @@ Graph<T>::Graph() : _nodes{}, _ids{}{
 }
 
 
-#endif //FEUP_CAL_PARKING_GRAPH_H
+#endif //FEUP_CAL_PARKING_GRAPH_HPP

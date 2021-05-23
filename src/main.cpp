@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 
-#include "model/Graph/Graph.h"
+#include "model/Graph/Graph.hpp"
 #include "model/StreetMap/StreetMap.h"
-#include "algorithms/search.h"
+#include "algorithms/search.hpp"
 
 template<class T>
 void describeGraph(Graph<T> &g) {

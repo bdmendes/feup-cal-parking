@@ -1,7 +1,7 @@
 #ifndef FEUP_CAL_PARKING_STREETMAP_H
 #define FEUP_CAL_PARKING_STREETMAP_H
 
-#include "../Graph/Graph.h"
+#include "../Graph/Graph.hpp"
 #include "../MapPoint/MapPoint.h"
 #include "graphviewer.h"
 #include <fstream>
