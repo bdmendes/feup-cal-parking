@@ -91,7 +91,7 @@ static double euclideanDistance(Node<MapPoint> &current, Node<MapPoint> &target)
         + pow(current.getElement().getY() - target.getElement().getY(), 2));
 }
 
-void AStar(const MapPoint &origin, StreetMap &graph, const MapPoint &target) {
+void AStar(const MapPoint &origin, Graph<MapPoint> &graph, const MapPoint &target) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -112,15 +112,18 @@ void AStar(const MapPoint &origin, StreetMap &graph, const MapPoint &target) {
 
     while (!q.empty()){
         auto currNode = q.extractMin();
-        if (currNode->getElement() == target) break;
         for (auto& e: currNode->getAdjacent()){
             auto nextNode = e->getTarget();
-            if (nextNode->getDist() > currNode->getDist() + e->getWeight()){
+            double heuristic = euclideanDistance(*nextNode, *endNode);
+            double newDist = currNode->getDist() + e->getWeight() + heuristic;
+            if (nextNode->getDist() > newDist){
                 bool alreadyQueued = nextNode->getDist() != INF;
-                nextNode->setDist(currNode->getDist() + e->getWeight()
-                    + euclideanDistance(*nextNode, *endNode));
+                nextNode->setDist(newDist);
                 nextNode->setPath(currNode);
-                if (alreadyQueued){
+                if (nextNode->getElement() == target){
+                    return;
+                }
+                else if (alreadyQueued){
                     q.decreaseKey(nextNode);
                 } else {
                     q.insert(nextNode);

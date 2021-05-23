@@ -130,7 +130,7 @@ void Node<T>::setPath(Node<T>* newPath) {
 
 template<class T>
 bool Node<T>::operator==(const Node<T>& node) const {
-    return this->getElement() == node.getElement();
+    return this->getElement() == node.getElement() && this->getId() == node.getId();
 }
 
 template<class T>

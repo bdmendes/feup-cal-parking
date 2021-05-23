@@ -16,7 +16,7 @@ set(GOOGLETEST_PATH lib/googletest-master)
 add_subdirectory(${GOOGLETEST_PATH})
 
 # Tests executables
-add_executable(TESTS test/test.cpp test/algorithm/shortestdistance.cpp src/model/Graph/Graph.hpp src/model/Graph/Node.hpp src/model/StreetMap/MapPoint.cpp src/model/StreetMap/MapPoint.h src/model/Graph/Edge.hpp test/algorithm/search.cpp test/algorithm/tsp.cpp)
+add_executable(TESTS test/test.cpp test/algorithm/shortestdistance_test.cpp src/model/Graph/Graph.hpp src/model/Graph/Node.hpp src/model/StreetMap/MapPoint.cpp src/model/StreetMap/MapPoint.h src/model/Graph/Edge.hpp test/algorithm/search_test.cpp test/algorithm/tsp_test.cpp)
 
 target_link_libraries(TESTS gtest_main gmock_main)
 add_test(NAME TESTS COMMAND TESTS)
