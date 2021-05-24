@@ -131,7 +131,9 @@ void Menu::importMap(const std::string& input){
     std::string edges;
     std::istringstream ss(input);
     std::string sep = ",";
-    ss >> nodesXY >> sep >> nodesLL >> sep >> edges;
+    std::getline(ss, nodesXY, ',');
+    std::getline(ss, nodesLL, ',');
+    std::getline(ss, edges, ',');
     _map.readFromFile(nodesXY, nodesLL, edges);
     _possibleTSP = false;
     _loaded = true;
