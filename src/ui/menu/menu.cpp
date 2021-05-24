@@ -48,18 +48,21 @@ void Menu::show(){
                 calculateConnectivity(_map, _stopPoints, _source);
                 break;
             } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 unsigned long nodeId = std::stoul(to_words(input).at(1)) ;
                 if (_map.findNodeById(nodeId) == nullptr)
                     throw std::logic_error("Node not found");
                 else _source = _map.findNodeById(nodeId);
                 break;
             } else if (validInput1Cmd1ArgDigits(input, "choose_destination")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 unsigned long nodeId = std::stoul(to_words(input).at(1));
                 if (_map.findNodeById(nodeId) == nullptr)
                     throw std::logic_error("Node not found");
                 else _destination = _map.findNodeById(nodeId);
                 break;
             } else if (validInput1Cmd1ArgDigits(input, "mark_works")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 unsigned long edgeId = std::stoul(to_words(input).at(1));
                 Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
                 if (edgeToRemove == nullptr)
@@ -67,6 +70,7 @@ void Menu::show(){
                 else _map.removeEdge(edgeToRemove);
                 break;
             } else if (validInput1Cmd2ArgsFree(input, "add_stop")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 std::vector<std::string> words = to_words(input);
                 if (words.back() != "true" && words.back() != "false"){
                     throw std::invalid_argument("Last argument must be true or false");
@@ -83,6 +87,7 @@ void Menu::show(){
                 std::cout << "Stop point added, calculate connectivity again\n";
                 break;
             } else if (validInput1Cmd1ArgFree(input, "remove_stop")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 std::vector<std::string> words = to_words(input);
                 for (const auto& d : words.at(1)){
                     if (!isdigit(d)) throw std::invalid_argument("First argument must be a digit");
@@ -104,6 +109,7 @@ void Menu::show(){
                 calculateRoute();
                 break;
             } else if (validInput1Cmd(input, "show_map")) {
+                if (!_loaded) throw std::logic_error("Load graph first!");
                 _map.showGraph();
                 break;
             }
