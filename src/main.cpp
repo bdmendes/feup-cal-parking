@@ -59,11 +59,12 @@ int main() {
 
     std::cout << totalDistance << std::flush;
 
-    testPerformanceKosaraju(5, 100, 10100, 1000);
+    /*testPerformanceKosaraju(5, 100, 10100, 1000);
     testPerformanceBfs(5, 100, 10100, 1000);
     testPerformanceDfs(5, 100, 10100, 1000);
     testPerformanceDijkstra(5, 100, 10100, 1000);
-    testPerformanceAStar(5, 100, 10100, 1000);
+    testPerformanceAStar(5, 100, 10100, 1000);*/
+    testPerformanceFloydWarshall(5, 100, 500, 100);
 
     map.showGraph();
 }

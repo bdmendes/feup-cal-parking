@@ -52,6 +52,20 @@ void testPerformanceAStar(unsigned iterations, unsigned minSize, unsigned maxSiz
     }
 }
 
+void testPerformanceFloydWarshall(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+    std::ofstream csv("src/performance/results/floydwarshall.csv");
+    for (unsigned size = minSize; size < maxSize; size += step) {
+        auto elapsed = std::chrono::duration<double>::zero();
+        for (unsigned k = 0; k < iterations; ++k) {
+            Graph<MapPoint> graph = generateRandomMap(size);
+            auto start = std::chrono::high_resolution_clock::now();
+            floydWarshall(graph);
+            auto end = std::chrono::high_resolution_clock::now();
+            elapsed += (end - start);
+        }
+        csv << size << "," << (elapsed.count() / iterations) << "\n";
+    }
+}
 
 
 #endif //FEUP_CAL_PARKING_SHORTESTDISTANCE_PERFORMANCE_HPP
