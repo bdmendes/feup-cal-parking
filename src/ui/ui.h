@@ -44,6 +44,7 @@ protected:
      * @return the validity of the input
      */
     static bool validInput1Cmd1Arg(const std::string& input, const std::string &cmd, const std::string &arg);
+    static bool validInput1Cmd1ArgDigits(const std::string& input, const std::string &cmd);
 
     /**
      * Whether the input is three words, the first being cmd and the second and third valid digits
@@ -63,6 +64,8 @@ protected:
                              const std::string& message = "Available commands:");
 
     static bool validInput1Cmd1ArgFree(const std::string& input, const std::string &cmd);
+
+    static bool validInput1Cmd2ArgsFree(const std::string &input, const std::string &cmd);
 
     /**
      * Print "Unrecognized command. Try again: "
@@ -89,9 +92,11 @@ protected:
 
     std::vector<bool> _stopPointsShallPark;
 
-    float _iFactor = 0.05, _jFactor = 0.9, _kFactor = 0.05, _maxParkWalk = 500;
+    float _iFactor = 0.2, _jFactor = 0.4, _kFactor = 0.4, _maxParkWalk = 200;
 
     bool _possibleTSP = false;
+
+    bool _loaded = false;
 };
 
 #endif

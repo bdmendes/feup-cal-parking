@@ -10,7 +10,9 @@ public:
     explicit Menu(StreetMap& map);
     void show() override;
 private:
-    void importMap();
+    void calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source);
+    void defaultImportMap();
+    void importMap(const std::string& input);
     void calculateRoute();
     StreetMap* getSimplifiedMap(std::vector<Node<MapPoint>*> path);
 };

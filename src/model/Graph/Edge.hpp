@@ -17,6 +17,8 @@ public:
 
     id_t getId() const;
 
+    bool operator==(const Edge<T>& edge) const;
+
 private:
     id_t _id;
     double _weight;
@@ -47,6 +49,11 @@ void Edge<T>::setWeight(double weight) {
 template<class T>
 id_t Edge<T>::getId() const {
     return _id;
+}
+
+template<class T>
+bool Edge<T>::operator==(const Edge<T> &edge) const {
+    return _id == edge.getId();
 }
 
 

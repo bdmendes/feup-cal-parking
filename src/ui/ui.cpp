@@ -44,6 +44,11 @@ bool UI::validInput1Cmd2ArgsDigit(const std::string &input, const std::string &c
            && isdigit(words.at(1)) && isdigit(words.at(2),acceptFloatArg2);
 }
 
+bool UI::validInput1Cmd2ArgsFree(const std::string &input, const std::string &cmd) {
+    std::vector<std::string> words = to_words(input);
+    return words.size() == 3 && words.at(0) == cmd;
+}
+
 void UI::printOptions(const std::vector<std::string> &options, const std::string& message) {
     std::cout << message << '\n';
     for (const auto& o: options) std::cout << "-> " << o << '\n';
@@ -52,6 +57,15 @@ void UI::printOptions(const std::vector<std::string> &options, const std::string
 
 void UI::printError() {
     std::cout << "Unrecognized command. Try again.\n";
+}
+
+bool UI::validInput1Cmd1ArgDigits(const std::string &input, const std::string &cmd) {
+    std::vector<std::string> words = to_words(input);
+    if(words.size() != 2) return false;
+    for(char c : words.at(1)){
+        if(!isdigit(c)) return false;
+    }
+    return words.at(0) == cmd && words.size() == 2;
 }
 
 

@@ -35,6 +35,10 @@ public:
 
     std::vector<std::vector<double>> getAdjacencyMatrix() const;
 
+    Edge<T> *findEdgeById(id_t id) const;
+
+    void removeEdge(Edge<T>& edge);
+
 protected:
     id_t getMaxId() const;
     std::vector<Node<T> *> _nodes;
@@ -168,6 +172,27 @@ id_t Graph<T>::getMaxId() const {
         }
     }
     return maxId;
+}
+
+template<class T>
+Edge<T> *Graph<T>::findEdgeById(id_t id) const {
+    for (Node<T>* n : _nodes){
+        for (Edge<T>* e : n->getAdjacent()){
+            if (e->getId() == id)
+                return e;
+        }
+    }
+    return nullptr;
+}
+
+template<class T>
+void Graph<T>::removeEdge(Edge<T>& edge) {
+    for (Node<T>* n : _nodes){
+        for (Edge<T>* e : n->getAdjacent()){
+            if (*e == edge)
+               n->removeEdge(e->getTarget());
+        }
+    }
 }
 
 #endif //FEUP_CAL_PARKING_GRAPH_HPP
