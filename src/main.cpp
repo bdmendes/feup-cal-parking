@@ -62,5 +62,5 @@ int main() {
 
     std::cout << totalDistance << std::flush;
 
-    map.showGraph(describedPaths, sf::Color::Green, sf::Color::Yellow);
+    map.showGraph(describedPaths, sf::Color::Blue, sf::Color::Green, sf::Color::Cyan, sf::Color::Red, sf::Color::Red, 500);
 }

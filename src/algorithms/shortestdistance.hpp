@@ -64,6 +64,9 @@ inline std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &ori
     if (res.at(0)->getElement() != sourceNode->getElement()){
         throw std::logic_error("Invalid path");
     }
+    if (res.back()->getElement() != dest){
+        throw std::logic_error("Invalid path");
+    }
     return res;
 }
 
