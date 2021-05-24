@@ -1,21 +1,13 @@
 
-#ifndef FEUP_CAL_PARKING_SEARCH_PERFORMANCE_HPP
-#define FEUP_CAL_PARKING_SEARCH_PERFORMANCE_HPP
+#ifndef FEUP_CAL_PARKING_SEARCH_PERFORMANCE_CPP
+#define FEUP_CAL_PARKING_SEARCH_PERFORMANCE_CPP
 
- Graph<int> generateRandomGraph(unsigned size) {
-    Graph<int> graph{};
-    id_t nodeId = 1;
-    for (unsigned i = 0; i < size; ++i) {
-        graph.addNode(nodeId++, rand() % (10 * size));
-    }
-    id_t edgeId = 1;
-    for (Node<int> *node : graph.getNodes()) {
-        node->addEdge(edgeId++, graph.findNodeById(rand() % graph.getNumberOfNodes() + 1), rand() % (10 * size));
-    }
-    return graph;
-}
+#include "performance.hpp"
+#include "../algorithms/search.hpp"
+#include <chrono>
+#include <fstream>
 
-void testPerformanceKosaraju(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+inline void testPerformanceKosaraju(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/kosaraju.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -30,7 +22,7 @@ void testPerformanceKosaraju(unsigned iterations, unsigned minSize, unsigned max
     }
 }
 
-void testPerformanceBfs(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+inline void testPerformanceBfs(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/bfs.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -46,7 +38,7 @@ void testPerformanceBfs(unsigned iterations, unsigned minSize, unsigned maxSize,
     }
 }
 
-void testPerformanceDfs(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+inline void testPerformanceDfs(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/dfs.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -61,4 +53,4 @@ void testPerformanceDfs(unsigned iterations, unsigned minSize, unsigned maxSize,
     }
 }
 
-#endif //FEUP_CAL_PARKING_SEARCH_PERFORMANCE_HPP
+#endif //FEUP_CAL_PARKING_SEARCH_PERFORMANCE_CPP
