@@ -5,9 +5,8 @@
 #include "../model/StreetMap/MapPoint.h"
 #include "../model/Graph/Graph.hpp"
 
-std::vector<MapPoint*> getPathAfterParkReplacement(const Graph<MapPoint>& graph, const MapPoint& source, const MapPoint& target,
-                                 const std::vector<MapPoint*>& stopPoints, const std::vector<bool>& shallPark,
-                                 std::vector<double>& parkDistance, std::vector<std::vector<MapPoint*>>& parkWalkPaths,
-                                 int i, int j, int k, double maxDistance);
+std::vector<Node<MapPoint>*>
+getPathAfterParkReplacement(const Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints, Node<MapPoint>* endNode,
+                            const std::vector<bool>& shallPark, int iFactor, int jFactor, int kFactor, double maxDistance);
 
 #endif //FEUP_CAL_PARKING_PARKSELECTOR_H

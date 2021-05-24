@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "StreetMap.h"
+#include "../../controller/parkselector.h"
 
 StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
         _gv(), _width(windowWidth), _height(windowHeight) {

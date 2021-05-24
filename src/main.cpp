@@ -4,6 +4,7 @@
 #include "model/Graph/Graph.hpp"
 #include "model/StreetMap/StreetMap.h"
 #include "algorithms/search.hpp"
+#include "controller/parkselector.h"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
