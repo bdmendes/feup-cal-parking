@@ -19,16 +19,18 @@ void Menu::show(){
               << "Welcome, Driver\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
-            "import_map - import map from files. Usage: import_map [pathNodesXY,pathNodesLL,pathEdges]",
-            "analyse_connectivity - check if the graph is connected",
-            "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
-            "choose_destination - choose the trip's destination point",
-            "start_works - mark works on public roads",
-            "conclude_works - conclude works on public roads",
-            "add_stop - add a stop/crossing point ",
-            "remove_stop - remove a stop/crossing point",
+            "import_map [pathNodesXY,pathNodesLL,pathEdges] - import map from files",
+            "analyse_connectivity - check if the problem is solvable",
+            "choose_start <nodeID> - choose the trip's starting point",
+            "choose_destination <nodeID> - choose the trip's destination point",
+            "start_works <edgeID> - mark works on public roads",
+            "conclude_works <edgeID> - conclude works on public roads",
+            "add_stop <nodeID> <true/false> - add a stop point, and specify whether to park",
+            "remove_stop <nodeID> - remove a stop point",
+            "show_map - show unprocessed map",
             "calculate_route - calculate the best route",
-            "show_map - show map and eventually the calculated route"
+            "set_preference [0/1/2] - price",
+            "set_maxParkDistance <dist> - restrict your parking choices"
     };
     printOptions(content);
 
@@ -98,6 +100,7 @@ void Menu::defaultImportMap() {
     std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::string edges("maps/porto/porto_strong_edges.txt");
     _map.readFromFile(nodesXY, nodesLL, edges);
+    _possibleTSP = false;
 }
 
 void Menu::importMap(const std::string& input){
@@ -108,11 +111,19 @@ void Menu::importMap(const std::string& input){
     std::string sep = ",";
     ss >> nodesXY >> sep >> nodesLL >> sep >> edges;
     _map.readFromFile(nodesXY, nodesLL, edges);
+    _possibleTSP = false;
 }
 
 void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source) {
-    if (isStronglyConnected(_map)) std::cout << "The graph is strongly connected\n";
-    else if (isConnected(_map, stopPoints, source)) std::cout << "The graph is connected\n";
+    if (isStronglyConnected(_map)){
+        std::cout << "The graph is strongly connected\n";
+        _possibleTSP = true;
+    } else if (isConnected(_map, stopPoints, source)){
+        std::cout << "The graph is connected\n";
+        _possibleTSP = true;
+    } else {
+        _possibleTSP = false;
+    }
 }
 
 void Menu::calculateRoute() {

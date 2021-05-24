@@ -23,6 +23,9 @@ void StreetMap::readFromFile(const std::string& nodesXYPath,
     if (!nodesXY || !nodesLatLng || !edges){
         throw std::invalid_argument("Invalid paths, check your working directory");
     }
+    for (auto& n: _gv.getNodes()){
+        _gv.removeNode(n->getId());
+    }
     retrieveDimensionLimits(nodesXY);
     nodesXY.seekg(0);
     readNodes(nodesXY, nodesLatLng);
