@@ -6,8 +6,7 @@
 #include "algorithms/search.hpp"
 #include "controller/parkselector.h"
 #include "algorithms/shortestdistance.hpp"
-#include "performance/search_performance.cpp"
-#include "performance/shortestdistance_performance.cpp"
+#include "performance/performance.h"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
@@ -65,6 +64,8 @@ int main() {
     testPerformanceDijkstra(5, 100, 10100, 1000);
     testPerformanceAStar(5, 100, 10100, 1000);
     testPerformanceFloydWarshall(5, 100, 500, 100);
+    testPerformanceNearestNeighbour(5, 100, 500, 100);
+
 
     map.showGraph();
 }

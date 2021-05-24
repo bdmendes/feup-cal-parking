@@ -1,11 +1,8 @@
 
-#ifndef FEUP_CAL_PARKING_SHORTESTDISTANCE_PERFORMANCE_CPP
-#define FEUP_CAL_PARKING_SHORTESTDISTANCE_PERFORMANCE_CPP
-
-#include "performance.hpp"
+#include "performance.h"
 #include "../algorithms/shortestdistance.hpp"
 
-inline void testPerformanceDijkstra(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+void testPerformanceDijkstra(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/dijkstra.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -21,7 +18,7 @@ inline void testPerformanceDijkstra(unsigned iterations, unsigned minSize, unsig
     }
 }
 
-inline void testPerformanceAStar(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+void testPerformanceAStar(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/astar.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -38,7 +35,7 @@ inline void testPerformanceAStar(unsigned iterations, unsigned minSize, unsigned
     }
 }
 
-inline void testPerformanceFloydWarshall(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+void testPerformanceFloydWarshall(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
     std::ofstream csv("src/performance/results/floydwarshall.csv");
     for (unsigned size = minSize; size < maxSize; size += step) {
         auto elapsed = std::chrono::duration<double>::zero();
@@ -52,6 +49,3 @@ inline void testPerformanceFloydWarshall(unsigned iterations, unsigned minSize, 
         csv << size << "," << (elapsed.count() / iterations) << "\n";
     }
 }
-
-
-#endif //FEUP_CAL_PARKING_SHORTESTDISTANCE_PERFORMANCE_CPP
