@@ -13,18 +13,21 @@ public:
     void readFromFile(const std::string& nodesXYPath,
                       const std::string& nodesLatLongPath, const std::string& edgesPath);
     void showGraph();
-    void showGraph(const std::vector<std::vector<Node<MapPoint>*>>& paths, sf::Color edgeColor, sf::Color pointsColor);
+    void showGraph(const std::vector<std::vector<Node<MapPoint> *>> &paths,
+                   sf::Color edgeColor, sf::Color pointsColor, sf::Color parksColor,
+                   sf::Color sourceColor, sf::Color targetColor, useconds_t colorDelay);
     Node<MapPoint> * addNode(id_t id, const MapPoint &element) override;
     Edge<MapPoint> * addEdge(id_t id, Node<MapPoint> *source, Node<MapPoint> *target, double weight) override;
     void removeNode(const MapPoint &element) override;
     void removeEdge(const MapPoint &source, const MapPoint &target) override;
 private:
     void colorPath(const std::vector<Node<MapPoint> *> &path,
-                   sf::Color edgeColor, sf::Color pointsColor);
+                   sf::Color edgeColor, sf::Color pointsColor,
+                   sf::Color parksColor, useconds_t delay,
+                   bool colorFirst, bool colorLast,
+                   sf::Color sourceColor, sf::Color targetColor);
     void colorNode(id_t id, sf::Color color);
     void colorEdge(id_t id, sf::Color color);
-    void resetEdgeColors();
-    void resetNodeColors();
     void retrieveDimensionLimits(std::ifstream &nodesXY);
     void readNodes(std::ifstream& nodesXY, std::ifstream& nodesLatLng);
     void readEdges(std::ifstream& edges);
