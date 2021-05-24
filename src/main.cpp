@@ -26,7 +26,7 @@ int main() {
 
     StreetMap map(1900, 1000);
 
-    IntroMenu introMenu(map);
+    Menu introMenu(map);
     introMenu.show();
 
     map.showGraph();

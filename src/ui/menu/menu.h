@@ -5,10 +5,10 @@
 #include "../../model/Graph/Graph.hpp"
 #include "../../model/StreetMap/StreetMap.h"
 
-class IntroMenu : public UI {
+class Menu : public UI {
 public:
 
-    explicit IntroMenu(StreetMap& map);
+    explicit Menu(StreetMap& map);
 
     void show() override;
 

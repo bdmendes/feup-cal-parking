@@ -5,16 +5,23 @@
 
 using namespace util;
 
-IntroMenu::IntroMenu(StreetMap& map) : UI(map){}
+Menu::Menu(StreetMap& map) : UI(map){}
 
-void IntroMenu::show(){
+void Menu::show(){
     std::cout << SEPARATOR
               << "Welcome\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
             "import map - import map from files",
-            "edit map - remove or add nodes and vertices",
-            "calculate trip - set starting, stop and arrival points"
+            "analyse connectivity - check if the graph is connected",
+            "choose start - choose the trip's starting point",
+            "choose destination - choose the trip's destination point",
+            "start works - mark works on public roads",
+            "conclude works - conclude works on public roads",
+            "add stop - add a stop/crossing point ",
+            "remove stop - remove a stop/crossing point",
+            "calculate route - calculate the best route",
+            "show map - show map and eventually the calculated route"
     };
     printOptions(content);
 
@@ -25,11 +32,35 @@ void IntroMenu::show(){
             importMap();
             break;
         }
-        else if (validInput1Cmd1Arg(input,"edit","map")){
+        else if (validInput1Cmd1Arg(input,"analyse","connectivity")){
             //TODO
             break;
         }
-        else if (validInput1Cmd1Arg(input,"calculate","trip")){
+        else if (validInput1Cmd1Arg(input,"choose","start")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"choose","destination")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"start","works")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"conclude","works")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"add","stop")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"remove","stop")){
+            //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"calculate","route")){
             //TODO
             break;
         }
@@ -40,7 +71,7 @@ void IntroMenu::show(){
 }
 
 
-void IntroMenu::importMap() {
+void Menu::importMap() {
     std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
     std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::string edges("maps/porto/porto_strong_edges.txt");
