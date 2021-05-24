@@ -33,7 +33,7 @@ void Menu::show(){
             break;
         }
         else if (validInput1Cmd1Arg(input,"analyse","connectivity")){
-            //TODO
+            //calculateConectivity(_map)
             break;
         }
         else if (validInput1Cmd1Arg(input,"choose","start")){
@@ -62,6 +62,10 @@ void Menu::show(){
         }
         else if (validInput1Cmd1Arg(input,"calculate","route")){
             //TODO
+            break;
+        }
+        else if (validInput1Cmd1Arg(input,"show","map")){
+            map.showGraph();
             break;
         }
         else printError();

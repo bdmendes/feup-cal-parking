@@ -29,5 +29,4 @@ int main() {
     Menu introMenu(map);
     introMenu.show();
 
-    map.showGraph();
 }
