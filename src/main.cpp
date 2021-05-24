@@ -60,6 +60,7 @@ int main() {
 
     testPerformanceKosaraju(5, 100, 10100, 1000);
     testPerformanceBfs(5, 100, 10100, 1000);
+    testPerformanceDfs(5, 100, 10100, 1000);
 
     map.showGraph();
 }

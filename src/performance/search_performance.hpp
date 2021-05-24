@@ -46,4 +46,19 @@ void testPerformanceBfs(unsigned iterations, unsigned minSize, unsigned maxSize,
     }
 }
 
+void testPerformanceDfs(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step) {
+    std::ofstream csv("src/performance/results/dfs.csv");
+    for (unsigned size = minSize; size < maxSize; size += step) {
+        auto elapsed = std::chrono::duration<double>::zero();
+        for (unsigned k = 0; k < iterations; ++k) {
+            Graph<int> graph = generateRandomGraph(size);
+            auto start = std::chrono::high_resolution_clock::now();
+            auto visited = dfsAll({}, graph);
+            auto end = std::chrono::high_resolution_clock::now();
+            elapsed += (end - start);
+        }
+        csv << size << "," << (elapsed.count() / iterations) << "\n";
+    }
+}
+
 #endif //FEUP_CAL_PARKING_SEARCH_PERFORMANCE_HPP
