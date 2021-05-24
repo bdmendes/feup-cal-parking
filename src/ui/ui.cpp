@@ -35,7 +35,6 @@ bool UI::validInput1Cmd1Arg(const std::string& input, const std::string &cmd, co
 
 bool UI::validInput1Cmd1ArgFree(const std::string& input, const std::string &cmd){
     std::vector<std::string> words = to_words(input);
-    if (words.size() == 2 && std::count(words.at(1).begin(), words.at(1).end(), ',') != 2) return false;
     return (words.size() == 2 || words.size() == 1) && words.at(0) == cmd;
 }
 

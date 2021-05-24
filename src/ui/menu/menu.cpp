@@ -38,6 +38,8 @@ void Menu::show(){
                 if (input == EXIT) return;
                 else if (validInput1Cmd1ArgFree(input, "import_map")) {
                     std::vector<std::string> words = to_words(input);
+                    if (words.size() == 2 && std::count(words.at(1).begin(), words.at(1).end(), ',') != 2)
+                        throw std::logic_error("Invalid paths, check your working directory");
                     if (words.size() == 1) defaultImportMap();
                     else importMap(words.at(1));
                     break;
