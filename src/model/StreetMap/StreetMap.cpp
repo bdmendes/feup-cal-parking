@@ -25,6 +25,9 @@ void StreetMap::readFromFile(const std::string& nodesXYPath,
     }
     for (auto& n: _gv.getNodes()){
         _gv.removeNode(n->getId());
+        _gvNodes.erase(n->getId());
+        auto node = findNodeById(n->getId());
+        removeNode(node->getElement());
     }
     retrieveDimensionLimits(nodesXY);
     nodesXY.seekg(0);
@@ -169,10 +172,8 @@ void StreetMap::colorPath(const std::vector<Node<MapPoint> *> &path,
                           bool colorFirst, bool colorLast,
                           sf::Color sourceColor, sf::Color targetColor) {
     _gvNodes.at(path.front()->getId())->enable();
-    if (pointsColor != sf::Color::Transparent){
-        colorNode(path.front()->getId(), colorFirst ? sourceColor :
+    colorNode(path.front()->getId(), colorFirst ? sourceColor :
         (path.front()->getElement().isPark() ? parksColor : pointsColor));
-    }
     for (int i = 0; i < path.size()-1; i++){
         bool foundNext = false;
         for (const auto& e : path.at(i)->getAdjacent()){
@@ -188,17 +189,15 @@ void StreetMap::colorPath(const std::vector<Node<MapPoint> *> &path,
         }
     }
     _gvNodes.at(path.back()->getId())->enable();
-    if (pointsColor != sf::Color::Transparent){
-        colorNode(path.back()->getId(), colorLast ? targetColor :
+    colorNode(path.back()->getId(), colorLast ? targetColor :
         (path.back()->getElement().isPark() ? parksColor : pointsColor));
-    }
 }
 
 void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carPaths,
                           const std::vector<std::vector<Node<MapPoint> *>> &walkPaths,
                           useconds_t colorDelay) {
     _gv.createWindow(_width, _height);
-    std::cout << "\nCOLOR MEANING\nRed - source/target node\nMagenta - stop point\nYellow - walk path to park\nBlue - car drive path\n";
+    std::cout << "\nCOLOR MEANING\nRed - source/target node\nMagenta - stop point\nYellow - walk path to park\nBlue - car drive path\nWhite - available park\n";
     std::cout << "\nShowcasing driver path... Please wait!" << std::endl;
     for (int i = 0; i < carPaths.size(); i++){
         colorPath(carPaths.at(i), sf::Color::Blue, sf::Color::Magenta, sf::Color::Yellow, colorDelay,
@@ -208,7 +207,7 @@ void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carP
     for (const auto & walkPath : walkPaths){
         if (walkPath.empty()) continue;
         colorPath(walkPath, sf::Color::Yellow, sf::Color::Transparent, sf::Color::Transparent, colorDelay,
-                  false, false, sf::Color::Magenta, sf::Color::Yellow);
+                  true, true, sf::Color::Magenta, sf::Color::Yellow);
     }
     std::cout << "Close window to go back" << std::endl;
     _gv.join();

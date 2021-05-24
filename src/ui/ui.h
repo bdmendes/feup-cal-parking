@@ -90,7 +90,7 @@ protected:
 
     std::vector<bool> _stopPointsShallPark;
 
-    float _iFactor = 0.05, _jFactor = 0.9, _kFactor = 0.05, _maxParkWalk = 500;
+    float _iFactor = 0.2, _jFactor = 0.4, _kFactor = 0.4, _maxParkWalk = 250;
 
     bool _possibleTSP = false;
 };
