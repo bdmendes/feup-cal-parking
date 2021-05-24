@@ -6,7 +6,7 @@
 #include <limits.h>
 
 template <class T>
-double tspNearestNeighbour(Node<T>* source, const std::vector<Node<T>*>& intermediate, Node<T>* target,
+inline double tspNearestNeighbour(Node<T>* source, const std::vector<Node<T>*>& intermediate, Node<T>* target,
                                 std::vector<Node<T>*>& foundIntermediate){
     foundIntermediate = std::vector<Node<T>*>();
     double totalDistance = 0;
@@ -51,7 +51,7 @@ double tspNearestNeighbour(Node<T>* source, const std::vector<Node<T>*>& interme
 }
 
 template <class T>
-double tspBruteForce(Node<T>* source, const std::vector<Node<T>*>& intermediate, Node<T>* target,
+inline double tspBruteForce(Node<T>* source, const std::vector<Node<T>*>& intermediate, Node<T>* target,
                            std::vector<Node<T>*>& foundIntermediate) {
     double bestDist = INT_MAX;
     std::vector<Node<T>*> bestTravel;

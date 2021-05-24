@@ -4,6 +4,8 @@
 #include "model/Graph/Graph.hpp"
 #include "model/StreetMap/StreetMap.h"
 #include "algorithms/search.hpp"
+#include "controller/parkselector.h"
+#include "algorithms/shortestdistance.hpp"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
@@ -25,5 +27,35 @@ int main() {
     std::string edges("maps/porto/porto_strong_edges.txt");
     StreetMap map(1900, 1000);
     map.readFromFile(nodesXY, nodesLL, edges);
+
+    /* Assemble actual path */
+    std::vector<Node<MapPoint>*> stopPoints;
+    auto source = map.findNodeById(37);
+    auto target = map.findNodeById(124);
+    auto p1 = map.findNodeById(67);
+    auto p2 = map.findNodeById(89);
+    if (!source || !target || !p1 || !p2){
+        throw std::logic_error("Nodes not found");
+    }
+    stopPoints.push_back(p1);
+    stopPoints.push_back(p2);
+    auto path = getPathAfterParkReplacement(map, stopPoints, target, {true, true}, 0.5, 0.3, 0.2, 200);
+    auto walkPaths = getWalkPaths(map, stopPoints, path);
+    std::vector<Node<MapPoint>*> fullPath;
+    fullPath.push_back(source);
+    for (const auto& p : path) fullPath.push_back(p);
+    fullPath.push_back(target);
+
+    /* Assemble paths */
+    std::vector<std::vector<Node<MapPoint>*>> describedPaths;
+    double totalDistance = 0;
+    for (int i = 0; i < fullPath.size()-1; i++){
+        AStar(fullPath.at(i)->getElement(), map, fullPath.at(i+1)->getElement());
+        auto p = getAStarPath(map, fullPath.at(i)->getElement(), fullPath.at(i+1)->getElement());
+        totalDistance += distance(p);
+    }
+
+    std::cout << totalDistance << std::flush;
+
     map.showGraph();
 }
