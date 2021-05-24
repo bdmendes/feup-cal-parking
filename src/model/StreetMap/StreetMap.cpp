@@ -42,8 +42,19 @@ void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
     for (size_t i = 0; i < numberOfNodes; ++i) {
         nodesXY >> sep >> nodeId >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> nodeId >> sep >> lat >> sep >> lon >> sep;
-        MapPoint point(x, y, lat, lon, std::rand() % 20 == 0);
-        addNode(nodeId, point);
+        bool isPark = std::rand() % 20 == 0;
+        if (isPark){
+            unsigned capacity = 20 + std::rand() % 60;
+            unsigned freeSpots = capacity / (2 + std::rand() % 3);
+            double fixedTax = 3 + std::rand() % 7;
+            double dynamicTax = fixedTax * (0.1*(2 + std::rand() % 3));
+            ParkFields parkFields = {capacity, freeSpots, fixedTax, dynamicTax};
+            MapPoint point(x, y, lat, lon, true, parkFields);
+            addNode(nodeId, point);
+        } else {
+            MapPoint point(x, y, lat, lon);
+            addNode(nodeId, point);
+        }
     }
 }
 

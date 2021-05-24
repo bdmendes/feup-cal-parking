@@ -1,5 +1,5 @@
-#ifndef FEUP_CAL_PARKING_CONECTIVITY_HPP
-#define FEUP_CAL_PARKING_CONECTIVITY_HPP
+#ifndef FEUP_CAL_PARKING_CONNECTIVITY_HPP
+#define FEUP_CAL_PARKING_CONNECTIVITY_HPP
 
 #include "../algorithms/search.hpp"
 #include "../model/StreetMap/StreetMap.h"
@@ -13,8 +13,8 @@ bool isConnected(const std::vector<Node<MapPoint>*> &stopPoints, const StreetMap
     return res.size() == stopPoints.size();
 }
 
-void calculateConectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints){
+void calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints){
     return isStronglyConnected(map) || isConnected(stopPoints, map);
 }
 
-#endif //FEUP_CAL_PARKING_CONECTIVITY_HPP
+#endif //FEUP_CAL_PARKING_CONNECTIVITY_HPP
