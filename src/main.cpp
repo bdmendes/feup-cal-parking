@@ -5,6 +5,7 @@
 #include "model/StreetMap/StreetMap.h"
 #include "algorithms/search.hpp"
 #include "controller/parkselector.h"
+#include "controller/connectivity.h"
 #include "algorithms/shortestdistance.hpp"
 
 template<class T>
@@ -34,11 +35,14 @@ int main() {
     auto target = map.findNodeById(124);
     auto p1 = map.findNodeById(67);
     auto p2 = map.findNodeById(89);
+
     if (!source || !target || !p1 || !p2){
         throw std::logic_error("Nodes not found");
     }
     stopPoints.push_back(p1);
     stopPoints.push_back(p2);
+    std::cout << isConnected(map, stopPoints) << "\n" << std::flush;
+
     auto path = getPathAfterParkReplacement(map, stopPoints, target, {true, true}, 0.5, 0.3, 0.2, 200);
     auto walkPaths = getWalkPaths(map, stopPoints, path);
     std::vector<Node<MapPoint>*> fullPath;
@@ -53,9 +57,10 @@ int main() {
         AStar(fullPath.at(i)->getElement(), map, fullPath.at(i+1)->getElement());
         auto p = getAStarPath(map, fullPath.at(i)->getElement(), fullPath.at(i+1)->getElement());
         totalDistance += distance(p);
+        describedPaths.push_back(p);
     }
 
     std::cout << totalDistance << std::flush;
 
-    map.showGraph();
+    map.showGraph(describedPaths, sf::Color::Green, sf::Color::Yellow);
 }

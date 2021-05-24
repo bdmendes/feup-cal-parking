@@ -5,12 +5,13 @@
 
 StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
         _gv(), _width(windowWidth), _height(windowHeight) {
+    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
 }
 
 void StreetMap::showGraph() {
-    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
     _gv.createWindow(_width, _height);
     _gv.join();
+    _gv.closeWindow();
 }
 
 void StreetMap::readFromFile(const std::string& nodesXYPath,
@@ -172,4 +173,34 @@ void StreetMap::retrieveDimensionLimits(std::ifstream &nodesXY) {
     _minY = minY;
     _maxX = maxX;
     _maxY = maxY;
+}
+
+void StreetMap::colorPath(const std::vector<Node<MapPoint> *> &path,
+                          sf::Color edgeColor, sf::Color pointsColor) {
+    colorNode(path.at(0)->getId(), pointsColor);
+    for (int i = 0; i < path.size()-1; i++){
+        bool foundNext = false;
+        if (i != 0) colorNode(path.at(i)->getId(), edgeColor);
+        for (const auto& e : path.at(i)->getAdjacent()){
+            if (e->getTarget()->getElement() == path.at(i+1)->getElement()){
+                colorEdge(e->getId(), edgeColor);
+                foundNext = true;
+                break;
+            }
+        }
+        if (!foundNext){
+            throw std::logic_error("Cannot color invalid path");
+        }
+    }
+    colorNode(path.at(path.size()-1)->getId(), pointsColor);
+}
+
+void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &paths,
+                          sf::Color edgeColor, sf::Color pointsColor) {
+    _gv.createWindow(_width, _height);
+    for (const auto& path : paths){
+        colorPath(path, edgeColor, pointsColor);
+    }
+    _gv.join();
+    _gv.closeWindow();
 }
