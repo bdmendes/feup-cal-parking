@@ -18,13 +18,13 @@ void Menu::show(){
             "import_map - import map from files. Usage: import_map [pathNodesXY,pathNodesLL,pathEdges]",
             "analyse_connectivity - check if the graph is connected",
             "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
-            "choose destination - choose the trip's destination point",
-            "start works - mark works on public roads",
-            "conclude works - conclude works on public roads",
-            "add stop - add a stop/crossing point ",
-            "remove stop - remove a stop/crossing point",
-            "calculate route - calculate the best route",
-            "show map - show map and eventually the calculated route"
+            "choose_destination - choose the trip's destination point",
+            "start_works - mark works on public roads",
+            "conclude_works - conclude works on public roads",
+            "add_stop - add a stop/crossing point ",
+            "remove_stop - remove a stop/crossing point",
+            "calculate_route - calculate the best route",
+            "show_map - show map and eventually the calculated route"
     };
     printOptions(content);
 
@@ -48,8 +48,11 @@ void Menu::show(){
                         throw std::logic_error("Node not found");
                     else _source = _map.findNodeById(nodeId);
                     break;
-                } else if (validInput1Cmd1Arg(input, "choose", "destination")) {
-                    //TODO
+                } else if (validInput1Cmd1ArgDigits(input, "choose_destination")) {
+                    unsigned long nodeId = std::stoul(to_words(input).at(1)) - 1;
+                    if (_map.findNodeById(nodeId) == nullptr)
+                        throw std::logic_error("Node not found");
+                    else _destination = _map.findNodeById(nodeId);
                     break;
                 } else if (validInput1Cmd1Arg(input, "start", "works")) {
                     //TODO

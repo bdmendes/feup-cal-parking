@@ -57,6 +57,7 @@ void UI::printError() {
 
 bool UI::validInput1Cmd1ArgDigits(const std::string &input, const std::string &cmd) {
     std::vector<std::string> words = to_words(input);
+    if(words.size() != 2) return false;
     for(char c : words.at(1)){
         if(!isdigit(c)) return false;
     }
