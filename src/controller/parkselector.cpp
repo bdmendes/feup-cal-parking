@@ -18,8 +18,8 @@ static std::vector<Node<MapPoint>*> candidateParks(const Graph<MapPoint>& graph,
     return parks;
 }
 
-static double parkEvaluation(const Graph<MapPoint>& graph, Node<MapPoint>* point,
-                             Node<MapPoint>* park, Node<MapPoint>* endNode, float i, float j, float k){
+static double parkEvaluation(Graph<MapPoint>& graph, Node<MapPoint>* point, Node<MapPoint>* park, Node<MapPoint>* sourceNode,
+                             Node<MapPoint>* endNode, float i, float j, float k, double maxEuclideanDistance){
     if (!park->getElement().isPark()) {
         throw std::invalid_argument("Node is not a park");
     }
@@ -29,18 +29,25 @@ static double parkEvaluation(const Graph<MapPoint>& graph, Node<MapPoint>* point
     auto parkFields = park->getElement().getParkFields();
     double priceEval = parkFields.fixedPrice +
             (((double)parkFields.capacity-parkFields.freeSpots)/parkFields.capacity)*parkFields.capacityTaxFactor;
+    if (priceEval > 10) priceEval = 10; // relax price evaluation
+    priceEval /= 10;
 
     AStar(park->getElement(), graph, endNode->getElement());
     double distanceToDestiny = distance(getAStarPath(graph, park->getElement(), endNode->getElement()));
+    auto fromSourceDist = sourceNode->getElement().euclideanDistance(endNode->getElement());
+    if (distanceToDestiny > 10*fromSourceDist) distanceToDestiny = 10*fromSourceDist;
+    distanceToDestiny /= 10*fromSourceDist;
 
     AStar(point->getElement(), graph, park->getElement());
     double walkDistance = distance(getAStarPath(graph, point->getElement(), park->getElement()));
+    if (walkDistance > 10*maxEuclideanDistance) walkDistance = 10*maxEuclideanDistance;
+    walkDistance /= 10*maxEuclideanDistance;
 
     return i*priceEval + j*walkDistance + k*distanceToDestiny;
 }
 
 std::vector<Node<MapPoint>*>
-getPathAfterParkReplacement(const Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints, Node<MapPoint>* endNode,
+getPathAfterParkReplacement(Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints, Node<MapPoint>* sourceNode, Node<MapPoint>* endNode,
                             std::vector<bool> shallPark, float iFactor, float jFactor, float kFactor, double maxEuclideanDistance){
     if (stopPoints.size() != shallPark.size()){
         throw std::invalid_argument("Whether to stop on each park must be specified");
@@ -51,9 +58,9 @@ getPathAfterParkReplacement(const Graph<MapPoint>& graph, const std::vector<Node
         auto parks = candidateParks(graph, stopPoints.at(i), maxEuclideanDistance);
         if (parks.empty()) continue;
         Node<MapPoint>* bestPark = parks.at(0);
-        double bestEval = parkEvaluation(graph, stopPoints.at(i), bestPark, endNode, iFactor, jFactor, kFactor);
+        double bestEval = parkEvaluation(graph, stopPoints.at(i), bestPark, sourceNode, endNode, iFactor, jFactor, kFactor, maxEuclideanDistance);
         for (int j = 1; j < parks.size(); j++){
-            double eval = parkEvaluation(graph, stopPoints.at(i), parks.at(j), endNode, iFactor, jFactor, kFactor);
+            double eval = parkEvaluation(graph, stopPoints.at(i), parks.at(j), sourceNode, endNode, iFactor, jFactor, kFactor, maxEuclideanDistance);
             if (eval < bestEval){
                 bestEval = eval;
                 bestPark = parks.at(i);
@@ -64,7 +71,7 @@ getPathAfterParkReplacement(const Graph<MapPoint>& graph, const std::vector<Node
     return finalPath;
 }
 
-std::vector<std::vector<Node<MapPoint>*>> getWalkPaths(const Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints,
+std::vector<std::vector<Node<MapPoint>*>> getWalkPaths(Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints,
                                           const std::vector<Node<MapPoint>*>& actualStops){
     if (stopPoints.size() != actualStops.size()){
         throw std::invalid_argument("Stopping vector size does not make sense");
@@ -76,8 +83,8 @@ std::vector<std::vector<Node<MapPoint>*>> getWalkPaths(const Graph<MapPoint>& gr
             || stopPoints.at(i)->getElement().isPark()){
             continue;
         } else {
-            AStar(stopPoints.at(i)->getElement(), graph, actualStops.at(i)->getElement());
-            paths.at(i) = getAStarPath(graph, stopPoints.at(i)->getElement(), actualStops.at(i)->getElement());
+            dijkstra(stopPoints.at(i)->getElement(), graph);
+            paths.at(i) = getDijkstraPath(graph, stopPoints.at(i)->getElement(), actualStops.at(i)->getElement());
         }
     }
     for (int i = 0; i < paths.size(); i++){

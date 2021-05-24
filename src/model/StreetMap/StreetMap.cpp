@@ -10,12 +10,16 @@ StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
 
 void StreetMap::showGraph() {
     _gv.createWindow(_width, _height);
+    std::cout << "Close window to go back" << std::endl;
     _gv.join();
     _gv.closeWindow();
 }
 
 void StreetMap::readFromFile(const std::string& nodesXYPath,
                              const std::string& nodesLatLongPath, const std::string& edgesPath){
+    if (!_nodes.empty()){
+        throw std::logic_error("GraphViewer does not support resetting the graph, please restart");
+    }
     std::ifstream nodesXY(nodesXYPath);
     std::ifstream nodesLatLng(nodesLatLongPath);
     std::ifstream edges(edgesPath);
@@ -41,7 +45,7 @@ void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
     for (size_t i = 0; i < numberOfNodes; ++i) {
         nodesXY >> sep >> nodeId >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> nodeId >> sep >> lat >> sep >> lon >> sep;
-        bool isPark = std::rand() % 100 == 0;
+        bool isPark = std::rand() % 15 == 0;
         if (isPark){
             unsigned capacity = 20 + std::rand() % 60;
             unsigned freeSpots = capacity / (2 + std::rand() % 3);
@@ -186,23 +190,35 @@ void StreetMap::colorPath(const std::vector<Node<MapPoint> *> &path,
         (path.back()->getElement().isPark() ? parksColor : pointsColor));
 }
 
-void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &paths,
-                          sf::Color edgeColor, sf::Color pointsColor, sf::Color parksColor,
-                          sf::Color sourceColor, sf::Color targetColor, useconds_t colorDelay) {
+void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carPaths,
+                          const std::vector<std::vector<Node<MapPoint> *>> &walkPaths,
+                          useconds_t colorDelay) {
     _gv.createWindow(_width, _height);
-    for (int i = 0; i < paths.size(); i++){
-        colorPath(paths.at(i), edgeColor, pointsColor, parksColor, colorDelay,
-                  i == 0, i == paths.size()-1, sourceColor, targetColor);
+    std::cout << "\nCOLOR MEANING\nRed - source/target node\nMagenta - stop point\nYellow - walk path to park\nBlue - car drive path\nWhite - available park\n";
+    std::cout << "\nShowcasing driver path... Please wait!" << std::endl;
+    for (int i = 0; i < carPaths.size(); i++){
+        colorPath(carPaths.at(i), sf::Color::Blue, sf::Color::Magenta, sf::Color::Yellow, colorDelay,
+                  i == 0, i == carPaths.size() - 1, sf::Color::Red, sf::Color::Red);
     }
+    std::cout << "Showcasing walk paths... Please wait!" << std::endl;
+    for (const auto & walkPath : walkPaths){
+        if (walkPath.empty()) continue;
+        colorPath(walkPath, sf::Color::Yellow, sf::Color::Transparent, sf::Color::Transparent, colorDelay,
+                  true, true, sf::Color::Magenta, sf::Color::Yellow);
+    }
+    std::cout << "Close window to go back" << std::endl;
     _gv.join();
     _gv.closeWindow();
 }
 
 void StreetMap::removeEdge(Edge<MapPoint>* edge) {
-    for (Node<MapPoint>* n : getNodes()){
-        for (Edge<MapPoint>* e : n->getAdjacent()){
+    for (Node<MapPoint> *n : getNodes()) {
+        for (Edge<MapPoint> *e : n->getAdjacent()) {
             if (*e == *edge)
                 n->removeEdge(e->getTarget());
         }
     }
+}
+StreetMap::StreetMap() : _width(1900), _height(1000), _gv(){
+    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
 }

@@ -86,7 +86,15 @@ protected:
 
     Node<MapPoint>* _destination = nullptr;
 
-    std::vector<Node<MapPoint>*> stopPoints;
+    std::vector<Node<MapPoint>*> _stopPoints;
+
+    std::vector<bool> _stopPointsShallPark;
+
+    float _iFactor = 0.2, _jFactor = 0.4, _kFactor = 0.4, _maxParkWalk = 200;
+
+    bool _possibleTSP = false;
+
+    bool _loaded = false;
 };
 
 #endif
