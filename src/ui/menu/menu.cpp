@@ -65,7 +65,7 @@ void Menu::show(){
             break;
         }
         else if (validInput1Cmd1Arg(input,"show","map")){
-            map.showGraph();
+            _map.showGraph();
             break;
         }
         else printError();

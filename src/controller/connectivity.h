@@ -4,6 +4,8 @@
 #include "../algorithms/search.hpp"
 #include "../model/StreetMap/StreetMap.h"
 
-bool calculateConectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints);
+bool isStronglyConnected(const StreetMap &map);
+bool isConnected(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source);
+
 
 #endif //FEUP_CAL_PARKING_CONNECTIVITY_H

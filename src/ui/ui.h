@@ -78,6 +78,12 @@ protected:
     static const char* EXIT;
 
     StreetMap& _map;
+
+    Node<MapPoint>* _source = nullptr;
+
+    Node<MapPoint>* _destination = nullptr;
+
+    std::vector<Node<MapPoint>*> stopPoints;
 };
 
 #endif
