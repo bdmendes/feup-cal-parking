@@ -28,6 +28,7 @@ void Menu::show(){
             "remove_stop <nodeID> - remove a stop point",
             "show_map - show map with last processed route",
             "calculate_route - calculate the best route and showcase on map",
+            "exit - exit application"
     };
     printOptions(content);
 
@@ -161,6 +162,7 @@ void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint
         std::cout << "The graph is connected\n";
         _possibleTSP = true;
     } else {
+        std::cout << "The graph is NOT connected! No solution is possible\n";
         _possibleTSP = false;
     }
 }
