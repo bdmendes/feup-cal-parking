@@ -14,8 +14,7 @@ void IntroMenu::show(){
     const std::vector<std::string> content = {
             "import map - import map from files",
             "edit map - remove or add nodes and vertices",
-            "calculate trip - set starting, stop and arrival points",
-            "export map - export map data to a file"
+            "calculate trip - set starting, stop and arrival points"
     };
     printOptions(content);
 
@@ -34,10 +33,6 @@ void IntroMenu::show(){
             //TODO
             break;
         }
-        else if (validInput1Cmd1Arg(input,"export","map")){
-            exportMap();
-            break;
-        }
         else printError();
     }
 
@@ -50,14 +45,4 @@ void IntroMenu::importMap() {
     std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::string edges("maps/porto/porto_strong_edges.txt");
     _map.readFromFile(nodesXY, nodesLL, edges);
-}
-
-void IntroMenu::exportMap() {
-    std::cout << "\nEXPORT MAP\n" << SEPARATOR
-              << "'data' folder path: ";
-    std::string input = readCommand();
-    if (input == BACK) return;
-    std::cout << "\n" //<< graph.write() TODO
-              << "\nPress enter to go back. ";
-    std::getline(std::cin,input);
 }

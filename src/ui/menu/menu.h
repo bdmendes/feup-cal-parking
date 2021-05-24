@@ -13,8 +13,6 @@ public:
     void show() override;
 
     void importMap();
-
-    void exportMap();
 };
 
 #endif
