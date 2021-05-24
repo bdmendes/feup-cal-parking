@@ -5,12 +5,14 @@
 
 StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
         _gv(), _width(windowWidth), _height(windowHeight) {
+    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
 }
 
 void StreetMap::showGraph() {
-    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
     _gv.createWindow(_width, _height);
+    std::cout << "Close window to go back" << std::endl;
     _gv.join();
+    _gv.closeWindow();
 }
 
 void StreetMap::readFromFile(const std::string& nodesXYPath,
@@ -40,7 +42,7 @@ void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
     for (size_t i = 0; i < numberOfNodes; ++i) {
         nodesXY >> sep >> nodeId >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> nodeId >> sep >> lat >> sep >> lon >> sep;
-        bool isPark = std::rand() % 20 == 0;
+        bool isPark = std::rand() % 50 == 0;
         if (isPark){
             unsigned capacity = 20 + std::rand() % 60;
             unsigned freeSpots = capacity / (2 + std::rand() % 3);
@@ -49,7 +51,7 @@ void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
             ParkFields parkFields = {capacity, freeSpots, fixedTax, dynamicTax};
             MapPoint point(x, y, lat, lon, true, parkFields);
             addNode(nodeId, point);
-            colorNode(nodeId, sf::Color::Blue);
+            colorNode(nodeId, sf::Color::White);
         } else {
             MapPoint point(x, y, lat, lon);
             addNode(nodeId, point);
@@ -74,6 +76,7 @@ Node<MapPoint> *StreetMap::addNode(id_t id, const MapPoint &element) {
     double x = _width * ((element.getX() - _minX) / (_maxX - _minX));
     double y = _height * ((element.getY() - _minY) / (_maxY - _minY));
     auto& gvNode = _gv.addNode(id, sf::Vector2f(x, y));
+    if (!element.isPark()) gvNode.disable();
     _gvNodes[id] = &gvNode;
     return Graph::addNode(id, element);
 }
@@ -128,23 +131,6 @@ void StreetMap::colorEdge(id_t id, sf::Color color) {
     _gv.unlock();
 }
 
-void StreetMap::resetEdgeColors() {
-    _gv.lock();
-    for (auto& edge : _gvEdges){
-        edge.second->setColor();
-    }
-    _gv.unlock();
-}
-
-void StreetMap::resetNodeColors() {
-    _gv.lock();
-    for (auto& node : _gvNodes){
-        node.second->setColor(findNodeById(node.second->getId())->getElement().isPark()
-            ? sf::Color::Blue : sf::Color::Red);
-    }
-    _gv.unlock();
-}
-
 void StreetMap::retrieveDimensionLimits(std::ifstream &nodesXY) {
     double minX = INT32_MAX, minY = INT32_MAX, maxX = INT32_MIN, maxY = INT32_MIN;
 
@@ -172,4 +158,60 @@ void StreetMap::retrieveDimensionLimits(std::ifstream &nodesXY) {
     _minY = minY;
     _maxX = maxX;
     _maxY = maxY;
+}
+
+void StreetMap::colorPath(const std::vector<Node<MapPoint> *> &path,
+                          sf::Color edgeColor, sf::Color pointsColor,
+                          sf::Color parksColor, useconds_t delay,
+                          bool colorFirst, bool colorLast,
+                          sf::Color sourceColor, sf::Color targetColor) {
+    _gvNodes.at(path.front()->getId())->enable();
+    if (pointsColor != sf::Color::Transparent){
+        colorNode(path.front()->getId(), colorFirst ? sourceColor :
+        (path.front()->getElement().isPark() ? parksColor : pointsColor));
+    }
+    for (int i = 0; i < path.size()-1; i++){
+        bool foundNext = false;
+        for (const auto& e : path.at(i)->getAdjacent()){
+            if (e->getTarget()->getElement() == path.at(i+1)->getElement()){
+                colorEdge(e->getId(), edgeColor);
+                foundNext = true;
+                if (delay != 0) usleep(delay * e->getWeight());
+                break;
+            }
+        }
+        if (!foundNext){
+            throw std::logic_error("Cannot color invalid path");
+        }
+    }
+    _gvNodes.at(path.back()->getId())->enable();
+    if (pointsColor != sf::Color::Transparent){
+        colorNode(path.back()->getId(), colorLast ? targetColor :
+        (path.back()->getElement().isPark() ? parksColor : pointsColor));
+    }
+}
+
+void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carPaths,
+                          const std::vector<std::vector<Node<MapPoint> *>> &walkPaths,
+                          useconds_t colorDelay) {
+    _gv.createWindow(_width, _height);
+    std::cout << "\nCOLOR MEANING\nRed - source/target node\nMagenta - stop point\nYellow - park walk path\nBlue - car drive path\n";
+    std::cout << "\nShowcasing driver path... Please wait!" << std::endl;
+    for (int i = 0; i < carPaths.size(); i++){
+        colorPath(carPaths.at(i), sf::Color::Blue, sf::Color::Magenta, sf::Color::Yellow, colorDelay,
+                  i == 0, i == carPaths.size() - 1, sf::Color::Red, sf::Color::Red);
+    }
+    std::cout << "Showcasing walk paths... Please wait!" << std::endl;
+    for (const auto & walkPath : walkPaths){
+        if (walkPath.empty()) continue;
+        colorPath(walkPath, sf::Color::Yellow, sf::Color::Transparent, sf::Color::Transparent, colorDelay,
+                  false, false, sf::Color::Magenta, sf::Color::Yellow);
+    }
+    std::cout << "Close window to go back" << std::endl;
+    _gv.join();
+    _gv.closeWindow();
+}
+
+StreetMap::StreetMap() : _width(1900), _height(1000), _gv(){
+    _gv.setCenter(sf::Vector2<float>(_width/2,_height/2));
 }

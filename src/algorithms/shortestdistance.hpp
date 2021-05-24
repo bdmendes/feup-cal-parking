@@ -64,6 +64,9 @@ inline std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &ori
     if (res.at(0)->getElement() != sourceNode->getElement()){
         throw std::logic_error("Invalid path");
     }
+    if (res.back()->getElement() != dest){
+        throw std::logic_error("Invalid path");
+    }
     return res;
 }
 
@@ -74,6 +77,7 @@ inline std::vector<Node<T>*> getAStarPath(const Graph<T>& graph, const T &origin
 
 template<class T>
 inline double distance(const std::vector<Node<T>*>& path){
+    if (path.empty()) return 0;
     double total = 0;
     for (int i = 0; i < path.size() - 1; i++){
         bool foundNext = false;
@@ -91,7 +95,7 @@ inline double distance(const std::vector<Node<T>*>& path){
     return total;
 }
 
-inline void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint &target) {
+inline bool AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint &target) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -112,6 +116,9 @@ inline void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const Ma
 
     while (!q.empty()){
         auto currNode = q.extractMin();
+        if (currNode->getElement() == target){
+            return true;
+        }
         for (auto& e: currNode->getAdjacent()){
             auto nextNode = e->getTarget();
             double heuristic = nextNode->getElement().euclideanDistance(endNode->getElement());
@@ -120,10 +127,7 @@ inline void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const Ma
                 bool alreadyQueued = nextNode->getDist() != INF;
                 nextNode->setDist(newDist);
                 nextNode->setPath(currNode);
-                if (nextNode->getElement() == target){
-                    return;
-                }
-                else if (alreadyQueued){
+                if (alreadyQueued){
                     q.decreaseKey(nextNode);
                 } else {
                     q.insert(nextNode);
@@ -131,6 +135,7 @@ inline void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const Ma
             }
         }
     }
+    return false;
 }
 
 template <class T>
