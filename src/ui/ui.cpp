@@ -33,6 +33,11 @@ bool UI::validInput1Cmd1Arg(const std::string& input, const std::string &cmd, co
     return words.size() == 2 && words.at(0) == cmd && words.at(1) == arg;
 }
 
+bool UI::validInput1Cmd1ArgFree(const std::string& input, const std::string &cmd){
+    std::vector<std::string> words = to_words(input);
+    return words.size() == 2 && words.at(0) == cmd;
+}
+
 bool UI::validInput1Cmd2ArgsDigit(const std::string &input, const std::string &cmd, bool acceptFloatArg2) {
     std::vector<std::string> words = to_words(input);
     return words.size() == 3 && words.at(0) == cmd

@@ -28,7 +28,7 @@ void Menu::show(){
     for (;;) {
         std::string input = readCommand();
         if (input == EXIT) return;
-        else if (validInput1Cmd1Arg(input, "import","map")) {
+        else if (validInput1Cmd1ArgFree(input, "import_map")) {
             importMap();
             break;
         }
