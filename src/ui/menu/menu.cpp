@@ -54,8 +54,12 @@ void Menu::show(){
                         throw std::logic_error("Node not found");
                     else _destination = _map.findNodeById(nodeId);
                     break;
-                } else if (validInput1Cmd1Arg(input, "start", "works")) {
-                    //TODO
+                } else if (validInput1Cmd1ArgDigits(input, "start_works")) {
+                    unsigned long edgeId = std::stoul(to_words(input).at(1)) - 1;
+                    Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
+                    if (edgeToRemove == nullptr)
+                        throw std::logic_error("Edge not found");
+                    //else _map.removeEdge(edgeToRemove)
                     break;
                 } else if (validInput1Cmd1Arg(input, "conclude", "works")) {
                     //TODO
