@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "StreetMap.h"
 
 StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
@@ -19,7 +20,8 @@ void StreetMap::readFromFile(const std::string& nodesXYPath,
     if (!nodesXY || !nodesLatLng || !edges){
         throw std::invalid_argument("Invalid paths, check your working directory");
     }
-    //retrieveDimensionLimits(nodesXY);
+    retrieveDimensionLimits(nodesXY);
+    nodesXY.seekg(0);
     readNodes(nodesXY, nodesLatLng);
     readEdges(edges);
 }
