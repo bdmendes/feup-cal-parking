@@ -65,7 +65,7 @@ void StreetMap::readEdges(std::ifstream &edges) {
         edges >> sep >> originId >> sep >> destinationId >> sep;
         Node<MapPoint> *o = findNodeById(originId);
         Node<MapPoint> *d = findNodeById(destinationId);
-        addEdge(edgeId++, o, d, 1.0);
+        addEdge(edgeId++, o, d, o->getElement().euclideanDistance(d->getElement()));
     }
 }
 

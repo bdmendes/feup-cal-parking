@@ -26,6 +26,10 @@ public:
 
     double getY() const;
 
+    bool isParking() const;
+
+    double euclideanDistance(const MapPoint& rhs) const;
+
     bool operator==(const MapPoint &rhs) const;
 
     bool operator!=(const MapPoint &rhs) const;

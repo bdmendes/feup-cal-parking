@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "MapPoint.h"
+#include <math.h>
 
 MapPoint::MapPoint(double x, double y, double latitude, double longitude, bool park, ParkFields parkFields)
         : _x(x), _y(y), _latitude(latitude), _longitude(longitude), _park(park), _parkFields(parkFields) {
@@ -45,4 +46,8 @@ const ParkFields &MapPoint::getParkFields() const {
         throw std::logic_error("This map point is not a park");
     }
     return _parkFields;
+}
+
+double MapPoint::euclideanDistance(const MapPoint &rhs) const {
+    return sqrt(pow(getX() - rhs.getX(), 2) + pow(getY() - rhs.getY(), 2));
 }
