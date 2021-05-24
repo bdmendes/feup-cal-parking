@@ -63,6 +63,7 @@ int main() {
     testPerformanceBfs(5, 100, 10100, 1000);
     testPerformanceDfs(5, 100, 10100, 1000);
     testPerformanceDijkstra(5, 100, 10100, 1000);
+    testPerformanceAStar(5, 100, 10100, 1000);
 
     map.showGraph();
 }

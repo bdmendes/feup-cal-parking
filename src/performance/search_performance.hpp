@@ -36,9 +36,9 @@ void testPerformanceBfs(unsigned iterations, unsigned minSize, unsigned maxSize,
         auto elapsed = std::chrono::duration<double>::zero();
         for (unsigned k = 0; k < iterations; ++k) {
             Graph<int> graph = generateRandomGraph(size);
-            auto start = std::chrono::high_resolution_clock::now();
             Node<int>* source = graph.findNodeById(rand() % graph.getNumberOfNodes() + 1);
-            auto visited = bfs(source, {}, graph);
+            auto start = std::chrono::high_resolution_clock::now();
+            bfs(source, {}, graph);
             auto end = std::chrono::high_resolution_clock::now();
             elapsed += (end - start);
         }
@@ -53,7 +53,7 @@ void testPerformanceDfs(unsigned iterations, unsigned minSize, unsigned maxSize,
         for (unsigned k = 0; k < iterations; ++k) {
             Graph<int> graph = generateRandomGraph(size);
             auto start = std::chrono::high_resolution_clock::now();
-            auto visited = dfsAll({}, graph);
+            dfsAll({}, graph);
             auto end = std::chrono::high_resolution_clock::now();
             elapsed += (end - start);
         }
