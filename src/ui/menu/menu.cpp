@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 
 #include "menu.h"
 #include "../../util/util.h"
@@ -12,7 +14,7 @@ void Menu::show(){
               << "Welcome\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
-            "import map - import map from files",
+            "import_map - import map from files. Usage: <import_map> [pathNodesXY,pathNodesLL,pathEdges]",
             "analyse connectivity - check if the graph is connected",
             "choose start - choose the trip's starting point",
             "choose destination - choose the trip's destination point",
@@ -25,59 +27,65 @@ void Menu::show(){
     };
     printOptions(content);
 
-    for (;;) {
-        std::string input = readCommand();
-        if (input == EXIT) return;
-        else if (validInput1Cmd1ArgFree(input, "import_map")) {
-            importMap();
-            break;
+        for (;;) {
+            try {
+                std::string input = readCommand();
+                if (input == EXIT) return;
+                else if (validInput1Cmd1ArgFree(input, "import_map")) {
+                    std::vector<std::string> words = to_words(input);
+                    if (words.size() == 1) defaultImportMap();
+                    else importMap(words.at(1));
+                    break;
+                } else if (validInput1Cmd1Arg(input, "analyse", "connectivity")) {
+                    //calculateConectivity(_map)
+                    break;
+                } else if (validInput1Cmd1Arg(input, "choose", "start")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "choose", "destination")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "start", "works")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "conclude", "works")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "add", "stop")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "remove", "stop")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "calculate", "route")) {
+                    //TODO
+                    break;
+                } else if (validInput1Cmd1Arg(input, "show", "map")) {
+                    _map.showGraph();
+                    break;
+                } else printError();
+            }
+            catch (std::exception &exception) {
+                std::cout << exception.what() << '\n';
+            }
         }
-        else if (validInput1Cmd1Arg(input,"analyse","connectivity")){
-            //calculateConectivity(_map)
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"choose","start")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"choose","destination")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"start","works")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"conclude","works")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"add","stop")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"remove","stop")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"calculate","route")){
-            //TODO
-            break;
-        }
-        else if (validInput1Cmd1Arg(input,"show","map")){
-            _map.showGraph();
-            break;
-        }
-        else printError();
-    }
-
     show();
 }
 
 
-void Menu::importMap() {
+void Menu::defaultImportMap() {
     std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
     std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::string edges("maps/porto/porto_strong_edges.txt");
+    _map.readFromFile(nodesXY, nodesLL, edges);
+}
+
+void Menu::importMap(const std::string& input){
+    std::string nodesXY;
+    std::string nodesLL;
+    std::string edges;
+    std::istringstream ss(input);
+    std::string sep = ",";
+    ss >> nodesXY >> sep >> nodesLL >> sep >> edges;
     _map.readFromFile(nodesXY, nodesLL, edges);
 }

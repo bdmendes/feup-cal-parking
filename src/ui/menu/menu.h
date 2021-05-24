@@ -12,7 +12,9 @@ public:
 
     void show() override;
 
-    void importMap();
+    void defaultImportMap();
+
+    void importMap(const std::string& input);
 };
 
 #endif
