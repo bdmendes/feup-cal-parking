@@ -18,74 +18,100 @@ void Menu::show(){
               << "Welcome, Driver\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
-            "import_map - import map from files. Usage: import_map [pathNodesXY,pathNodesLL,pathEdges]",
+            "import_map_default - import Porto map",
+            "import_map <pathNodesXY,pathNodesLL,pathEdges> - import map from files",
             "analyse_connectivity - check if the graph is connected",
-            "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
-            "choose_destination - choose the trip's destination point. Usage: choose_start <nodeId>",
-            "start_works - mark works on public roads. Usage: choose_start <edgeId>",
-            "conclude_works - conclude works on public roads. Usage: choose_start <edgeId>",
-            "add_stop - add a stop/crossing point.",
-            "remove_stop - remove a stop/crossing point.",
-            "calculate_route - calculate the best route.",
-            "show_map - show map and eventually the calculated route."
+            "choose_start <nodeID> - choose the trip's starting point",
+            "choose_destination <nodeID> - choose the trip's destination point",
+            "mark_works <edgeID> - mark road as unavailable",
+            "add_stop <nodeID> <true/false> - add a stop point, and specify whether to park",
+            "remove_stop <nodeID> - remove a stop point",
+            "show_map - show map with last processed route",
+            "calculate_route - calculate the best route and showcase on map",
     };
     printOptions(content);
 
-        for (;;) {
-            try {
-                std::string input = readCommand();
-                if (input == EXIT) return;
-                else if (validInput1Cmd1ArgFree(input, "import_map")) {
-                    std::vector<std::string> words = to_words(input);
-                    if (words.size() == 2 && std::count(words.at(1).begin(), words.at(1).end(), ',') != 2)
-                        throw std::logic_error("Invalid paths, check your working directory");
-                    if (words.size() == 1) defaultImportMap();
-                    else importMap(words.at(1));
-                    break;
-                } else if (validInput1Cmd(input, "analyse_connectivity")) {
-                    if(_source == nullptr || _destination == nullptr || _stopPoints.empty())
-                        throw std::logic_error("Can't calculate the connectivity of the graph. Choose your source and destination points first.\n");
-                    else calculateConnectivity(_map, _stopPoints, _source);
-                    break;
-                } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
-                    unsigned long nodeId = std::stoul(to_words(input).at(1)) ;
-                    if (_map.findNodeById(nodeId) == nullptr)
-                        throw std::logic_error("Node not found");
-                    else _source = _map.findNodeById(nodeId);
-                    break;
-                } else if (validInput1Cmd1ArgDigits(input, "choose_destination")) {
-                    unsigned long nodeId = std::stoul(to_words(input).at(1));
-                    if (_map.findNodeById(nodeId) == nullptr)
-                        throw std::logic_error("Node not found");
-                    else _destination = _map.findNodeById(nodeId);
-                    break;
-                } else if (validInput1Cmd1ArgDigits(input, "start_works")) {
-                    unsigned long edgeId = std::stoul(to_words(input).at(1)) - 1;
-                    Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
-                    if (edgeToRemove == nullptr)
-                        throw std::logic_error("Edge not found");
-                    else _map.removeEdge(edgeToRemove);
-                    break;
-                } else if (validInput1Cmd1Arg(input, "conclude", "works")) {
-                    //TODO
-                    break;
-                } else if (validInput1Cmd1Arg(input, "add", "stop")) {
-                    //TODO
-                    break;
-                } else if (validInput1Cmd1Arg(input, "remove", "stop")) {
-                    //TODO
-                    break;
-                } else if (validInput1Cmd(input, "calculate_route")) {
-                    calculateRoute();
-                    break;
-                } else if (validInput1Cmd1Arg(input, "show", "map")) {
-                    _map.showGraph();
-                    break;
-                } else printError();
+    for (;;) {
+        try {
+            std::string input = readCommand();
+            if (input == EXIT) return;
+            else if (validInput1Cmd(input, "import_default_map")) {
+                defaultImportMap();
+                break;
+            } else if (validInput1Cmd1ArgFree(input, "import_map")) {
+                std::vector<std::string> words = to_words(input);
+                if (std::count(words.at(1).begin(), words.at(1).end(), ',') != 2)
+                    throw std::logic_error("Please provide three paths, separated by comma");
+                importMap(words.at(1));
+                break;
+            } else if (validInput1Cmd(input, "analyse_connectivity")) {
+                calculateConnectivity(_map, _stopPoints, _source);
+                break;
+            } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
+                unsigned long nodeId = std::stoul(to_words(input).at(1)) ;
+                if (_map.findNodeById(nodeId) == nullptr)
+                    throw std::logic_error("Node not found");
+                else _source = _map.findNodeById(nodeId);
+                break;
+            } else if (validInput1Cmd1ArgDigits(input, "choose_destination")) {
+                unsigned long nodeId = std::stoul(to_words(input).at(1));
+                if (_map.findNodeById(nodeId) == nullptr)
+                    throw std::logic_error("Node not found");
+                else _destination = _map.findNodeById(nodeId);
+                break;
+            } else if (validInput1Cmd1ArgDigits(input, "mark_works")) {
+                unsigned long edgeId = std::stoul(to_words(input).at(1));
+                Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
+                if (edgeToRemove == nullptr)
+                    throw std::logic_error("Edge not found");
+                else _map.removeEdge(edgeToRemove);
+                break;
+            } else if (validInput1Cmd2ArgsFree(input, "add_stop")) {
+                std::vector<std::string> words = to_words(input);
+                if (words.back() != "true" && words.back() != "false"){
+                    throw std::invalid_argument("Last argument must be true or false");
+                }
+                for (const auto& d : words.at(1)){
+                    if (!isdigit(d)) throw std::invalid_argument("First argument must be a digit");
+                }
+                unsigned long nodeId = std::stoul(to_words(input).at(1));
+                auto node = _map.findNodeById(nodeId);
+                if (node == nullptr) throw std::logic_error("Node not found");
+                _stopPoints.push_back(node);
+                _stopPointsShallPark.push_back(words.back() == "true");
+                _possibleTSP = false;
+                std::cout << "Stop point added, calculate connectivity again\n";
+                break;
+            } else if (validInput1Cmd1ArgFree(input, "remove_stop")) {
+                std::vector<std::string> words = to_words(input);
+                for (const auto& d : words.at(1)){
+                    if (!isdigit(d)) throw std::invalid_argument("First argument must be a digit");
+                }
+                unsigned long nodeId = std::stoul(words.at(1));
+                auto node = std::find_if(_stopPoints.begin(), _stopPoints.end(), [nodeId](Node<MapPoint>* node){
+                    return node->getId() == nodeId;
+                });
+                if (node == _stopPoints.end()) throw std::logic_error("Stop point not found");
+                for (int i = 0; i < _stopPoints.size(); i++){
+                    if ((*node)->getId() == nodeId){
+                        _stopPoints.erase(_stopPoints.begin() + i);
+                        _stopPointsShallPark.erase(_stopPointsShallPark.begin() + i);
+                        break;
+                    }
+                }
+                break;
+            } else if (validInput1Cmd(input, "calculate_route")) {
+                calculateRoute();
+                break;
+            } else if (validInput1Cmd(input, "show_map")) {
+                _map.showGraph();
+                break;
             }
-            catch (std::exception &exception) {
-                std::cout << exception.what() << '\n';
-            }
+            printError();
+        }
+        catch (std::exception &exception) {
+            std::cout << exception.what() << '\n';
+        }
     }
     show();
 }
@@ -119,6 +145,7 @@ void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint
     } else if (stopPoints.empty()){
         throw std::logic_error("Add at least one stop point first");
     }
+    std::cout << "Calculating graph connectivity. Please wait...\n";
     if (isStronglyConnected(_map)){
         std::cout << "The graph is strongly connected\n";
         _possibleTSP = true;
@@ -137,28 +164,12 @@ void Menu::calculateRoute() {
         throw std::logic_error("Please confirm the graph is connected first!");
     }
 
-    _source = _map.findNodeById(37);
-    _destination = _map.findNodeById(124);
-    auto p1 = _map.findNodeById(67);
-    auto p2 = _map.findNodeById(89);
-    _stopPoints.push_back(p1);
-    _stopPoints.push_back(p2);
-    _stopPointsShallPark.push_back(true);
-    _stopPointsShallPark.push_back(true);
-    _possibleTSP = true;
-
     if (_source == nullptr){
-        std::cout << "Source node is not yet defined, try again\n";
-        return;
+        throw std::logic_error("Source node is not yet defined, try again");
     } else if (_destination == nullptr){
-        std::cout << "Destination node is not yet defined, try again\n";
-        return;
+        throw std::logic_error("Destination node is not yet defined, try again");
     } else if (_stopPoints.empty()){
-        std::cout << "No stopping points were defined, try again\n";
-        return;
-    } else if (!_possibleTSP){
-        std::cout << "We are not sure the graph is (strongly) connected, please analyse first\n";
-        return;
+        throw std::logic_error("No stopping points were defined, try again");
     }
 
     std::cout << "\nCalculating route according to your preferences... Please wait" << std::endl;

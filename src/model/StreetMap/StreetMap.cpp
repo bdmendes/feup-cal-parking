@@ -10,7 +10,8 @@ StreetMap::StreetMap(unsigned int windowWidth, unsigned int windowHeight) :
 
 void StreetMap::showGraph() {
     _gv.createWindow(_width, _height);
-    std::cout << "Close window to go back" << std::endl;
+    std::cout << "\nCOLOR MEANING\nWhite - available park\n";
+    std::cout << "\nClose window to go back" << std::endl;
     _gv.join();
     _gv.closeWindow();
 }
@@ -206,7 +207,7 @@ void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carP
         colorPath(walkPath, sf::Color::Yellow, sf::Color::Transparent, sf::Color::Transparent, colorDelay,
                   true, true, sf::Color::Magenta, sf::Color::Yellow);
     }
-    std::cout << "Close window to go back" << std::endl;
+    std::cout << "\nClose window to go back" << std::endl;
     _gv.join();
     _gv.closeWindow();
 }

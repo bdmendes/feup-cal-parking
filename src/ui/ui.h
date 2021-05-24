@@ -65,6 +65,8 @@ protected:
 
     static bool validInput1Cmd1ArgFree(const std::string& input, const std::string &cmd);
 
+    static bool validInput1Cmd2ArgsFree(const std::string &input, const std::string &cmd);
+
     /**
      * Print "Unrecognized command. Try again: "
      */
