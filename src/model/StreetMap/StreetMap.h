@@ -7,7 +7,7 @@
 #include "graphviewer.h"
 #include <fstream>
 
-class StreetMap : protected Graph<MapPoint> {
+class StreetMap : public Graph<MapPoint> {
 public:
     StreetMap(unsigned int windowWidth, unsigned int windowHeight);
     void readFromFile(const std::string& nodesXYPath,

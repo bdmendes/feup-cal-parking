@@ -33,8 +33,7 @@ std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *>
 }
 
 template<class T>
-void
-dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
+void dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
     node->setVisited();
     bool isTarget = std::find_if(targets.begin(), targets.end(), [&](Node<T> *n1) {
         return n1->getElement() == node->getElement();
