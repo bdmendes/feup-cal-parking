@@ -55,4 +55,12 @@ void UI::printError() {
     std::cout << "Unrecognized command. Try again.\n";
 }
 
+bool UI::validInput1Cmd1ArgDigits(const std::string &input, const std::string &cmd) {
+    std::vector<std::string> words = to_words(input);
+    for(char c : words.at(1)){
+        if(!isdigit(c)) return false;
+    }
+    return words.at(0) == cmd && words.size() == 2;
+}
+
 

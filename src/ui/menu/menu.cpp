@@ -15,9 +15,9 @@ void Menu::show(){
               << "Welcome\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
-            "import_map - import map from files. Usage: <import_map> [pathNodesXY,pathNodesLL,pathEdges]",
-            "analyse connectivity - check if the graph is connected",
-            "choose start - choose the trip's starting point",
+            "import_map - import map from files. Usage: import_map [pathNodesXY,pathNodesLL,pathEdges]",
+            "analyse_connectivity - check if the graph is connected",
+            "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
             "choose destination - choose the trip's destination point",
             "start works - mark works on public roads",
             "conclude works - conclude works on public roads",
@@ -37,13 +37,16 @@ void Menu::show(){
                     if (words.size() == 1) defaultImportMap();
                     else importMap(words.at(1));
                     break;
-                } else if (validInput1Cmd1Arg(input, "analyse", "connectivity")) {
+                } else if (validInput1Cmd(input, "analyse_connectivity")) {
                     if(_source == nullptr || _destination == nullptr || stopPoints.empty())
-                        std::cout << "Can't calculate the connectivity of the graph. Choose your source and destination points first.\n";
+                        throw std::logic_error("Can't calculate the connectivity of the graph. Choose your source and destination points first.\n");
                     else calculateConnectivity(_map, stopPoints, _source);
                     break;
-                } else if (validInput1Cmd1Arg(input, "choose", "start")) {
-                    //TODO
+                } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
+                    unsigned long nodeId = std::stoul(to_words(input).at(1)) - 1;
+                    if (_map.findNodeById(nodeId) == nullptr)
+                        throw std::logic_error("Node not found");
+                    else _source = _map.findNodeById(nodeId);
                     break;
                 } else if (validInput1Cmd1Arg(input, "choose", "destination")) {
                     //TODO

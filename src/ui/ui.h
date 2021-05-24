@@ -44,6 +44,7 @@ protected:
      * @return the validity of the input
      */
     static bool validInput1Cmd1Arg(const std::string& input, const std::string &cmd, const std::string &arg);
+    static bool validInput1Cmd1ArgDigits(const std::string& input, const std::string &cmd);
 
     /**
      * Whether the input is three words, the first being cmd and the second and third valid digits
