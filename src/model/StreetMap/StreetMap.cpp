@@ -56,11 +56,12 @@ void StreetMap::readEdges(std::ifstream &edges) {
         edges >> sep >> originId >> sep >> destinationId >> sep;
         Node<MapPoint> *o = findNodeById(originId);
         Node<MapPoint> *d = findNodeById(destinationId);
-        addEdge(edgeId++, o, d, 1.0);
+        addEdge(edgeId++, o, d, o->getElement().euclideanDistance(d->getElement()));
     }
 }
 
 Node<MapPoint> *StreetMap::addNode(id_t id, const MapPoint &element) {
+    // dont do this! store the max and min in attributes in a graph pre process!
     double x = (double) _width * ((element.getX() - COORDS_MIN_X) /
                                   (COORDS_MAX_X - COORDS_MIN_X) * 0.9);
     double y = (double) _height * ((element.getY() - COORDS_MIN_Y) /
