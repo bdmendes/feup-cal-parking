@@ -57,7 +57,6 @@ void Menu::show(){
                     if (_map.findNodeById(nodeId) == nullptr)
                         throw std::logic_error("Node not found");
                     else _destination = _map.findNodeById(nodeId);
-                    _stopPoints.push_back(_destination);
                     break;
                 } else if (validInput1Cmd1ArgDigits(input, "start_works")) {
                     unsigned long edgeId = std::stoul(to_words(input).at(1));
@@ -113,9 +112,10 @@ void Menu::importMap(const std::string& input){
 void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source) {
     if (!_loaded) {
         throw std::logic_error("Please load a graph from file first!");
-    } else if (_source == nullptr || _destination == nullptr || _stopPoints.empty()){
-        throw std::logic_error(
-                "Can't calculate the connectivity of the graph. Choose your source and destination points first.");
+    } else if (_source == nullptr || _destination == nullptr){
+        throw std::logic_error("Can't calculate the connectivity of the graph. Choose your source and destination points first");
+    } else if (stopPoints.empty()){
+        throw std::logic_error("Add at least one stop point first");
     }
     if (isStronglyConnected(_map)){
         std::cout << "The graph is strongly connected\n";

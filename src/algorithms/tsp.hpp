@@ -17,9 +17,7 @@ inline double tspNearestNeighbour(Node<T>* source, const std::vector<Node<T>*>& 
         for (const auto& edge: curr->getAdjacent()){
             auto candidateNext = edge->getTarget();
             auto distance = edge->getWeight();
-            if (target->getElement() == source->getElement()){
-                continue;
-            } else if (target->getElement() == candidateNext->getElement()) {
+            if (target->getElement() == candidateNext->getElement()) {
                 if (foundIntermediate.size() == intermediate.size()) {
                     totalDistance += distance;
                     return totalDistance;
