@@ -17,17 +17,14 @@ void StreetMap::showGraph() {
 
 void StreetMap::readFromFile(const std::string& nodesXYPath,
                              const std::string& nodesLatLongPath, const std::string& edgesPath){
+    if (!_nodes.empty()){
+        throw std::logic_error("GraphViewer does not support resetting the graph, please restart");
+    }
     std::ifstream nodesXY(nodesXYPath);
     std::ifstream nodesLatLng(nodesLatLongPath);
     std::ifstream edges(edgesPath);
     if (!nodesXY || !nodesLatLng || !edges){
         throw std::invalid_argument("Invalid paths, check your working directory");
-    }
-    for (auto& n: _gv.getNodes()){
-        _gv.removeNode(n->getId());
-        _gvNodes.erase(n->getId());
-        auto node = findNodeById(n->getId());
-        removeNode(node->getElement());
     }
     retrieveDimensionLimits(nodesXY);
     nodesXY.seekg(0);
@@ -48,7 +45,7 @@ void StreetMap::readNodes(std::ifstream &nodesXY, std::ifstream &nodesLatLng) {
     for (size_t i = 0; i < numberOfNodes; ++i) {
         nodesXY >> sep >> nodeId >> sep >> x >> sep >> y >> sep;
         nodesLatLng >> sep >> nodeId >> sep >> lat >> sep >> lon >> sep;
-        bool isPark = std::rand() % 50 == 0;
+        bool isPark = std::rand() % 15 == 0;
         if (isPark){
             unsigned capacity = 20 + std::rand() % 60;
             unsigned freeSpots = capacity / (2 + std::rand() % 3);

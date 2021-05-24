@@ -14,7 +14,6 @@ using namespace util;
 Menu::Menu(StreetMap& map) : UI(map){}
 
 void Menu::show(){
-    calculateRoute();
     std::cout << SEPARATOR
               << "Welcome, Driver\n"
               << SEPARATOR << std::endl;
@@ -46,9 +45,7 @@ void Menu::show(){
                 else importMap(words.at(1));
                 break;
             } else if (validInput1Cmd(input, "analyse_connectivity")) {
-                if(_source == nullptr || _destination == nullptr || _stopPoints.empty())
-                    throw std::logic_error("Can't calculate the connectivity of the graph. Choose your source and destination points first.\n");
-                else calculateConnectivity(_map, _stopPoints, _source);
+                calculateConnectivity(_map, _stopPoints, _source);
                 break;
             } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
                 unsigned long nodeId = std::stoul(to_words(input).at(1)) - 1;
@@ -94,13 +91,13 @@ void Menu::show(){
     show();
 }
 
-
 void Menu::defaultImportMap() {
     std::string nodesXY("maps/porto/porto_strong_nodes_xy.txt");
     std::string nodesLL("maps/porto/porto_strong_nodes_latlng.txt");
     std::string edges("maps/porto/porto_strong_edges.txt");
     _map.readFromFile(nodesXY, nodesLL, edges);
     _possibleTSP = false;
+    _loaded = true;
 }
 
 void Menu::importMap(const std::string& input){
@@ -112,9 +109,16 @@ void Menu::importMap(const std::string& input){
     ss >> nodesXY >> sep >> nodesLL >> sep >> edges;
     _map.readFromFile(nodesXY, nodesLL, edges);
     _possibleTSP = false;
+    _loaded = true;
 }
 
 void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source) {
+    if (!_loaded) {
+        throw std::logic_error("Please load a graph from file first!");
+    } else if (_source == nullptr || _destination == nullptr || _stopPoints.empty()){
+        throw std::logic_error(
+                "Can't calculate the connectivity of the graph. Choose your source and destination points first.");
+    }
     if (isStronglyConnected(_map)){
         std::cout << "The graph is strongly connected\n";
         _possibleTSP = true;
@@ -127,8 +131,12 @@ void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint
 }
 
 void Menu::calculateRoute() {
-    /* To test... */
-    defaultImportMap();
+    if (!_loaded){
+        throw std::logic_error("Please load a graph from file first!");
+    } else if (!_possibleTSP){
+        throw std::logic_error("Please confirm the graph is connected first!");
+    }
+
     _source = _map.findNodeById(37);
     _destination = _map.findNodeById(124);
     auto p1 = _map.findNodeById(67);
