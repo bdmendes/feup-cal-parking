@@ -23,7 +23,6 @@ void Menu::show(){
             "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
             "choose_destination - choose the trip's destination point. Usage: choose_start <nodeId>",
             "start_works - mark works on public roads. Usage: choose_start <edgeId>",
-            "conclude_works - conclude works on public roads. Usage: choose_start <edgeId>",
             "add_stop - add a stop/crossing point.",
             "remove_stop - remove a stop/crossing point.",
             "calculate_route - calculate the best route.",
@@ -61,25 +60,24 @@ void Menu::show(){
                     _stopPoints.push_back(_destination);
                     break;
                 } else if (validInput1Cmd1ArgDigits(input, "start_works")) {
-                    unsigned long edgeId = std::stoul(to_words(input).at(1)) - 1;
+                    unsigned long edgeId = std::stoul(to_words(input).at(1));
                     Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
                     if (edgeToRemove == nullptr)
                         throw std::logic_error("Edge not found");
-                    else _map.removeEdge(edgeToRemove);
+                    else {
+                        _map.removeEdge(edgeToRemove);
+                    }
                     break;
-                } else if (validInput1Cmd1Arg(input, "conclude", "works")) {
+                } else if (validInput1Cmd(input, "add_stop")) {
                     //TODO
                     break;
-                } else if (validInput1Cmd1Arg(input, "add", "stop")) {
-                    //TODO
-                    break;
-                } else if (validInput1Cmd1Arg(input, "remove", "stop")) {
+                } else if (validInput1Cmd(input, "remove_stop")) {
                     //TODO
                     break;
                 } else if (validInput1Cmd(input, "calculate_route")) {
                     calculateRoute();
                     break;
-                } else if (validInput1Cmd1Arg(input, "show", "map")) {
+                } else if (validInput1Cmd(input, "show_map")) {
                     _map.showGraph();
                     break;
                 } else printError();

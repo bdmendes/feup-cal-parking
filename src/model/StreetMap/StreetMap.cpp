@@ -214,8 +214,10 @@ void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &carP
 void StreetMap::removeEdge(Edge<MapPoint>* edge) {
     for (Node<MapPoint> *n : getNodes()) {
         for (Edge<MapPoint> *e : n->getAdjacent()) {
-            if (*e == *edge)
+            if (*e == *edge) {
+                sourceNode = n;
                 n->removeEdge(e->getTarget());
+            }
         }
     }
 }
