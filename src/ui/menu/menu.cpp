@@ -18,13 +18,13 @@ void Menu::show(){
             "import_map - import map from files. Usage: import_map [pathNodesXY,pathNodesLL,pathEdges]",
             "analyse_connectivity - check if the graph is connected",
             "choose_start - choose the trip's starting point. Usage: choose_start <nodeId>",
-            "choose_destination - choose the trip's destination point",
-            "start_works - mark works on public roads",
-            "conclude_works - conclude works on public roads",
-            "add_stop - add a stop/crossing point ",
-            "remove_stop - remove a stop/crossing point",
-            "calculate_route - calculate the best route",
-            "show_map - show map and eventually the calculated route"
+            "choose_destination - choose the trip's destination point. Usage: choose_start <nodeId>",
+            "start_works - mark works on public roads. Usage: choose_start <edgeId>",
+            "conclude_works - conclude works on public roads. Usage: choose_start <edgeId>",
+            "add_stop - add a stop/crossing point.",
+            "remove_stop - remove a stop/crossing point.",
+            "calculate_route - calculate the best route.",
+            "show_map - show map and eventually the calculated route."
     };
     printOptions(content);
 
@@ -45,23 +45,24 @@ void Menu::show(){
                     else calculateConnectivity(_map, stopPoints, _source);
                     break;
                 } else if (validInput1Cmd1ArgDigits(input, "choose_start")) {
-                    unsigned long nodeId = std::stoul(to_words(input).at(1)) - 1;
+                    unsigned long nodeId = std::stoul(to_words(input).at(1)) ;
                     if (_map.findNodeById(nodeId) == nullptr)
                         throw std::logic_error("Node not found");
                     else _source = _map.findNodeById(nodeId);
                     break;
                 } else if (validInput1Cmd1ArgDigits(input, "choose_destination")) {
-                    unsigned long nodeId = std::stoul(to_words(input).at(1)) - 1;
+                    unsigned long nodeId = std::stoul(to_words(input).at(1));
                     if (_map.findNodeById(nodeId) == nullptr)
                         throw std::logic_error("Node not found");
                     else _destination = _map.findNodeById(nodeId);
+                    stopPoints.push_back(_destination);
                     break;
                 } else if (validInput1Cmd1ArgDigits(input, "start_works")) {
                     unsigned long edgeId = std::stoul(to_words(input).at(1)) - 1;
                     Edge<MapPoint>* edgeToRemove = _map.findEdgeById(edgeId);
                     if (edgeToRemove == nullptr)
                         throw std::logic_error("Edge not found");
-                    //else _map.removeEdge(edgeToRemove)
+                    else _map.removeEdge(edgeToRemove);
                     break;
                 } else if (validInput1Cmd1Arg(input, "conclude", "works")) {
                     //TODO
@@ -106,6 +107,6 @@ void Menu::importMap(const std::string& input){
 }
 
 void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source){
-    if (isStronglyConnected(_map)) std::cout << "The graph is strongly connected\n";
-    else if (isConnected(_map, stopPoints, source) ) std::cout << "The graph is connected\n";
+    if (isStronglyConnected(_map)) std::cout << "The graph is strongly connected.\n";
+    else if (isConnected(_map, stopPoints, source) ) std::cout << "The graph is connected.\n";
 }

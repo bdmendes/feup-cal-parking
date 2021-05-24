@@ -197,3 +197,12 @@ void StreetMap::showGraph(const std::vector<std::vector<Node<MapPoint> *>> &path
     _gv.join();
     _gv.closeWindow();
 }
+
+void StreetMap::removeEdge(Edge<MapPoint>* edge) {
+    for (Node<MapPoint>* n : getNodes()){
+        for (Edge<MapPoint>* e : n->getAdjacent()){
+            if (*e == *edge)
+                n->removeEdge(e->getTarget());
+        }
+    }
+}

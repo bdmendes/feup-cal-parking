@@ -20,6 +20,7 @@ public:
     Edge<MapPoint> * addEdge(id_t id, Node<MapPoint> *source, Node<MapPoint> *target, double weight) override;
     void removeNode(const MapPoint &element) override;
     void removeEdge(const MapPoint &source, const MapPoint &target) override;
+    void removeEdge(Edge<MapPoint>* edge);
 private:
     void colorPath(const std::vector<Node<MapPoint> *> &path,
                    sf::Color edgeColor, sf::Color pointsColor,
