@@ -4,6 +4,7 @@
 #include <queue>
 #include "../model/Graph/Graph.hpp"
 #include "algorithm"
+#include <chrono>
 
 template<class T>
 static void dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
@@ -40,7 +41,8 @@ inline std::vector<Node<T> *> dfsAll(const std::vector<Node<T> *> &targets, cons
 }
 
 template<class T>
-inline std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+inline std::vector<Node<T> *>
+dfsFromNode(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
     std::vector<Node<T> *> res{};
     for (Node<T> *node : graph.getNodes()) {
         node->setUnvisited();

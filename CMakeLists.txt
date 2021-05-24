@@ -23,9 +23,6 @@ add_test(NAME TESTS COMMAND TESTS)
 
 # Main executable
 add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.hpp src/model/Graph/Node.hpp src/model/StreetMap/MapPoint.cpp src/model/StreetMap/MapPoint.h src/model/Graph/Edge.hpp src/algorithms/search.hpp src/model/StreetMap/StreetMap.h src/model/StreetMap/StreetMap.cpp src/algorithms/tsp.hpp lib/MutablePriorityQueue.h src/algorithms/shortestdistance.hpp
-        src/controller/connectivity.h src/controller/connectivity.cpp src/controller/parkselector.cpp src/controller/parkselector.h src/ui/ui.cpp src/ui/ui.h src/ui/menu/menu.cpp src/ui/menu/menu.h src/util/util.h src/util/util.cpp)
-
+        src/controller/connectivity.h src/controller/connectivity.cpp src/controller/parkselector.cpp src/controller/parkselector.h src/ui/ui.cpp src/ui/ui.h src/ui/menu/menu.cpp src/ui/menu/menu.h src/util/util.h src/util/util.cpp src/performance/search_performance.cpp src/performance/shortestdistance_performance.cpp src/performance/performance.h src/performance/tsp_performance.cpp)
 
 target_link_libraries(feup_cal_parking graphviewer)
-
-
