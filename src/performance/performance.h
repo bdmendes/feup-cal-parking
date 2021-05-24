@@ -63,4 +63,6 @@ void testPerformanceFloydWarshall(unsigned iterations, unsigned minSize, unsigne
 
 void testPerformanceNearestNeighbour(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step);
 
+void testPerformanceBruteForce(unsigned iterations, unsigned minSize, unsigned maxSize, unsigned step);
+
 #endif //FEUP_CAL_PARKING_PERFORMANCE_H
