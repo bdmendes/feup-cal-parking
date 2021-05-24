@@ -41,7 +41,7 @@ int main() {
     }
     stopPoints.push_back(p1);
     stopPoints.push_back(p2);
-    //std::cout << isConnected(map, stopPoints) << "\n" << std::flush;
+    std::cout << isConnected(map, stopPoints, source) << "\n" << std::flush;
 
     auto path = getPathAfterParkReplacement(map, stopPoints, target, {true, true}, 0.5, 0.3, 0.2, 200);
     auto walkPaths = getWalkPaths(map, stopPoints, path);
