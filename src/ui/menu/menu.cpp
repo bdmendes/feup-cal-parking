@@ -4,6 +4,7 @@
 
 #include "menu.h"
 #include "../../util/util.h"
+#include "../../controller/connectivity.h"
 
 using namespace util;
 
@@ -37,7 +38,9 @@ void Menu::show(){
                     else importMap(words.at(1));
                     break;
                 } else if (validInput1Cmd1Arg(input, "analyse", "connectivity")) {
-                    //calculateConectivity(_map)
+                    if(_source == nullptr || _destination == nullptr || stopPoints.empty())
+                        std::cout << "Can't calculate the connectivity of the graph. Choose your source and destination points first.\n";
+                    else calculateConnectivity(_map, stopPoints, _source);
                     break;
                 } else if (validInput1Cmd1Arg(input, "choose", "start")) {
                     //TODO
@@ -88,4 +91,9 @@ void Menu::importMap(const std::string& input){
     std::string sep = ",";
     ss >> nodesXY >> sep >> nodesLL >> sep >> edges;
     _map.readFromFile(nodesXY, nodesLL, edges);
+}
+
+void Menu::calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source){
+    if (isStronglyConnected(_map)) std::cout << "The graph is strongly connected\n";
+    else if (isConnected(_map, stopPoints, source) ) std::cout << "The graph is connected\n";
 }

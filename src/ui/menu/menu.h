@@ -15,6 +15,8 @@ public:
     void defaultImportMap();
 
     void importMap(const std::string& input);
+
+    void calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints, Node<MapPoint> *source);
 };
 
 #endif
