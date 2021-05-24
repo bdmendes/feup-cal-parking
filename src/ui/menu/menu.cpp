@@ -18,7 +18,7 @@ void Menu::show(){
               << "Welcome, Driver\n"
               << SEPARATOR << std::endl;
     const std::vector<std::string> content = {
-            "import_map_default - import Porto map",
+            "import_default_map - import Porto map",
             "import_map <pathNodesXY,pathNodesLL,pathEdges> - import map from files",
             "analyse_connectivity - check if the graph is connected",
             "choose_start <nodeID> - choose the trip's starting point",
