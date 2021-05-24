@@ -6,34 +6,7 @@
 #include "algorithm"
 
 template<class T>
-std::vector<Node<T> *> dfsAll(const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
-    std::vector<Node<T> *> res{};
-    for (Node<T> *node : graph.getNodes()) {
-        node->setUnvisited();
-    }
-    for (Node<T> *node : graph.getNodes()) {
-        if (res.size() == targets.size()) {
-            break;
-        }
-        if (!node->isVisited()) {
-            dfsVisit(node, targets, res);
-        }
-    }
-    return res;
-}
-
-template<class T>
-std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
-    std::vector<Node<T> *> res{};
-    for (Node<T> *node : graph.getNodes()) {
-        node->setUnvisited();
-    }
-    dfsVisit(source, targets, res);
-    return res;
-}
-
-template<class T>
-void dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
+static void dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<Node<T> *> &found) {
     if (found.size() == targets.size()) return;
     node->setVisited();
     bool isTarget = std::find_if(targets.begin(), targets.end(), [&](Node<T> *n1) {
@@ -50,7 +23,34 @@ void dfsVisit(Node<T> *node, const std::vector<Node<T> *> &targets, std::vector<
 }
 
 template<class T>
-std::vector<Node<T> *> bfs(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+inline std::vector<Node<T> *> dfsAll(const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+    std::vector<Node<T> *> res{};
+    for (Node<T> *node : graph.getNodes()) {
+        node->setUnvisited();
+    }
+    for (Node<T> *node : graph.getNodes()) {
+        if (res.size() == targets.size()) {
+            break;
+        }
+        if (!node->isVisited()) {
+            dfsVisit(node, targets, res);
+        }
+    }
+    return res;
+}
+
+template<class T>
+inline std::vector<Node<T> *> dfsFromNode(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
+    std::vector<Node<T> *> res{};
+    for (Node<T> *node : graph.getNodes()) {
+        node->setUnvisited();
+    }
+    dfsVisit(source, targets, res);
+    return res;
+}
+
+template<class T>
+inline std::vector<Node<T> *> bfs(Node<T> *source, const std::vector<Node<T> *> &targets, const Graph<T> &graph) {
     std::vector<Node<T> *> res{};
     for (Node<T> *node : graph.getNodes()) {
         node->setUnvisited();
@@ -81,7 +81,7 @@ std::vector<Node<T> *> bfs(Node<T> *source, const std::vector<Node<T> *> &target
 }
 
 template<class T>
-bool kosaraju(const Graph<T> &graph) {
+inline bool kosaraju(const Graph<T> &graph) {
     for (Node<T> *node : graph.getNodes()) {
         node->setUnvisited();
     }

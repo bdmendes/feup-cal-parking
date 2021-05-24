@@ -7,6 +7,9 @@
 
 std::vector<Node<MapPoint>*>
 getPathAfterParkReplacement(const Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints, Node<MapPoint>* endNode,
-                            const std::vector<bool>& shallPark, int iFactor, int jFactor, int kFactor, double maxDistance);
+                            std::vector<bool> shallPark, float iFactor, float jFactor, float kFactor, double maxEuclideanDistance);
+
+std::vector<std::vector<Node<MapPoint>*>> getWalkPaths(const Graph<MapPoint>& graph, const std::vector<Node<MapPoint>*>& stopPoints,
+                                                       const std::vector<Node<MapPoint>*>& actualStops);
 
 #endif //FEUP_CAL_PARKING_PARKSELECTOR_H
