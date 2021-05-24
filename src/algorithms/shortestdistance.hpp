@@ -12,7 +12,7 @@
 #define INF std::numeric_limits<double>::max()
 
 template<class T>
-void dijkstra(const T &origin, Graph<T> &graph) {
+inline void dijkstra(const T &origin, Graph<T> &graph) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -44,7 +44,7 @@ void dijkstra(const T &origin, Graph<T> &graph) {
 }
 
 template<class T>
-std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &origin, const T &dest){
+inline std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &origin, const T &dest){
     std::vector<Node<T>*> res;
     auto sourceNode = graph.findNode(origin);
     if (sourceNode == nullptr){
@@ -68,12 +68,12 @@ std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &origin, co
 }
 
 template<class T>
-std::vector<Node<T>*> getAStarPath(const Graph<T>& graph, const T &origin, const T &dest){
+inline std::vector<Node<T>*> getAStarPath(const Graph<T>& graph, const T &origin, const T &dest){
     return getDijkstraPath(graph, origin, dest);
 }
 
 template<class T>
-double distance(const std::vector<Node<T>*>& path){
+inline double distance(const std::vector<Node<T>*>& path){
     double total = 0;
     for (int i = 0; i < path.size() - 1; i++){
         bool foundNext = false;
@@ -91,7 +91,7 @@ double distance(const std::vector<Node<T>*>& path){
     return total;
 }
 
-void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint &target) {
+inline void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint &target) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -134,7 +134,7 @@ void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint 
 }
 
 template <class T>
-std::vector<std::vector<std::vector<Node<T>*>>> floydWarshall(const Graph<T>& graph) {
+inline std::vector<std::vector<std::vector<Node<T>*>>> floydWarshall(const Graph<T>& graph) {
     auto distMatrix = graph.getAdjacencyMatrix();
     std::vector<std::vector<std::vector<Node<T>*>>>
             pathMatrix(distMatrix.size(), std::vector<std::vector<Node<T>*>>());
