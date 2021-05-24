@@ -6,6 +6,7 @@
 #include "algorithms/search.hpp"
 #include "controller/parkselector.h"
 #include "algorithms/shortestdistance.hpp"
+#include "performance/search_performance.hpp"
 
 template<class T>
 void describeGraph(Graph<T> &g) {
@@ -56,6 +57,8 @@ int main() {
     }
 
     std::cout << totalDistance << std::flush;
+
+    testPerformanceKosaraju(5, 100, 10100, 1000);
 
     map.showGraph();
 }
