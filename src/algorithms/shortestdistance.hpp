@@ -44,7 +44,7 @@ void dijkstra(const T &origin, Graph<T> &graph) {
 }
 
 template<class T>
-std::vector<Node<T>*> getPath(Graph<T>& graph, const T &origin, const T &dest){
+std::vector<Node<T>*> getDijkstraPath(const Graph<T>& graph, const T &origin, const T &dest){
     std::vector<Node<T>*> res;
     auto sourceNode = graph.findNode(origin);
     if (sourceNode == nullptr){
@@ -68,7 +68,12 @@ std::vector<Node<T>*> getPath(Graph<T>& graph, const T &origin, const T &dest){
 }
 
 template<class T>
-double distance(std::vector<Node<T>*> path){
+std::vector<Node<T>*> getAStarPath(const Graph<T>& graph, const T &origin, const T &dest){
+    return getDijkstraPath(graph, origin, dest);
+}
+
+template<class T>
+double distance(const std::vector<Node<T>*>& path){
     double total = 0;
     for (int i = 0; i < path.size() - 1; i++){
         bool foundNext = false;
@@ -86,12 +91,7 @@ double distance(std::vector<Node<T>*> path){
     return total;
 }
 
-static double euclideanDistance(Node<MapPoint> &current, Node<MapPoint> &target){
-    return sqrt(pow(current.getElement().getX() - target.getElement().getX(), 2)
-        + pow(current.getElement().getY() - target.getElement().getY(), 2));
-}
-
-void AStar(const MapPoint &origin, Graph<MapPoint> &graph, const MapPoint &target) {
+void AStar(const MapPoint &origin, const Graph<MapPoint> &graph, const MapPoint &target) {
     for (auto& node : graph.getNodes()){
         node->setDist(INF);
         node->setPath(nullptr);
@@ -114,7 +114,7 @@ void AStar(const MapPoint &origin, Graph<MapPoint> &graph, const MapPoint &targe
         auto currNode = q.extractMin();
         for (auto& e: currNode->getAdjacent()){
             auto nextNode = e->getTarget();
-            double heuristic = euclideanDistance(*nextNode, *endNode);
+            double heuristic = nextNode->getElement().euclideanDistance(endNode->getElement());
             double newDist = currNode->getDist() + e->getWeight() + heuristic;
             if (nextNode->getDist() > newDist){
                 bool alreadyQueued = nextNode->getDist() != INF;
@@ -131,6 +131,37 @@ void AStar(const MapPoint &origin, Graph<MapPoint> &graph, const MapPoint &targe
             }
         }
     }
+}
+
+template <class T>
+std::vector<std::vector<std::vector<Node<T>*>>> floydWarshall(const Graph<T>& graph) {
+    auto distMatrix = graph.getAdjacencyMatrix();
+    std::vector<std::vector<std::vector<Node<T>*>>>
+            pathMatrix(distMatrix.size(), std::vector<std::vector<Node<T>*>>());
+    for (auto& l : pathMatrix) {
+        l.resize(distMatrix.size(), std::vector<Node<T>*>());
+    }
+
+    for (int k = 0; k < distMatrix.size(); k++){
+        auto middleMan = graph.findNodeById(k);
+        if (middleMan == nullptr) continue;
+        for (int i = 0; i < distMatrix.size(); i++){
+            for (int j = 0; j < distMatrix.size(); j++){
+                if (distMatrix.at(i).at(k) + distMatrix.at(k).at(j) < distMatrix.at(i).at(j)){
+                    distMatrix.at(i).at(j) = distMatrix.at(i).at(k) + distMatrix.at(k).at(j);
+                    auto& fullPath = pathMatrix.at(i).at(j);
+                    auto pathBeforeMiddleMan = pathMatrix.at(i).at(k);
+                    auto pathAfterMiddleMan = pathMatrix.at(k).at(j);
+                    fullPath = pathBeforeMiddleMan;
+                    fullPath.push_back(middleMan);
+                    fullPath.insert(fullPath.end(), pathAfterMiddleMan.begin(),
+                                    pathAfterMiddleMan.end());
+                }
+            }
+        }
+    }
+
+    return pathMatrix;
 }
 
 #endif //FEUP_CAL_PARKING_SHORTESTDISTANCE_HPP
