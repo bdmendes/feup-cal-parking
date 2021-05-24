@@ -22,7 +22,7 @@ target_link_libraries(TESTS gtest_main gmock_main)
 add_test(NAME TESTS COMMAND TESTS)
 
 # Main executable
-add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.hpp src/model/Graph/Node.hpp src/model/StreetMap/MapPoint.cpp src/model/StreetMap/MapPoint.h src/model/Graph/Edge.hpp src/algorithms/search.hpp src/model/StreetMap/StreetMap.h src/model/StreetMap/StreetMap.cpp src/algorithms/tsp.hpp lib/MutablePriorityQueue.h src/algorithms/shortestdistance.hpp src/controller/conectivity.hpp)
+add_executable(feup_cal_parking src/main.cpp src/model/Graph/Graph.hpp src/model/Graph/Node.hpp src/model/StreetMap/MapPoint.cpp src/model/StreetMap/MapPoint.h src/model/Graph/Edge.hpp src/algorithms/search.hpp src/model/StreetMap/StreetMap.h src/model/StreetMap/StreetMap.cpp src/algorithms/tsp.hpp lib/MutablePriorityQueue.h src/algorithms/shortestdistance.hpp src/controller/connectivity.h src/controller/connectivity.cpp)
 
 target_link_libraries(feup_cal_parking graphviewer)
 
