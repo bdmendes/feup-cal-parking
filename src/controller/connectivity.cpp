@@ -12,6 +12,6 @@ static bool isConnected(const std::vector<Node<MapPoint>*> &stopPoints, const St
     return true;
 }
 
-bool calculateConectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints){
+bool calculateConnectivity(StreetMap &map, const std::vector<Node<MapPoint>*> &stopPoints){
     return isStronglyConnected(map) || isConnected(stopPoints, map);
 }
